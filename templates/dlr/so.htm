@@ -1,0 +1,49 @@
+<!---
+Created by Sigma6, Inc.
+Copyright (c) 1998 Sigma6, Inc.
+All Rights Reserved.  Used By Permission.
+
+Sigma6, interactive media, Detroit/NYC
+conceive : construct : connect
+www.sigma6.com   webmaster@sigma6.com   info@sigma6.com
+
+Last updated: <May 27, 1998>
+
+Daniel Fettinger for sigma6, interactive media, Detroit
+dfettinger@sigma6.com   www.sigma6.com    www.s6313.com
+conceive : construct : connect
+
+Sigma6, s6, and the Sigma6 logos are registered trademarks.
+All other trademarks and servicemarks are the property of
+their respective owners.
+--->
+<!--- $Id: so.htm,v 1.5 1999/12/22 18:32:34 bbickel Exp $ --->
+
+<CFQUERY NAME="getpromo" DATASOURCE="#gDSN#">
+<!--- Linda, 3/9/99: can't we just simplify it to this??
+	SELECT	description,
+			expirationdate
+	FROM	SpecialPromotions
+	WHERE	specialpromotions.specpromoid=#URL.specpromoid#;
+ --->
+	SELECT	description,
+			expirationdate
+	FROM	SpecialPromotions,
+			DealerSpecialPromotions
+	WHERE	DealerSpecialPromotions.specpromoid=SpecialPromotions.specpromoid
+		AND	DealerSpecialPromotions.DealerWebID=#ArtTempID.dealerwebid#
+		AND	specialpromotions.specpromoid=#URL.specpromoid#;
+</CFQUERY>
+<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0>
+<CFOUTPUT QUERY="getpromo">
+<TR>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			#ParagraphFormat(description)#</FONT><BR>
+		<FONT SIZE=1 FACE="arial,helvetica">
+			Expires on #DateFormat(expirationdate,"mm/dd/yyyy")#
+		</FONT>
+	</TD>
+</TR>
+</CFOUTPUT>
+</TABLE>

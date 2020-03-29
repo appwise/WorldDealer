@@ -1,0 +1,105 @@
+<!---
+Created by Sigma6, Inc.
+Copyright (c) 1998 Sigma6, Inc.
+All Rights Reserved.  Used By Permission.
+
+Sigma6, interactive media, Detroit/NYC
+conceive : construct : connect
+www.sigma6.com   webmaster@sigma6.com   info@sigma6.com
+
+Last updated: <May 27, 1998>
+
+Daniel Fettinger for sigma6, interactive media, Detroit
+dfettinger@sigma6.com   www.sigma6.com    www.s6313.com
+conceive : construct : connect
+
+Sigma6, s6, and the Sigma6 logos are registered trademarks.
+All other trademarks and servicemarks are the property of
+their respective owners.
+--->
+<!--- $Id: ma.htm,v 1.5 1999/11/24 21:57:49 lswanson Exp $ --->
+
+
+<CFIF IsDefined("Url.mapnumber")>
+	<CFSET whichMap=Url.mapnumber>
+	<CFIF IsDefined("Form.ZoomIn.X")>
+		<CFSET whichMap=whichMap - 1>
+	<CFELSEIF IsDefined("Form.ZoomOut.X")>
+		<CFSET whichMap=whichMap + 1>
+	</CFIF>
+<CFELSE>
+	<CFSET whichMap=6>
+</cfif>
+
+<CFX_DIRECTORYLIST DIRECTORY="#g_rootdir#\images\maps"
+	NAME="map_query"
+	SORT="type ASC, name ASC">
+
+<CFSET thematch = 0>
+
+<CFLOOP QUERY="map_query">
+	<CFSET match = #Find(dealerinfo.dealercode, name, 1)#>
+	<CFIF #match# EQ 1> <!--- This file starts with g_Dealercode --->
+		<CFSET thematch = 1>
+		<CFBREAK>
+	</CFIF>
+</CFLOOP>
+
+<cfquery name="getMapText" datasource="#gDSN#">
+	SELECT	maptext
+	FROM	Dealerwebs
+	WHERE	Dealercode = '#dealerinfo.dealercode#'
+</cfquery>
+
+<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0>
+<CFIF thematch EQ 0>
+	<TR>
+		<TD ALIGN=CENTER>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			No maps are available for <CFOUTPUT>#dealerinfo.dealershipname#.<br>
+			<cfif #rtrim(getMapText.maptext)# is not "">#getMapText.maptext#</cfif></CFOUTPUT>
+			
+		</FONT>
+		</TD>
+	</TR>
+	<TR><TD>&nbsp;</TD></TR>
+<CFELSE>
+	<FORM ACTION="main.cfm?section=ma&mapnumber=<CFOUTPUT>#whichMap#</CFOUTPUT>" METHOD="POST">
+	<TR>
+		<TD ALIGN=CENTER>
+		
+		<BR><BR>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Click on the appropriate magnifying glass to zoom in or out:
+		<BR><BR>
+		<CFIF #whichMap# GT 1>
+			<INPUT TYPE="IMAGE" NAME="ZoomIn"
+				SRC="<CFOUTPUT>#application.RELATIVE_PATH#</CFOUTPUT>/images/<CFOUTPUT>#arttempid.arttempid#</CFOUTPUT>/map_zoomin_nav.gif"
+				ALT="ZoomIn"
+				BORDER=0>
+		</CFIF>
+		&nbsp;&nbsp;&nbsp;
+		<CFIF #whichMap# LT 10>
+			<INPUT TYPE="IMAGE" NAME="ZoomOut"
+				SRC="<CFOUTPUT>#application.RELATIVE_PATH#</CFOUTPUT>/images/<CFOUTPUT>#arttempid.arttempid#</CFOUTPUT>/map_zoomout_nav.gif"
+				ALT="ZoomOut"
+				BORDER=0>
+		</CFIF>
+		<BR>
+		<CFOUTPUT>
+			<IMG SRC="#application.RELATIVE_PATH#/images/maps/#dealerinfo.dealercode#_#whichMap#_map_gra.gif" 
+				WIDTH = 400
+				HEIGHT = 350
+				ALT="Map to #dealerinfo.dealershipname#">
+		</CFOUTPUT>
+		</FONT>
+		</TD>
+		
+	</TR>
+	<tr>
+	<td align="center"><cfif #rtrim(getMapText.maptext)# is not "">#getMapText.maptext#</cfif></td>
+	</tr>
+	
+	</FORM>
+</CFIF>
+</TABLE>

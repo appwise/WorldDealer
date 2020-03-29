@@ -1,0 +1,133 @@
+<!-- ----------------------------------------------------------- -->
+<!--                 Created by Sigma6, Inc.                     -->
+<!--             Copyright (c) 1997, 1998, 1999 Sigma6, Inc.     -->
+<!-- All Rights Reserved.  Copyright Does Not Imply Publication. -->
+<!-- ----------------------------------------------------------- -->
+<!-- ----------------------------------------------------------- -->
+<!--           Sigma6, interactive media, Detroit/NYC            -->
+<!--               conceive : construct : connect                -->
+<!--   www.sigma6.com   webmaster@sigma6.com   info@sigma6.com   -->
+<!--                                                             -->
+<!--   Last updated: <April 1, 1999>                             -->
+<!-- ----------------------------------------------------------- -->
+<!--     Linda Swanson for sigma6, interactive media, Detroit    -->
+<!--   lswanson@sigma6.com   www.sigma6.com    www.s6313.com     -->
+<!--               conceive : construct : connect                -->
+<!-- ----------------------------------------------------------- -->
+<!-- ----------------------------------------------------------- -->
+<!-- Sigma6, s6, and the Sigma6 logos are registered trademarks. -->
+<!-- All other trademarks and servicemarks are the property of   -->
+<!-- their respective owners.                                    -->
+<!-- ----------------------------------------------------------- -->
+<!--- Gas Station Inside Pages --->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+	<!--- $Id: template_4.htm,v 1.7 1999/12/22 23:52:45 lswanson Exp $ --->
+
+<HEAD>
+
+	<TITLE><CFOUTPUT>#dealerinfo.dealershipname#</CFOUTPUT></TITLE>
+
+</HEAD>
+
+<CFINCLUDE TEMPLATE="global_#arttempid.arttempid#.htm">
+
+<!--- BEGIN BODY --->
+<CFOUTPUT>
+<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0>
+<TR>
+	<TD Align="left" VALIGN=TOP WIDTH=126 rowspan="2">
+<!---------------------------------------------------------------------------------LEFT COLUMN------------------------------------>
+		<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0>
+
+		<TR>
+			<TD align="center" valign="bottom">
+				<A HREF="index.cfm?dealercode=#dealerinfo.dealercode#"
+				TITLE="Return to #dealerinfo.dealershipname#'s Home Page"
+				OnMouseOver="self.status='Return to #Replace(dealerinfo.dealershipname, "'", "\'")#\'s Home Page';return true" 				
+				OnMouseOut="self.status='';return true"><IMG
+				SRC="#application.RELATIVE_PATH#/images/logo/#dealerinfo.dealercode#_#arttempid.arttempid#_logo_hea.gif"
+				WIDTH=108
+				HEIGHT=85
+				BORDER=0
+				ALT="#dealerinfo.dealershipname#"></A></TD>
+			<td>
+		</TR>
+		<TR>
+			<TD align="center" valign="top">
+				<CFINCLUDE TEMPLATE="leftnav.htm">
+			</TD>
+		</TR>
+		</TABLE>
+<!-------------------------------------------------------------END LEFT COLUMN----------------------->
+	</TD>
+	<td align="right" valign="top">
+		<!--- vertical line to the R of leftnav --->
+		<IMG SRC="#application.RELATIVE_PATH#/images/common/spacer.gif"
+			BORDER=0
+			WIDTH=15
+			HEIGHT=100
+			ALT=""><BR>
+		<IMG SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/nav_line_nav.gif"
+			BORDER=0
+			WIDTH=1
+			HEIGHT=359
+			ALT="">
+	</td>
+	<TD align="center" valign="top">
+<!--- MAIN COLUMN --->
+		<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 WIDTH=450>
+<!--- BANNER/TITLE --->
+		<TR>
+			<TD ALIGN="CENTER">
+				<CFINCLUDE TEMPLATE="banner.htm">
+			</TD>
+		</TR>
+		<TR>
+			<TD Align="CENTER"><IMG
+				SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/tle_#section#_hea.gif"
+				BORDER=0
+				WIDTH=401
+				<!--- HEIGHT=54 --->
+				ALT="">
+			</TD>
+		</TR>
+		<TR>
+			<TD>
+				<P>&nbsp;</P>
+			</td>
+		</tr>
+
+<!--- MAIN BODY --->
+		<TR>
+			<TD VALIGN=TOP ALIGN=CENTER>
+				<TABLE BORDER=0 WIDTH=400>
+				<TR>
+					<TD>
+						<CFIF IsDefined("subsection")>
+							<CFSET themain = "#section#_#subsection#">
+						<CFELSE>				
+							<CFSET themain = "#section#">
+						</CFIF>
+						<CFINCLUDE TEMPLATE="#themain#.htm">			
+					</TD>
+				</TR>
+				</TABLE>
+			</TD>
+		</TR>
+		</table>
+	</td>
+</tr>
+<!--------------------------------------------------------------------------------END MAIN COLUMN--------------------------------------->
+<!--- FOOTER --->
+<tr>
+ 	<td></td>
+	<TD ALIGN=CENTER valign="bottom">
+		<BR><BR>
+		<CFINCLUDE TEMPLATE="footer.htm">
+	</TD>
+</TR>
+</TABLE>
+</CFOUTPUT>
+<!---------------------------------------------------------------------------------END BODY---------------------------------------------------------->

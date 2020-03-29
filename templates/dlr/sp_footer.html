@@ -1,0 +1,54 @@
+<!---
+Created by Sigma6, Inc.
+Copyright (c) 1998 Sigma6, Inc.
+All Rights Reserved.  Used By Permission.
+
+Sigma6, interactive media, Detroit/NYC
+conceive : construct : connect
+www.sigma6.com   webmaster@sigma6.com   info@sigma6.com
+
+Last updated: <May 27, 1998>
+
+Daniel Fettinger for sigma6, interactive media, Detroit
+dfettinger@sigma6.com   www.sigma6.com    www.s6313.com
+conceive : construct : connect
+
+Sigma6, s6, and the Sigma6 logos are registered trademarks.
+All other trademarks and servicemarks are the property of
+their respective owners.
+--->
+<!--- $Id: sp_footer.html,v 1.1 2000/05/23 14:21:26 bbickel Exp $ --->
+
+<CFOUTPUT>
+<!--- Dealership Info --->
+	<br>
+		<FONT SIZE=2 FACE="arial,helvetica">
+		<cfif #trim(dealerinfo.addressline1)# is not "">
+				#dealerinfo.addressline1#
+		</cfif>
+		<cfif #trim(dealerinfo.addressline2)# is not "">
+				, #dealerinfo.addressline2#
+		</cfif>
+		<cfif      #trim(dealerinfo.city)# is not "" 
+				or #trim(dealerinfo.stateabbr)# is not ""
+				or #trim(dealerinfo.zip)# is not "">
+				,  #dealerinfo.city#, #dealerinfo.stateabbr# #dealerinfo.zip#
+		</cfif>
+		<cfif      #trim(dealerinfo.phone)# is not "">
+				<br>Ph: #Left(dealerinfo.phone,3)#-#Mid(dealerinfo.phone,4,3)#-#Mid(dealerinfo.phone,7,4)#
+		</cfif>
+		<cfif #Trim(dealerinfo.secondphone)# IS NOT "">
+ 				or #Left(dealerinfo.secondPhone,3)#-#Mid(dealerinfo.secondPhone,4,3)#-#Mid(dealerinfo.secondPhone,7,4)#
+ 		</cfif>
+ <!--- linda, 1/10/99: fax number is now optional --->
+		<cfif #Trim(dealerinfo.Faxphone)# IS NOT "">
+				<br>Fx: #Left(dealerinfo.Faxphone,3)#-#Mid(dealerinfo.Faxphone,4,3)#-#Mid(dealerinfo.Faxphone,7,4)#
+		</cfif>
+		<CFIF #RTrim(dealerinfo.email)# IS NOT "">
+				<br>Email: <A HREF="mailto:#dealerinfo.email#?subject=#dealerinfo.dealershipname# Website Email"
+				OnMouseOver="self.status='Send Email to #Replace(dealerinfo.dealershipname, "'", "\'")#';return true"
+				OnMouseOut="self.status='';return true">#dealerinfo.email#</A>
+		</CFIF>
+	</FONT>
+
+</CFOUTPUT>

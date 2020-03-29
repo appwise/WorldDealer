@@ -1,0 +1,54 @@
+/* $Id: admin.css,v 1.2 2000/06/19 15:11:45 ttaylor Exp $ */
+
+body
+{
+	font-family: "Arial", "Helvetica", Sans-Serif;
+	background: black;
+	color: white;
+}
+
+h3, h4
+{
+	font-family: "Arial", "Helvetica", Sans-Serif;
+	color: #EEAA00;
+}
+
+tr, td
+{
+	font-family: "Arial", "Helvetica", Sans-Serif;
+	color: black;
+}
+
+A:link    { color: #EEAA00; }
+A:active  { color: #EEAA00; }
+A:visited { color: #888888; }
+
+.leftnav
+{
+	font-family: "Arial", "Helvetica", Sans-Serif;
+	background: black;
+	color: #FFCC00;
+	text-decoration: none;
+}
+
+.titlebar
+{
+	font-family: "Arial", "Helvetica", Sans-Serif;
+	color: #FFCC00;
+	text-decoration: none;
+}
+
+.news
+{
+	font-family: "Arial", "Helvetica", Sans-Serif;
+	background: black;
+	color: white;
+	font-size: small;
+	text-decoration: none;
+}
+
+.tabletop
+{
+	color: white;
+}
+

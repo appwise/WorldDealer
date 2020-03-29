@@ -1,0 +1,1698 @@
+<!---
+Created by Sigma6, Inc.
+Copyright (c) 1998 Sigma6, Inc.
+All Rights Reserved.  Used By Permission.
+
+Sigma6, interactive media, Detroit/NYC
+conceive : construct : connect
+www.sigma6.com   webmaster@sigma6.com   info@sigma6.com
+
+Last updated: <May 27, 1998>
+
+Daniel Fettinger for sigma6, interactive media, Detroit
+dfettinger@sigma6.com   www.sigma6.com    www.s6313.com
+conceive : construct : connect
+
+Sigma6, s6, and the Sigma6 logos are registered trademarks.
+All other trademarks and servicemarks are the property of
+their respective owners.
+--->
+
+<!--- there are 7 sub-pages --->
+<CFIF NOT IsDefined("sub")>
+	<CFSET sub = 1>
+</CFIF>
+
+<CFIF sub IS 1>
+<!------------------------------------------------------------------------------------------------------------------------ONE-------------------->
+
+<CFIF #ParameterExists(URL.id)#>
+	<CFSET usedinterest="true">
+   	<CFQUERY NAME="getvehicle" DATASOURCE="#gDSN#">
+		SELECT	modelname,
+				make,
+				caryear,
+				stock,
+				features,
+                transmission,
+				VIN,
+				intcolor,
+				extcolor
+		FROM	usedvehicles
+		WHERE	usedvehicles.dealercode='#RTrim(dealerinfo.dealercode)#'
+			AND	UsedVehicleID=#URL.id#;
+	</CFQUERY>
+<CFELSE>
+	<CFSET usedinterest="false">
+</CFIF>
+
+<CFIF #ParameterExists(URL.modelid)#>
+	<CFSET showroominterest="true">
+	<CFSET modelid="#URL.modelid#">
+<CFELSE>
+	<CFSET showroominterest="false">
+</CFIF>
+
+<CFQUERY NAME="getstates" DATASOURCE="#gDSN#">
+	SELECT * FROM states;
+</CFQUERY>
+
+<CFQUERY NAME="setapart" DATASOURCE="#gDSN#">
+	SELECT VehicleInqSetApartText1
+	FROM DealerWebs
+	WHERE dealercode = '#dealerinfo.dealercode#';
+</CFQUERY>
+
+<CFIF #RTrim(setapart.VehicleInqSetApartText1)# IS NOT "">
+<TABLE BORDER=0 CELLSPACING=7 CELLPADDING=0>
+<TR>
+	<TD valign="top">
+		<IMG SRC="<CFOUTPUT>#application.RELATIVE_PATH#</CFOUTPUT>/images/<CFOUTPUT>#arttempid.arttempid#</CFOUTPUT>/tle_why_hea.gif"
+			BORDER=0
+			WIDTH="<CFOUTPUT>#whyw#</CFOUTPUT>"
+			HEIGHT="<CFOUTPUT>#whyh#</CFOUTPUT>"
+			ALT="Why We Are Different">
+<!---why we are different is formatted with a break line (vs. side-to-side) -------->							
+<CFIF whyweare IS "break">
+	<BR>
+<CFELSE>
+	</TD>
+	<TD>
+</CFIF>
+	<CFOUTPUT QUERY="setapart">
+		<FONT SIZE=2 FACE="arial,helvetica">
+			#VehicleInqSetApartText1#
+		</FONT>
+	</CFOUTPUT>
+	</TD>
+</TR>
+</TABLE>
+</CFIF>
+
+<TABLE BORDER=0>
+<CFOUTPUT>
+<FORM NAME="vehicleform" ACTION="main.cfm?section=qu&sub=2<CFIF #showroominterest# IS "true">&modelid=#URL.modelid#</CFIF>" METHOD="POST">
+</cfoutput>
+<TR>
+	<TD  COLSPAN=2>
+		<FONT FACE="arial,helvetica" SIZE=2>
+		<!--- linda, 10/20/99: changed per BMW dealership, Theresa, & Jon
+			<B><CFOUTPUT QUERY="dealerinfo">#dealershipname#</CFOUTPUT></B> has an impressive selection of new
+			and pre-owned autos.  From cars to trucks to sports cars, family sedans and sporty coupes,
+			<CFOUTPUT>#dealerinfo.dealershipname#</cfoutput> has it all.  To find that perfect vehicle for you, one that fits your personality,
+			lifestyle, and your budget, we've developed this Inquiry & Quote questionnaire.  It's designed
+			for those who are ready to buy in the near future.  Simply answer the following questions, submit
+			the form, and one of our dealer representatives will research your request and contact you with a quote. --->
+			<CFOUTPUT QUERY="dealerinfo">#dealershipname#</CFOUTPUT>'s "Get a Quote" questionnaire 
+			will help you find the perfect vehicle for you--one that fits your personality, lifestyle, 
+			and budget.  Just tell us a few things about what you're looking for, click <b>submit</b>, and one 
+			of our dealer representatives will contact you as soon as possible with a quote.
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>
+		<BR>
+	<CFOUTPUT>
+		<FONT COLOR=#thecolor# FACE="arial,helvetica" SIZE=2><B>
+			BEGIN YOUR COMPETITIVE PRICE QUOTE INQUIRY<BR>-- STEP 1 OF 6
+		</B></FONT>
+	</CFOUTPUT>
+		<BR>
+	</TD>
+</TR>
+<TR>
+	<TD VALIGN=TOP COLSPAN=2>
+		<BR>
+	<CFOUTPUT>
+		<FONT SIZE=2 FACE="arial,helvetica" COLOR=#thecolor#><B>
+			PLEASE TELL US A LITTLE ABOUT YOURSELF:
+		</B></FONT>
+	</CFOUTPUT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<b>First Name</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" size="25" NAME="f_name" MAXLENGTH=20>
+			<INPUT TYPE="hidden" NAME="f_name_required" VALUE="<A HREF='Javascript:history.back();'>Please enter your first name in the entry field</A>">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<b>Last Name</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" size="25" NAME="l_name" MAXLENGTH=30>
+			<INPUT TYPE="hidden" NAME="l_name_required" VALUE="<A HREF='Javascript:history.back();'>Please enter your surname in the entry field</A>">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Address(1)
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" size="25" NAME="address1" MAXLENGTH=35>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Address(2)
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" size="25" NAME="address2" MAXLENGTH=35>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			City
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="city" size="25" MAXLENGTH=35 <!--- VALUE="<CFOUTPUT QUERY="dealerinfo">#city#</CFOUTPUT>" --->>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<b>State</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+		<SELECT NAME="state">
+			<OPTION VALUE="">Select Your State
+			<CFOUTPUT QUERY="getstates">
+				<OPTION VALUE="#stateabbr#" <CFIF #stateabbr# IS #dealerinfo.stateabbr#>SELECTED</CFIF>>#description#
+			</CFOUTPUT>
+		</SELECT>
+		<INPUT TYPE="hidden" NAME="state_required" VALUE="<A HREF='Javascript:history.back();'>Please enter your state in the entry field</A>">
+		</FONT>
+	</TD>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Zip
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="zip" size="25" MAXLENGTH=10 <!--- VALUE="<CFOUTPUT QUERY="dealerinfo">#zip#</CFOUTPUT>" --->>
+		</FONT>
+	</TD>
+</TR>
+
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<b>E-Mail</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="email" size="25" MAXLENGTH=50>
+			<INPUT TYPE="hidden" NAME="email_required" VALUE="<A HREF='Javascript:history.back();'>Please enter your e-mail address in the entry field</A>">	
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<b>Day Phone</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="dayphone1" SIZE=3 MAXLENGTH=3>
+			<INPUT TYPE="text" NAME="dayphone2" SIZE=3 MAXLENGTH=3>
+			<INPUT TYPE="text" NAME="dayphone3" SIZE=4 MAXLENGTH=4>
+			<INPUT TYPE="hidden" NAME="dayphone1_required" VALUE="<A HREF='Javascript:history.back();'>Please enter your daytime phone number in the entry field</A>">
+			<INPUT TYPE="hidden" NAME="dayphone2_required" VALUE="<A HREF='Javascript:history.back();'>Please enter your daytime phone number in the entry field</A>">
+			<INPUT TYPE="hidden" NAME="dayphone3_required" VALUE="<A HREF='Javascript:history.back();'>Please enter your daytime phone number in the entry field</A>">	
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Eve Phone
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="evephone1" SIZE=3 MAXLENGTH=3>
+			<INPUT TYPE="text" NAME="evephone2" SIZE=3 MAXLENGTH=3>
+			<INPUT TYPE="text" NAME="evephone3" SIZE=4 MAXLENGTH=4>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Fax Number
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="faxphone1" SIZE="3" MAXLENGTH=3>
+			<INPUT TYPE="text" NAME="faxphone2" SIZE="3" MAXLENGTH=3>
+			<INPUT TYPE="text" NAME="faxphone3" SIZE="4" MAXLENGTH=4>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<b>How did you hear about our website?</b>
+		</FONT>
+	</TD>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<SELECT NAME="heardabout">
+				<OPTION VALUE=""> Please Select
+				<OPTION VALUE="Dealership"> Dealership
+				<OPTION VALUE="TVAdvertising"> TV Advertising
+				<OPTION VALUE="RadioAdvertising"> Radio Advertising
+				<OPTION VALUE="PrintAdvertising"> Print Advertising
+				<OPTION VALUE="Billboard"> Billboard
+				<OPTION VALUE="Banner"> Banner
+				<OPTION VALUE="SearchEngine"> Search Engine
+				<OPTION VALUE="FriendOther"> Friend/Other
+			</SELECT>
+		</FONT>
+		<INPUT TYPE="HIDDEN" NAME="heardabout_required" VALUE="<A HREF='Javascript:history.back();'>Please enter how you heard about this service in the entry field</A>">
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>
+		<FONT SIZE=2 FACE="arial,helvetica">
+		<br>
+		Required fields are <b>bolded</b>.
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD ALIGN=CENTER COLSPAN=2 VALIGN=TOP>
+	<CFOUTPUT>
+		<!--GLOBALS------------------------------------------------------------------------->
+		<INPUT TYPE="hidden" NAME="usedinterest" VALUE="#usedinterest#">
+		<INPUT TYPE="hidden" NAME="showroominterest" VALUE="#showroominterest#">
+		<CFIF usedinterest IS "true">
+			<INPUT TYPE="hidden" NAME="description" VALUE="#getvehicle.modelname#">
+			<INPUT TYPE="hidden" NAME="caryear" VALUE="#getvehicle.caryear#">
+			<INPUT TYPE="hidden" NAME="features" VALUE="#getvehicle.features#">
+			<INPUT TYPE="hidden" NAME="id" VALUE="#URL.id#">
+	        <INPUT type="hidden" name="make" VALUE="#getvehicle.make#">
+		</CFIF>
+		<CFIF showroominterest IS "true">
+			<INPUT TYPE="hidden" NAME="modelid" VALUE="#URL.modelid#">
+		</CFIF>
+	<!--END GLOBALS--------------------------------------------------------------------->
+		<BR><BR>
+		<A HREF="JavaScript:document.vehicleform.reset();"
+			OnMouseOver="self.status='Blank Out Form';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_reset_nav.gif" BORDER=0></A>		
+		<INPUT TYPE="image" SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_next_nav.gif" BORDER=0>
+	</CFOUTPUT>
+	</TD>
+</TR>
+</FORM>
+</TABLE>
+
+<!-----------------------------------------------------------------------------------------------------------------------/ONE-------------------->
+<CFELSEIF sub IS 2>
+<!-----------------------------------------------------------------------------------------------------------------------TWO--------------------->
+
+<CFSET dayphone  = '#Form.dayphone1##Form.dayphone2##Form.dayphone3#'>
+<CFSET evephone  = '#Form.evephone1##Form.evephone2##Form.evephone3#'>
+<CFSET faxphone  = '#Form.faxphone1##Form.faxphone2##Form.faxphone3#'>
+<CFSET manualtrans = "false">  <!--- is false by default; gets set to true if used vehicle is manual --->
+
+<!--- get the make & model, based on modelid# passed in from showroom page --->
+<CFIF #Form.showroominterest# IS "true">
+	<CFQUERY NAME="getMakeModel" DATASOURCE="#gDSN#">
+		SELECT 	Makes.MakeName,
+				Models.Description
+		FROM 	Models INNER JOIN Makes ON Models.Make = Makes.MakeNumber
+		WHERE	Models.ModelID=#modelid#
+	</cfquery>
+</cfif>
+
+<!--- get the vehicle details based on id# passed in from Pre-Owned page --->
+<CFIF #Form.usedinterest# IS "true">
+     <CFQUERY NAME="getusedinfo" DATASOURCE="#gDSN#">
+		SELECT	dealercode,
+				make,
+				modelname,
+				caryear,
+				stock,
+				features,
+                transmission,
+				VIN,
+				intcolor,
+				extcolor,
+				UsedVehicleID
+		FROM	usedvehicles
+		WHERE	UsedVehicleID=#Form.id#
+	</CFQUERY>
+    <CFIF getusedinfo.transmission IS "manual">
+		<CFSET manualtrans="true">   
+    </CFIF>
+</CFIF>
+
+<TABLE BORDER=0>
+<!--- If Pre-Owned, skip Options page (step 3) --->
+<FORM NAME="vehicleform" ACTION="main.cfm?section=qu&sub=<CFIF #Form.usedinterest# IS "true">4<CFELSE>3</CFIF>" METHOD="POST">
+<TR>
+	<TD COLSPAN=2>
+		<BR>
+	<CFOUTPUT>
+		<FONT COLOR=#thecolor# FACE="arial,helvetica" SIZE=2><B>
+			COMPETITIVE PRICE QUOTE INQUIRY<BR>
+			-- STEP 2 OF 6
+		</B></FONT>
+	</CFOUTPUT>
+		<BR>
+	</TD>
+</TR>
+<TR>
+	<TD VALIGN=TOP COLSPAN=2>
+		<BR>
+	<CFOUTPUT>
+		<FONT SIZE=2 COLOR=#thecolor# FACE="arial,helvetica"><B>
+			PLEASE TELL US ABOUT THE VEHICLE YOU'RE LOOKING FOR:
+		</B></FONT>
+	</CFOUTPUT>
+	</TD>
+</TR>
+<TR>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<b>Make</b>
+		</FONT>
+	</TD>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="make" size="20" MAXLENGTH=35 
+			<CFIF #Form.ShowRoomInterest# IS "true">
+				VALUE ="<CFOUTPUT>#getMakeModel.MakeName#</cfoutput>"
+			<CFELSEIF #Form.usedinterest# IS "true">
+				VALUE = "<CFOUTPUT>#getUsedInfo.make#</cfoutput>"
+			</CFIF>>
+			<INPUT TYPE="HIDDEN" NAME="make_required" VALUE="<A HREF='Javascript:history.back();'>Please enter a make name in the entry field.</A>">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<b>Model</b>
+		</FONT>
+	</TD>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" size="20" NAME="model" MAXLENGTH=35
+			<CFIF #Form.showroominterest# IS "true">
+				VALUE="<CFOUTPUT>#getMakeModel.Description#</CFOUTPUT>"
+			<CFELSEIF #Form.usedinterest# IS "true">
+				VALUE="<CFOUTPUT>#getUsedInfo.ModelName#</CFOUTPUT>"
+			</CFIF>>
+			<INPUT TYPE="HIDDEN" NAME="model_required" VALUE="<A HREF='Javascript:history.back();'>Please enter a model name in the entry field</A>">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<b>Year</b>
+		</FONT>
+	</TD>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<CFIF #Form.showroominterest# IS "true">
+				<CFSET theyear="#DatePart('yyyy', Now())#">
+				<CFIF #DatePart('m', Now())# GTE "9">
+					<CFSET theyear="#Evaluate('theyear + 1')#">
+				</CFIF>
+				<CFOUTPUT><INPUT TYPE="text" NAME="Year" size="20" MAXLENGTH=4 VALUE="#theyear#"></CFOUTPUT>
+			<CFELSEIF #Form.usedinterest# IS "true">
+				<CFSET theyear = "#getUsedInfo.caryear#">
+				<CFOUTPUT><INPUT TYPE="text" NAME="Year" size="20" MAXLENGTH=4 VALUE="#theyear#"></cfoutput>
+			<CFELSE>
+			<SELECT NAME="Year">
+				<OPTION VALUE="1990"> 1990
+				<OPTION VALUE="1991"> 1991
+				<OPTION VALUE="1992"> 1992
+				<OPTION VALUE="1993"> 1993
+				<OPTION VALUE="1994"> 1994
+				<OPTION VALUE="1995"> 1995
+				<OPTION VALUE="1996"> 1996
+				<OPTION VALUE="1997"> 1997
+				<OPTION VALUE="1998"> 1998
+				<OPTION VALUE="1999"> 1999
+ 				<OPTION VALUE="2000" SELECTED> 2000
+				<OPTION VALUE="2001">2001
+				
+			</SELECT>
+			</CFIF>
+			<INPUT TYPE="HIDDEN" NAME="year_required" VALUE="<A HREF='Javascript:history.back();'>Please select a year from the select field.</A>">
+		</FONT>
+	</TD>
+</TR>
+<CFIF #Form.usedinterest# IS "true">
+	<TR>
+		<TD VALIGN=TOP>
+			<FONT SIZE=2 FACE="arial,helvetica">
+			VIN
+			</FONT>
+		</TD>
+		<TD VALIGN=TOP>
+			<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="Text" NAME="VIN" size="20" MAXLENGTH="17" 
+				VALUE="<CFOUTPUT>#getusedinfo.VIN#</CFOUTPUT>"
+			</FONT>
+		</TD>
+	</TR>
+<CFELSE>
+	<INPUT TYPE="Hidden" NAME="VIN" VALUE=""
+</CFIF>
+<TR>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+		Body Style
+		</FONT>
+	</TD>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="Text" NAME="BodyStyle" size="20" MAXLENGTH="11"> 
+			<!--- linda, 11/3/99: this info doesn't always come over for used vehicles.  shouldn't make it mandatory field.
+			<INPUT TYPE="HIDDEN" NAME="bodystyle_required" VALUE="<A HREF='Javascript:history.back();'>Please enter a body style in the entry field</A>"> --->
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			1st Color Choice
+		</FONT>
+	</TD>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="TEXT" NAME="color1" size="20" MAXLENGTH=35
+			<CFIF #Form.usedinterest# IS "true">
+				VALUE="<CFOUTPUT>#getusedinfo.extcolor#</CFOUTPUT>"
+			</CFIF>>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			2nd Color Choice
+		</FONT>
+	</TD>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="TEXT" NAME="color2" size="20" MAXLENGTH=35>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			1st Interior Choice
+		</FONT>
+	</TD>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="TEXT" NAME="interior1" size="20" MAXLENGTH=35
+			<CFIF #Form.usedinterest# IS "true">
+				VALUE="<CFOUTPUT>#getusedinfo.intcolor#</CFOUTPUT>"
+			</CFIF>>
+		</FONT>
+	</TD>       
+</TR>
+<TR>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			2nd Interior Choice
+		</FONT>
+	</TD>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+		<INPUT TYPE="TEXT" NAME="interior2" size="20" MAXLENGTH=35>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Transmission
+		</FONT>
+	</TD>
+	<TD>
+	    <FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="radio" NAME="transmission" VALUE="automatic" <CFIF Manualtrans IS "false">CHECKED</CFIF>>Automatic or
+			<INPUT TYPE="radio" NAME="transmission" VALUE="manual" <CFIF Manualtrans IS "true">CHECKED</CFIF>>Manual
+		</FONT>
+    </TD>
+</TR>
+<TR>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Engine/Cylinders
+		</FONT>
+	</TD>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+		<SELECT NAME="engine">
+			<OPTION VALUE="">Please Select
+			<OPTION VALUE="4">4 Cylinder
+			<OPTION VALUE="5">5 Cylinder
+			<OPTION VALUE="6">6 Cylinder
+			<OPTION VALUE="8">8 Cylinder
+			<OPTION VALUE="12">12 Cylinder
+			<OPTION VALUE="Ele">Electric/Hybrid
+		</SELECT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>
+		<FONT SIZE=2 FACE="arial,helvetica">
+		<br>
+		Required fields are <b>bolded</b>.
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD ALIGN=CENTER COLSPAN=2 VALIGN=TOP>
+	<CFOUTPUT>
+	<!--GLOBALS------------------------------------------------------------------------->
+		<INPUT TYPE="hidden" NAME="usedinterest" VALUE="#form.usedinterest#">
+		<INPUT TYPE="hidden" NAME="showroominterest" VALUE="#form.showroominterest#">
+		<CFIF #Form.usedinterest# IS "true">
+			<INPUT TYPE="hidden" NAME="description" VALUE="#form.description#">
+			<INPUT TYPE="hidden" NAME="caryear" VALUE="#form.caryear#">
+			<INPUT TYPE="hidden" NAME="features" VALUE="#form.features#">
+			<INPUT TYPE="hidden" NAME="id" VALUE="#form.id#">
+		</CFIF>
+		<CFIF #Form.showroominterest# IS "true">
+			<INPUT TYPE="hidden" NAME="modelid" VALUE="#form.modelid#">
+		</CFIF>
+	<!--END GLOBALS--------------------------------------------------------------------->
+	<!--STEP 1-------------------------------------------------------------------------->
+		<INPUT TYPE="hidden" NAME="f_name" VALUE="#form.f_name#">
+		<INPUT TYPE="hidden" NAME="l_name" VALUE="#form.l_name#">
+		<INPUT TYPE="hidden" NAME="address1" VALUE="#form.address1#">
+		<INPUT TYPE="hidden" NAME="address2" VALUE="#form.address2#">
+		<INPUT TYPE="hidden" NAME="city" VALUE="#form.city#">
+		<INPUT TYPE="hidden" NAME="state" VALUE="#form.state#">
+		<INPUT TYPE="hidden" NAME="zip" VALUE="#form.zip#">
+		<INPUT TYPE="hidden" NAME="dayphone" VALUE="#variables.dayphone#">
+		<INPUT TYPE="hidden" NAME="evephone" VALUE="#variables.evephone#">
+		<INPUT TYPE="hidden" NAME="email" VALUE="#form.email#">
+		<INPUT TYPE="hidden" NAME="heardabout" VALUE="#form.heardabout#">
+		<INPUT TYPE="hidden" NAME="faxphone" VALUE="#variables.faxphone#">
+	<!--END STEP 1---------------------------------------------------------------------->
+		<BR><BR>
+		<A HREF="JavaScript:history.back();"
+			OnMouseOver="self.status='Back';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_back_nav.gif" BORDER=0></A>			
+		<A HREF="JavaScript:document.vehicleform.reset();"
+			OnMouseOver="self.status='Blank Out Form';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_reset_nav.gif" BORDER=0></A>		
+		<INPUT TYPE="image" SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_next_nav.gif" BORDER=0>
+	</CFOUTPUT>
+	</TD>
+</TR>
+</FORM>
+</TABLE>
+
+<!-----------------------------------------------------------------------------------------------------------------------/TWO-------------------->
+<CFELSEIF sub IS 3>
+<!-----------------------------------------------------------------------------------------------------------------------THREE-------------------->
+
+<CFSET thisisatruck="false">
+<CFIF #Form.showroominterest# IS "true">
+	<CFQUERY NAME="gettype" DATASOURCE="#gDSN#">
+		SELECT	vehicletype
+		FROM	models
+		WHERE	modelid=#modelid#;
+	</CFQUERY>
+	<CFIF gettype.vehicletype IS "t">
+		<CFSET thisisatruck="true">
+	</CFIF>
+</CFIF>
+<CFIF #Form.usedinterest# IS "true">
+	<CFSET thisisatruck="true">
+</CFIF>
+
+<TABLE BORDER=0>
+<FORM NAME="vehicleform" ACTION="main.cfm?section=qu&sub=4" METHOD="POST">
+<TR>
+	<TD COLSPAN=2>
+		<BR>
+	<CFOUTPUT>
+		<FONT COLOR=#thecolor# FACE="arial,helvetica" SIZE=2><B>
+			COMPETITIVE PRICE QUOTE INQUIRY<BR>
+			-- STEP 3 OF 6
+		</B></FONT>
+	</CFOUTPUT>
+		<BR>
+	</TD>
+</TR>
+<TR>
+	<TD VALIGN=TOP COLSPAN=2>
+		<BR>
+	<CFOUTPUT>
+		<FONT SIZE=2 FACE="arial,helvetica" COLOR=#thecolor#><B>
+			TELL US ABOUT THE FEATURES YOU ARE INTERESTED IN:
+		</B></FONT>
+	</CFOUTPUT>
+	</TD>
+</TR>
+<TR>
+	<TD VALIGN=TOP COLSPAN=2>
+	<TABLE BORDER=0>
+	<TR>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="options" VALUE="Power Windows">Power Windows
+			</FONT>
+		</TD>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="options" VALUE="Power Door Locks">Power Door Locks
+			</FONT>
+		</TD>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="options" VALUE="ABS Brakes">ABS Brakes
+			</FONT>
+		</TD>
+	</TR>
+	<TR>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="options" VALUE="AM/FM Radio">AM/FM Radio
+			</FONT>
+		</TD>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="options" VALUE="Stereo Cassette">Stereo Cassette
+			</FONT>
+		</TD>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="options" VALUE="CD Player">CD Player
+			</FONT>
+		</TD>
+	</TR>
+	<TR>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="options" VALUE="Alloy Wheels">Alloy Wheels
+			</FONT>
+		</TD>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="options" VALUE="Air Conditioning">Air Conditioning
+			</FONT>
+		</TD>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="options" VALUE="Remote Keyless Entry">Remote Keyless Entry
+			</FONT>
+		</TD>
+	</TR>
+	<TR>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="options" VALUE="Rear Air Conditioning">Rear Air Conditioning
+			</FONT>
+		</TD>
+
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="options" VALUE="Sun Roof">Sun Roof
+			</FONT>
+		</TD>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="options" VALUE="Tilt Steering">Tilt Steering
+			</FONT>
+		</TD>
+	</TR>
+	<TR>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="options" VALUE="Power Mirrors">Power Mirrors
+			</FONT>
+		</TD>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="options" VALUE="Cruise Control">Cruise Control
+			</FONT>
+		</TD>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="options" VALUE="Four-Wheel Drive">Four-Wheel Drive
+			</FONT>
+		</TD>
+	</TR>
+	<TR>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="options" VALUE="Child Security Locks">Child Security Locks
+			</FONT>
+		</TD>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="options" VALUE="Aluminum Wheels">Aluminum Wheels
+			</FONT>
+		</TD>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="options" VALUE="Rear-Window Defogger">Rear-Window Defogger
+			</FONT>
+		</TD>
+	</TR>
+	<TR>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="options" VALUE="Rear Heat">Rear Heat
+			</FONT>
+		</TD>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="options" VALUE="Luggage Rack">Luggage Rack
+			</FONT>
+		</TD>
+	</TR>
+<CFIF thisisatruck IS "true">
+	<TR>
+		<TD COLSPAN=3>
+			<FONT SIZE=2 FACE="arial,helvetica"><B>
+				Truck Options
+			</B></FONT>
+		</TD>
+	</TR>
+	<TR>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="truckoptions" VALUE="Towing Package">Towing Package
+			</FONT>
+		</TD>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="truckoptions" VALUE="Extended Cab">Extended Cab
+			</FONT>
+		</TD>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="truckoptions" VALUE="Long Bed">Long Bed
+			</FONT>
+		</TD>
+	</TR>
+	<TR>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="truckoptions" VALUE="Sportside">Sportside
+			</FONT>
+		</TD>
+	</TR>
+</CFIF>
+	<TR>
+		<TD COLSPAN=3>
+			<FONT SIZE=2 FACE="arial,helvetica"><B>
+				Seating Accomodations
+			</B></FONT>
+		</TD>
+	</TR>
+	<TR>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="seating" VALUE="Bench">Bench
+			</FONT>
+		</TD>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="seating" VALUE="Bucket">Bucket
+			</FONT>
+		</TD>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="seating" VALUE="Power Driver">Power Driver
+			</FONT>
+		</TD>
+	</TR>
+	<TR>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="seating" VALUE="Child">Child
+			</FONT>
+		</TD>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="seating" VALUE="Leather">Leather
+			</FONT>
+		</TD>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="seating" VALUE="Cloth">Cloth
+			</FONT>
+		</TD>
+	</TR>
+	<TR>
+		<TD COLSPAN=1 ROWSPAN=1>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<INPUT TYPE="CHECKBOX" NAME="seating" VALUE="Power Passenger">Power Passenger
+			</FONT>
+		</TD>
+	</TR>
+	</TABLE>
+	</TD>
+</TR>
+<TR>
+	<TD ALIGN=CENTER COLSPAN=2 VALIGN=TOP>
+	<CFOUTPUT>
+	<!--GLOBALS------------------------------------------------------------------------->
+		<INPUT TYPE="hidden" NAME="usedinterest" VALUE="#form.usedinterest#">
+		<INPUT TYPE="hidden" NAME="showroominterest" VALUE="#form.showroominterest#">
+		<CFIF #Form.usedinterest# IS "true">
+			<INPUT TYPE="hidden" NAME="description" VALUE="#form.description#">
+			<INPUT TYPE="hidden" NAME="caryear" VALUE="#form.caryear#">
+			<INPUT TYPE="hidden" NAME="features" VALUE="#form.features#">
+			<INPUT TYPE="hidden" NAME="id" VALUE="#form.id#">
+		</CFIF>
+		<CFIF #Form.showroominterest# IS "true">
+			<INPUT TYPE="hidden" NAME="modelid" VALUE="#form.modelid#">
+		</CFIF>
+	<!--END GLOBALS--------------------------------------------------------------------->
+	<!--STEP 1-------------------------------------------------------------------------->
+		<INPUT TYPE="hidden" NAME="f_name" VALUE="#form.f_name#">
+		<INPUT TYPE="hidden" NAME="l_name" VALUE="#form.l_name#">
+		<INPUT TYPE="hidden" NAME="address1" VALUE="#form.address1#">
+		<INPUT TYPE="hidden" NAME="address2" VALUE="#form.address2#">
+		<INPUT TYPE="hidden" NAME="city" VALUE="#form.city#">
+		<INPUT TYPE="hidden" NAME="state" VALUE="#form.state#">
+		<INPUT TYPE="hidden" NAME="zip" VALUE="#form.zip#">
+		<INPUT TYPE="hidden" NAME="dayphone" VALUE="#form.dayphone#">
+		<INPUT TYPE="hidden" NAME="evephone" VALUE="#form.evephone#">
+		<INPUT TYPE="hidden" NAME="email" VALUE="#form.email#">
+		<INPUT TYPE="hidden" NAME="heardabout" VALUE="#form.heardabout#">
+		<INPUT TYPE="hidden" NAME="faxphone" VALUE="#form.faxphone#">
+	<!--END STEP 1---------------------------------------------------------------------->
+	<!--STEP 2-------------------------------------------------------------------------->
+		<INPUT TYPE="hidden" NAME="make" VALUE="#form.make#">
+		<INPUT TYPE="hidden" NAME="model" VALUE="#form.model#">
+		<INPUT TYPE="hidden" NAME="year" VALUE="#form.year#">
+		<INPUT TYPE="hidden" NAME="VIN" VALUE="#form.VIN#">
+		<INPUT TYPE="hidden" NAME="bodystyle" VALUE="#form.bodystyle#">
+		<INPUT TYPE="hidden" NAME="color1" VALUE="#form.color1#">
+		<INPUT TYPE="hidden" NAME="color2" VALUE="#form.color2#">
+		<INPUT TYPE="hidden" NAME="interior1" VALUE="#form.interior1#">
+		<INPUT TYPE="hidden" NAME="interior2" VALUE="#form.interior2#">
+		<INPUT TYPE="hidden" NAME="transmission" VALUE="#form.transmission#">
+		<INPUT TYPE="hidden" NAME="engine" VALUE="#form.engine#">
+	<!--END STEP 2---------------------------------------------------------------------->
+		<BR><BR>
+		<A HREF="JavaScript:history.back();"
+			OnMouseOver="self.status='Back';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_back_nav.gif" BORDER=0></A>			
+		<A HREF="JavaScript:document.vehicleform.reset();"
+			OnMouseOver="self.status='Blank Out Form';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_reset_nav.gif" BORDER=0></A>		
+		<INPUT TYPE="image" SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_next_nav.gif" BORDER=0>
+	</CFOUTPUT>
+	</TD>
+</TR>
+</FORM>
+</TABLE>
+
+<!-----------------------------------------------------------------------------------------------------------------------/THREE-------------------->
+<CFELSEIF sub IS 4>
+<!-----------------------------------------------------------------------------------------------------------------------FOUR--------------------->
+
+<TABLE BORDER=0>
+<FORM NAME="vehicleform" ACTION="main.cfm?section=qu&sub=5" METHOD="POST">
+<TR>
+	<TD COLSPAN=2>
+		<BR>
+	<CFOUTPUT>
+		<FONT COLOR=#thecolor# FACE="arial,helvetica" SIZE=2><B>
+			COMPETITIVE PRICE QUOTE INQUIRY<BR>
+			-- STEP 4 OF 6
+		</B></FONT>
+	</CFOUTPUT>
+		<BR>
+	</TD>
+</TR>
+<TR>
+	<TD VALIGN=TOP COLSPAN=2>
+		<BR>
+	<CFOUTPUT>
+		<FONT SIZE=2 FACE="arial,helvetica" COLOR=#thecolor#><B>
+			IF YOU PLAN ON TRADING IN YOUR CURRENT VEHICLE, FILL OUT THIS SECTION.<BR>
+			OTHERWISE, LEAVE THIS FORM BLANK AND CLICK NEXT TO CONTINUE.
+		</B></FONT>
+	</CFOUTPUT>
+	</TD>
+</TR>
+<TR>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Year
+		</FONT>
+	</TD>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="TEXT" NAME="tradein_year"<!---  VALUE="19" ---> size="25" MAXLENGTH="4">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Make
+		</FONT>
+	</TD>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="tradein_make" size="25" MAXLENGTH=35>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Model
+		</FONT>
+	</TD>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="TEXT" NAME="tradein_model" size="25" MAXLENGTH=35>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Mileage
+		</FONT>
+	</TD>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="TEXT" NAME="tradein_mileage" size="25" MAXLENGTH="10">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD VALING=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			VIN
+		</FONT>
+	</TD>
+	<TD VALING=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="TEXT" NAME="tradein_vin" size="25" MAXLENGTH="17">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Body Style
+		</FONT>
+	</TD>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="Text" NAME="tradein_body" size="25" MAXLENGTH="11">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Engine/Cylinders
+		</FONT>
+	</TD>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+		<SELECT NAME="tradein_engine">
+			<OPTION VALUE="">Please Select
+			<OPTION VALUE="4">4 Cylinder
+			<OPTION VALUE="5">5 Cylinder
+			<OPTION VALUE="6">6 Cylinder
+			<OPTION VALUE="8">8 Cylinder
+			<OPTION VALUE="12">12 Cylinder
+			<OPTION VALUE="Ele">Electric/Hybrid
+		</SELECT>
+	</TD>
+</TR>
+<TR>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Balance Owed
+		</FONT>
+	</TD>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			$<INPUT TYPE="TEXT" NAME="tradein_balance" SIZE="10" MAXLENGTH="10">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Estimated Trade-In Value
+		</FONT>
+	</TD>
+	<TD VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			$<INPUT TYPE="TEXT" NAME="tradein_value" SIZE="10" MAXLENGTH="10">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD ALIGN=CENTER COLSPAN=2 VALIGN=TOP>
+	<CFIF NOT #ParameterExists(options)#>
+		<CFSET options="none specified">
+	</CFIF>
+	<CFIF NOT #ParameterExists(truckoptions)#>
+		<CFSET truckoptions="none specified">
+	</CFIF>
+	<CFIF NOT #ParameterExists(seating)#>
+		<CFSET seating="none specified">
+	</CFIF>
+	<CFOUTPUT>
+	<!--GLOBALS------------------------------------------------------------------------->
+		<INPUT TYPE="hidden" NAME="usedinterest" VALUE="#form.usedinterest#">
+		<INPUT TYPE="hidden" NAME="showroominterest" VALUE="#form.showroominterest#">
+		<CFIF #Form.usedinterest# IS "true">
+			<INPUT TYPE="hidden" NAME="description" VALUE="#form.description#">
+			<INPUT TYPE="hidden" NAME="caryear" VALUE="#form.caryear#">
+			<INPUT TYPE="hidden" NAME="features" VALUE="#form.features#">
+		</CFIF>
+		<CFIF #Form.showroominterest# IS "true">
+			<INPUT TYPE="hidden" NAME="modelid" VALUE="#form.modelid#">
+		</CFIF>
+	<!--END GLOBALS--------------------------------------------------------------------->
+	<!--STEP 1-------------------------------------------------------------------------->
+		<INPUT TYPE="hidden" NAME="f_name" VALUE="#form.f_name#">
+		<INPUT TYPE="hidden" NAME="l_name" VALUE="#form.l_name#">
+		<INPUT TYPE="hidden" NAME="address1" VALUE="#form.address1#">
+		<INPUT TYPE="hidden" NAME="address2" VALUE="#form.address2#">
+		<INPUT TYPE="hidden" NAME="city" VALUE="#form.city#">
+		<INPUT TYPE="hidden" NAME="state" VALUE="#form.state#">
+		<INPUT TYPE="hidden" NAME="zip" VALUE="#form.zip#">
+		<INPUT TYPE="hidden" NAME="dayphone" VALUE="#form.dayphone#">
+		<INPUT TYPE="hidden" NAME="evephone" VALUE="#form.evephone#">
+		<INPUT TYPE="hidden" NAME="email" VALUE="#form.email#">
+		<INPUT TYPE="hidden" NAME="heardabout" VALUE="#form.heardabout#">
+		<INPUT TYPE="hidden" NAME="faxphone" VALUE="#form.faxphone#">
+	<!--END STEP 1---------------------------------------------------------------------->
+	<!--STEP 2-------------------------------------------------------------------------->
+		<INPUT TYPE="hidden" NAME="make" VALUE="#form.make#">
+		<INPUT TYPE="hidden" NAME="model" VALUE="#form.model#">
+		<INPUT TYPE="hidden" NAME="year" VALUE="#form.year#">
+		<INPUT TYPE="hidden" NAME="VIN" VALUE="#form.VIN#">
+		<INPUT TYPE="hidden" NAME="bodystyle" VALUE="#form.bodystyle#">
+		<INPUT TYPE="hidden" NAME="color1" VALUE="#form.color1#">
+		<INPUT TYPE="hidden" NAME="color2" VALUE="#form.color2#">
+		<INPUT TYPE="hidden" NAME="interior1" VALUE="#form.interior1#">
+		<INPUT TYPE="hidden" NAME="interior2" VALUE="#form.interior2#">
+		<INPUT TYPE="hidden" NAME="transmission" VALUE="#form.transmission#">
+		<INPUT TYPE="hidden" NAME="engine" VALUE="#form.engine#">
+	<!--END STEP 2---------------------------------------------------------------------->
+	<!--STEP 3-------------------------------------------------------------------------->
+		<INPUT TYPE="hidden" NAME="options" VALUE="#options#">
+		<INPUT TYPE="hidden" NAME="truckoptions" VALUE="#truckoptions#">
+		<INPUT TYPE="hidden" NAME="seating" VALUE="#seating#">
+	<!--END STEP 3---------------------------------------------------------------------->
+		<BR><BR>
+		<A HREF="JavaScript:history.back();"
+			OnMouseOver="self.status='Back';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_back_nav.gif" BORDER=0></A>			
+		<A HREF="JavaScript:document.vehicleform.reset();"
+			OnMouseOver="self.status='Blank Out Form';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_reset_nav.gif" BORDER=0></A>		
+		<INPUT TYPE="image" SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_next_nav.gif" BORDER=0>
+	</CFOUTPUT>
+	</TD>
+</TR>
+</FORM>
+</TABLE>
+
+<!-----------------------------------------------------------------------------------------------------------------------/FOUR------------------->
+<CFELSEIF sub IS 5>
+<!-----------------------------------------------------------------------------------------------------------------------FIVE-------------------->
+
+<TABLE BORDER=0>
+<FORM NAME="vehicleform" ACTION="main.cfm?section=qu&sub=6" METHOD="POST">
+<TR>
+	<TD COLSPAN=2>
+		<BR>
+	<CFOUTPUT>
+		<FONT COLOR=#thecolor# FACE="arial,helvetica" SIZE=2><B>
+			COMPETITIVE PRICE QUOTE INQUIRY<BR>
+			-- STEP 5 OF 6
+		</B></FONT>
+	</CFOUTPUT>
+		<BR>
+	</TD>
+</TR>
+<TR>
+	<TD VALIGN=TOP COLSPAN=2>
+		<BR>
+	<CFOUTPUT>
+		<FONT SIZE=2 FACE="arial,helvetica" COLOR=#thecolor#><B>
+			HOW DO YOU PLAN TO PAY FOR YOUR NEW VEHICLE?
+		</B></FONT>
+	</CFOUTPUT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2 VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Finance<INPUT TYPE="RADIO" NAME="howpay" VALUE="Finance" CHECKED>
+			&nbsp;&nbsp;
+			Lease<INPUT TYPE="RADIO" NAME="howpay" VALUE="Lease">
+			&nbsp;&nbsp;
+			Cash<INPUT TYPE="RADIO" NAME="howpay" VALUE="Cash">
+			&nbsp;&nbsp;
+			Undecided<INPUT TYPE="RADIO" NAME="howpay" VALUE="Have Not Decided">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD> 
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Down Payment
+		</FONT><BR>
+	</td>
+	<td>   
+		<FONT SIZE=2 FACE="arial,helvetica">
+			$<INPUT TYPE="TEXT" NAME="downpayment" SIZE="15" MAXLENGTH=35>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+		<b>Timeframe to purchase?</b>
+		</font>
+	</TD>
+	<TD>
+		<FONT SIZE="2" FACE="arial,helvetica">
+			<SELECT NAME="timetobuy">
+				<OPTION VALUE=""> Please Select
+				<OPTION VALUE="ready"> I'm Ready (Within a Week)
+				<OPTION VALUE="looking"> I'm Looking (2 Weeks or so)
+				<OPTION VALUE="month"> In a month or two				
+				<OPTION VALUE="future"> In the Future / Gathering Info
+			</SELECT>
+		<INPUT TYPE=HIDDEN NAME="timetobuy_required" value="<A HREF='Javascript:history.back();'>Please select a timeframe to purchase from the drop-down list</A>">			
+		</FONT>
+	</TD>   
+</TR>
+<TR>
+	<TD COLSPAN=2>
+		<FONT SIZE=2 FACE="arial,helvetica">
+		<br>
+		Required fields are <b>bolded</b>.
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD ALIGN=CENTER COLSPAN=2 VALIGN=TOP>
+	<CFOUTPUT>
+	<!--GLOBALS------------------------------------------------------------------------->
+		<INPUT TYPE="hidden" NAME="usedinterest" VALUE="#form.usedinterest#">
+		<INPUT TYPE="hidden" NAME="showroominterest" VALUE="#form.showroominterest#">
+		<CFIF #Form.usedinterest# IS "true">
+			<INPUT TYPE="hidden" NAME="description" VALUE="#form.description#">
+			<INPUT TYPE="hidden" NAME="caryear" VALUE="#form.caryear#">
+			<INPUT TYPE="hidden" NAME="features" VALUE="#form.features#">
+		</CFIF>
+		<CFIF #Form.showroominterest# IS "true">
+			<INPUT TYPE="hidden" NAME="modelid" VALUE="#form.modelid#">
+		</CFIF>
+	<!--END GLOBALS--------------------------------------------------------------------->
+	<!--STEP 1-------------------------------------------------------------------------->
+		<INPUT TYPE="hidden" NAME="f_name" VALUE="#form.f_name#">
+		<INPUT TYPE="hidden" NAME="l_name" VALUE="#form.l_name#">
+		<INPUT TYPE="hidden" NAME="address1" VALUE="#form.address1#">
+		<INPUT TYPE="hidden" NAME="address2" VALUE="#form.address2#">
+		<INPUT TYPE="hidden" NAME="city" VALUE="#form.city#">
+		<INPUT TYPE="hidden" NAME="state" VALUE="#form.state#">
+		<INPUT TYPE="hidden" NAME="zip" VALUE="#form.zip#">
+		<INPUT TYPE="hidden" NAME="dayphone" VALUE="#form.dayphone#">
+		<INPUT TYPE="hidden" NAME="evephone" VALUE="#form.evephone#">
+		<INPUT TYPE="hidden" NAME="email" VALUE="#form.email#">
+		<INPUT TYPE="hidden" NAME="heardabout" VALUE="#form.heardabout#">
+		<INPUT TYPE="hidden" NAME="faxphone" VALUE="#form.faxphone#">
+	<!--END STEP 1---------------------------------------------------------------------->
+	<!--STEP 2-------------------------------------------------------------------------->
+		<INPUT TYPE="hidden" NAME="make" VALUE="#form.make#">
+		<INPUT TYPE="hidden" NAME="model" VALUE="#form.model#">
+		<INPUT TYPE="hidden" NAME="year" VALUE="#form.year#">
+		<INPUT TYPE="hidden" NAME="VIN" VALUE="#form.VIN#">
+		<INPUT TYPE="hidden" NAME="bodystyle" VALUE="#form.bodystyle#">
+		<INPUT TYPE="hidden" NAME="color1" VALUE="#form.color1#">
+		<INPUT TYPE="hidden" NAME="color2" VALUE="#form.color2#">
+		<INPUT TYPE="hidden" NAME="interior1" VALUE="#form.interior1#">
+		<INPUT TYPE="hidden" NAME="interior2" VALUE="#form.interior2#">
+		<INPUT TYPE="hidden" NAME="transmission" VALUE="#form.transmission#">
+		<INPUT TYPE="hidden" NAME="engine" VALUE="#form.engine#">
+	<!--END STEP 2---------------------------------------------------------------------->
+	<!--STEP 3-------------------------------------------------------------------------->
+		<INPUT TYPE="hidden" NAME="options" VALUE="#form.options#">
+		<INPUT TYPE="hidden" NAME="truckoptions" VALUE="#form.truckoptions#">
+		<INPUT TYPE="hidden" NAME="seating" VALUE="#form.seating#">
+	<!--END STEP 3---------------------------------------------------------------------->
+	<!--STEP 4-------------------------------------------------------------------------->
+		<INPUT TYPE="hidden" NAME="tradein_year" VALUE="#form.tradein_year#">
+		<INPUT TYPE="hidden" NAME="tradein_make" VALUE="#form.tradein_make#">
+		<INPUT TYPE="hidden" NAME="tradein_model" VALUE="#form.tradein_model#">
+		<INPUT TYPE="hidden" NAME="tradein_mileage" VALUE="#form.tradein_mileage#">
+		<INPUT TYPE="hidden" NAME="tradein_vin" VALUE="#form.tradein_vin#">
+		<INPUT TYPE="hidden" NAME="tradein_body" VALUE="#form.tradein_body#">
+		<INPUT TYPE="hidden" NAME="tradein_engine" VALUE="#form.tradein_engine#">
+		<INPUT TYPE="hidden" NAME="tradein_balance" VALUE="#form.tradein_balance#">
+		<INPUT TYPE="hidden" NAME="tradein_value" VALUE="#form.tradein_value#">
+	<!--END STEP 4---------------------------------------------------------------------->
+		<BR><BR>
+		<A HREF="JavaScript:history.back();"
+			OnMouseOver="self.status='Back';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_back_nav.gif" BORDER=0></A>			
+		<A HREF="JavaScript:document.vehicleform.reset();"
+			OnMouseOver="self.status='Blank Out Form';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_reset_nav.gif" BORDER=0></A>		
+		<INPUT TYPE="image" SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_next_nav.gif" BORDER=0>
+	</CFOUTPUT>
+	</TD>
+</TR>
+</FORM>
+</TABLE>
+
+<!-----------------------------------------------------------------------------------------------------------------------/FIVE------------------->
+<CFELSEIF sub IS 6>
+<!-----------------------------------------------------------------------------------------------------------------------SIX--------------------->
+
+<TABLE BORDER=0>
+<FORM NAME="vehicleform" ACTION="main.cfm?section=qu&sub=7" METHOD="POST">
+<TR>
+	<TD COLSPAN=2>
+		<BR>
+	<CFOUTPUT>
+		<FONT COLOR=#thecolor# FACE="arial,helvetica" SIZE=2><B>
+			COMPETITIVE PRICE QUOTE INQUIRY<BR>
+			-- STEP 6 OF 6
+		</B></FONT>
+		<BR>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2 VALIGN=TOP>
+		<FONT COLOR=#thecolor# FACE="arial,helvetica" SIZE=2>
+			<B><br>ANY OTHER COMMENTS?</B>
+		</FONT>
+	</CFOUTPUT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2 VALIGN=TOP>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<TEXTAREA NAME="comments" ROWS=10 COLS=30 WRAP="virtual"></TEXTAREA>
+		</FONT>	
+	</TD>
+</TR>
+<TR>
+	<TD ALIGN=CENTER COLSPAN=2 VALIGN=TOP>
+	<CFOUTPUT>
+	<!--GLOBALS------------------------------------------------------------------------->
+		<INPUT TYPE="hidden" NAME="usedinterest" VALUE="#form.usedinterest#">
+		<INPUT TYPE="hidden" NAME="showroominterest" VALUE="#form.showroominterest#">
+		<CFIF #Form.usedinterest# IS "true">
+			<INPUT TYPE="hidden" NAME="description" VALUE="#form.description#">
+			<INPUT TYPE="hidden" NAME="caryear" VALUE="#form.caryear#">
+			<INPUT TYPE="hidden" NAME="features" VALUE="#form.features#">
+		</CFIF>
+		<CFIF #Form.showroominterest# IS "true">
+			<INPUT TYPE="hidden" NAME="modelid" VALUE="#form.modelid#">
+		</CFIF>
+		<INPUT TYPE="hidden" NAME="WhenSubmitted" VALUE="#Now()#">
+	<!--END GLOBALS--------------------------------------------------------------------->
+	<!--STEP 1-------------------------------------------------------------------------->
+		<INPUT TYPE="hidden" NAME="f_name" VALUE="#form.f_name#">
+		<INPUT TYPE="hidden" NAME="l_name" VALUE="#form.l_name#">
+		<INPUT TYPE="hidden" NAME="address1" VALUE="#form.address1#">
+		<INPUT TYPE="hidden" NAME="address2" VALUE="#form.address2#">
+		<INPUT TYPE="hidden" NAME="city" VALUE="#form.city#">
+		<INPUT TYPE="hidden" NAME="state" VALUE="#form.state#">
+		<INPUT TYPE="hidden" NAME="zip" VALUE="#form.zip#">
+		<INPUT TYPE="hidden" NAME="dayphone" VALUE="#form.dayphone#">
+		<INPUT TYPE="hidden" NAME="evephone" VALUE="#form.evephone#">
+		<INPUT TYPE="hidden" NAME="email" VALUE="#form.email#">
+		<INPUT TYPE="hidden" NAME="heardabout" VALUE="#form.heardabout#">
+		<INPUT TYPE="hidden" NAME="faxphone" VALUE="#form.faxphone#">
+	<!--END STEP 1---------------------------------------------------------------------->
+	<!--STEP 2-------------------------------------------------------------------------->
+		<INPUT TYPE="hidden" NAME="make" VALUE="#form.make#">
+		<INPUT TYPE="hidden" NAME="model" VALUE="#form.model#">
+		<INPUT TYPE="hidden" NAME="year" VALUE="#form.year#">
+		<INPUT TYPE="hidden" NAME="VIN" VALUE="#form.VIN#">
+		<INPUT TYPE="hidden" NAME="bodystyle" VALUE="#form.bodystyle#">
+		<INPUT TYPE="hidden" NAME="color1" VALUE="#form.color1#">
+		<INPUT TYPE="hidden" NAME="color2" VALUE="#form.color2#">
+		<INPUT TYPE="hidden" NAME="interior1" VALUE="#form.interior1#">
+		<INPUT TYPE="hidden" NAME="interior2" VALUE="#form.interior2#">
+		<INPUT TYPE="hidden" NAME="transmission" VALUE="#form.transmission#">
+		<INPUT TYPE="hidden" NAME="engine" VALUE="#form.engine#">
+	<!--END STEP 2---------------------------------------------------------------------->
+	<!--STEP 3-------------------------------------------------------------------------->
+		<INPUT TYPE="hidden" NAME="options" VALUE="#form.options#">
+		<INPUT TYPE="hidden" NAME="truckoptions" VALUE="#form.truckoptions#">
+		<INPUT TYPE="hidden" NAME="seating" VALUE="#form.seating#">
+	<!--END STEP 3---------------------------------------------------------------------->
+	<!--STEP 4-------------------------------------------------------------------------->
+		<INPUT TYPE="hidden" NAME="tradein_year" VALUE="#form.tradein_year#">
+		<INPUT TYPE="hidden" NAME="tradein_make" VALUE="#form.tradein_make#">
+		<INPUT TYPE="hidden" NAME="tradein_model" VALUE="#form.tradein_model#">
+		<INPUT TYPE="hidden" NAME="tradein_mileage" VALUE="#form.tradein_mileage#">
+		<INPUT TYPE="hidden" NAME="tradein_vin" VALUE="#form.tradein_vin#">
+		<INPUT TYPE="hidden" NAME="tradein_body" VALUE="#form.tradein_body#">
+		<INPUT TYPE="hidden" NAME="tradein_engine" VALUE="#form.tradein_engine#">
+		<INPUT TYPE="hidden" NAME="tradein_balance" VALUE="#form.tradein_balance#">
+		<INPUT TYPE="hidden" NAME="tradein_value" VALUE="#form.tradein_value#">
+	<!--END STEP 4---------------------------------------------------------------------->
+	<!--STEP 5-------------------------------------------------------------------------->
+		<INPUT TYPE="hidden" NAME="howpay" VALUE="#form.howpay#">
+		<INPUT TYPE="hidden" NAME="downpayment" VALUE="#form.downpayment#">
+		<INPUT TYPE="hidden" NAME="timetobuy" VALUE="#form.timetobuy#">
+	<!--END STEP 5---------------------------------------------------------------------->
+		<BR><BR>
+		<A HREF="JavaScript:history.back();"
+			OnMouseOver="self.status='Back';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_back_nav.gif" BORDER=0></A>			
+		<A HREF="JavaScript:document.vehicleform.reset();"
+			OnMouseOver="self.status='Blank Out Form';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_reset_nav.gif" BORDER=0></A>		
+		<INPUT TYPE="image" SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_submit_nav.gif" BORDER=0>
+	</CFOUTPUT>
+	</TD>
+</TR>
+</FORM>
+</TABLE>
+
+<!-----------------------------------------------------------------------------------------------------------------------/SIX------------------->
+<CFELSEIF sub IS 7>
+<!-----------------------------------------------------------------------------------------------------------------------SEVEN------------------>
+
+<!----------------------------------------------------SEVEN PROC------------------------------------>
+
+<CFQUERY NAME="insert" DATASOURCE="#gDSN#">
+	INSERT INTO requestinfogeneral (	requestinfotypeid,
+										dealercode,
+										fname,
+										lname,
+										addressline1,
+										addressline2,
+										city,
+										stateabbr,
+										zip,
+										emailaddress,
+										dayphone,
+										evephone,
+										whensubmitted,
+										useragent,
+										CustomerFax)
+				VALUES (	1,
+							'#RTrim(dealerinfo.dealercode)#',
+							'#form.f_name#',
+							'#form.l_name#',
+							'#form.address1#',
+							'#form.address2#',
+							'#form.city#',
+							'#form.state#',
+							'#form.zip#',
+							'#form.email#',
+							'#form.dayphone#',
+							'#form.evephone#',
+							#form.whensubmitted#,
+							'#CGI.http_user_agent#',
+							'#Form.faxphone#');
+</CFQUERY>
+<!--- LINDA: is this gonna work when we're getting 1000 hits/minute?
+The last RequestInfoGeneral rec isn't necessarily going to be yours if simultaneous users. --->
+<CFQUERY NAME="getid" DATASOURCE="#gDSN#">
+	SELECT	Max(RequestInfoID) AS newest
+	FROM	RequestInfoGeneral
+	WHERE	dealercode='#dealerinfo.dealercode#'
+		AND whensubmitted=#form.whensubmitted#
+		AND	emailaddress='#form.email#'
+		AND	requestinfotypeid=1
+</CFQUERY>
+<CFQUERY NAME="insert2" DATASOURCE="#gDSN#">
+	INSERT INTO requestinfoquote (	requestinfogeneralid,
+									heardabout,
+									timetobuy,
+									make,
+									model,
+									year,
+									vin,
+									bodystyle,
+									color1,
+									color2,
+									interior1,
+									interior2,
+									transmission,
+									engine,
+									howpay,
+									downpayment,
+									tradeinyear,
+									tradeinmake,
+									tradeinmodel,
+									tradeinmileage,
+									tradeinbody,
+									tradeinengine,
+									tradeinbalance,
+									tradeinvalue,
+									comments)
+						VALUES (	#getid.newest#,
+									'#form.heardabout#',
+									'#form.timetobuy#',
+									'#form.make#',
+									'#form.model#',
+									'#form.year#',
+									'#form.vin#',
+									'#form.bodystyle#',
+									'#form.color1#',
+									'#form.color2#',
+									'#form.interior1#',
+									'#form.interior2#',
+									'#form.transmission#',
+									'#form.engine#',
+									'#form.howpay#',
+									'#form.downpayment#',
+									'#form.tradein_year#',
+									'#form.tradein_make#',
+									'#form.tradein_model#',
+									'#form.tradein_mileage#',
+									'#form.tradein_body#',
+									'#form.tradein_engine#',
+									'#form.tradein_balance#',
+									'#form.tradein_value#',
+									'#form.comments#');
+</CFQUERY>
+
+<!--- linda, 8/31/99: if there's a separate email for quote, use that.  otherwise, send to main email address. --->
+<cfoutput>
+<cfif #trim(dealerinfo.QuoteEmail)# IS NOT "">
+	<cfset toemail = #dealerinfo.QuoteEmail#>
+<cfelse>
+	<cfset toemail = #dealerinfo.email#>
+</cfif>
+<!---This adds the second quote request for dealers --->
+<cfif #trim(dealerinfo.QuoteEmail2)# IS NOT "">
+	<cfset toemail2 = #dealerinfo.QuoteEmail2#>
+<cfelse>
+	<cfset toemail2 = #dealerinfo.email#>
+</cfif>
+</cfoutput>
+<!--- Linda, 6/5/00: worlddealer.net emails aren't working
+, quote_request@worlddealer.net --->
+<CFMAIL TO="#toemail#"
+		CC="#toemail2#, jweitz@worlddealer.net"
+		FROM="#email#"
+		SUBJECT="#dealerinfo.dealershipname# Quote Request">
+URGENT QUOTE REQUEST FROM WORLDDEALER!
+#TimeFormat(now(),'h:mm tt')# #DateFormat(now(),'mmmm d, yyyy')#
+Name: #f_name# #l_name#
+Address: #address1# #address2#
+City, State Zip: #city#, #state# #zip#
+Day Phone: #Left(dayphone,3)#-#Mid(dayphone,4,3)#-#Mid(dayphone,7,4)#
+Eve Phone: #Left(evephone,3)#-#Mid(evephone,4,3)#-#Mid(evephone,7,4)#
+Fax: #Left(faxphone,3)#-#Mid(faxphone,4,3)#-#Mid(faxphone,7,4)#
+Email: #email#
+Is looking to buy: #timetobuy#
+Heard about from: #heardabout#
+Make: #make#
+Model: #model#
+Year: #year#
+<CFIF #Form.usedinterest# IS "true">VIN: #vin#</CFIF>
+Body Style: #bodystyle#
+1st Color Choice: #color1#
+2nd Color Choice: #color2#
+1st Interior Choice: #interior1#
+2nd Interior Choice: #interior2#
+Transmission: #transmission#
+Engine/Cylinders: #engine#
+Options: #options#
+Truck Options: #truckoptions#
+Seating: #seating#
+Payment method: #howpay#
+Downpayment: #downpayment#
+Trade-In -
+Year: #tradein_year#
+Make: #tradein_make#
+Model: #tradein_model#
+Mileage: #tradein_mileage#
+VIN: #tradein_vin#
+Body: #tradein_body#
+Engine/Cylinders: #tradein_engine#
+Balance Owed: #tradein_balance#
+Trade-In Value: #tradein_value#
+Comments:
+#comments#
+</CFMAIL>
+
+<!--- Bryan: Faxing funtionality made active 11/02/99--->
+<cfoutput>
+<!--- linda, 11/4/99: if there's a separate fax for quotes, use that.  otherwise, send to main fax number. --->
+<cfif #len(trim(dealerinfo.QuoteFax))# eq 10>
+	<cfset toFax = #dealerinfo.QuoteFax#>
+<cfelse>
+	<cfset toFax = #dealerinfo.FaxPhone#>
+</cfif>
+<CFSET #variables.dialthisnumber# = "#dealerinfo.dealershipname#" & "@" & 1 & #toFax# & ".fax">
+</cfoutput>
+<cfif #len(trim(toFax))# eq 10>
+	<!--- Linda, 6/5/00: worlddealer.net emails aren't working
+	FROM="quote_request@worlddealer.net" 
+	6/6/00: to test from Olympus, insert this SERVER line into the CFMAIL.
+	SERVER="arizona.sigma6.com"
+	--->
+	<CFMAIL TO="#variables.dialthisnumber#"
+			FROM="info@worlddealer.net"
+			SUBJECT="#dealerinfo.dealershipname# Quote Request">
+	
+	URGENT QUOTE REQUEST FROM WORLDDEALER!		
+			
+	#DateFormat(now(),'mmmm d, yyyy')# #TimeFormat(now(),'h:mm tt')#
+	
+	#dealerinfo.dealershipname# Quote Request
+	
+	Name: #f_name# #l_name#
+	Address: #address1# #address2#
+	City, State Zip: #city#, #state# #zip#
+	Day Phone: #Left(dayphone,3)#-#Mid(dayphone,4,3)#-#Mid(dayphone,7,4)#
+	Eve Phone: #Left(evephone,3)#-#Mid(evephone,4,3)#-#Mid(evephone,7,4)#
+	Fax: #Left(faxphone,3)#-#Mid(faxphone,4,3)#-#Mid(faxphone,7,4)#
+	Email: #email#
+	
+	Is looking to buy: #timetobuy#
+	Heard about from: #heardabout#
+	
+	Make: #make#
+	Model: #model#
+	Year: #year#
+	<CFIF #form.usedinterest# IS "true">VIN: #vin#</CFIF>
+	Body Style: #bodystyle#
+	1st Color Choice: #color1#
+	2nd Color Choice: #color2#
+	1st Interior Choice: #interior1#
+	2nd Interior Choice: #interior2#
+	Transmission: #transmission#
+	Engine/Cylinders: #engine#
+	Options: #options#
+	Truck Options: #truckoptions#
+	Seating: #seating#
+	
+	Payment method: #howpay#
+	Downpayment: #downpayment#
+	
+	Trade-In -
+	Year: #tradein_year#
+	Make: #tradein_make#
+	Model: #tradein_model#
+	Mileage: #tradein_mileage#
+	VIN: #tradein_vin#
+	Body: #tradein_body#
+	Engine/Cylinders: #tradein_engine#
+	Balance Owed: #tradein_balance#
+	Trade-In Value: #tradein_value#
+	
+	Comments:
+	#comments#
+	</CFMAIL>
+</cfif>
+<!---------------------------------------------------/SEVEN PROC------------------------------------>
+<!---------------------------------------------------SEVEN CONTENT---------------------------------->
+<div align="center">
+<TABLE BORDER=0 width="400">
+<TR>
+	<TD ALIGN=CENTER>
+		<FONT SIZE=3 FACE="arial,helvetica">
+			<B>Thank you for your submission!</B>
+		</FONT>
+		<BR>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			You will be contacted by an authorized <CFOUTPUT QUERY="dealerinfo">#dealershipname#</CFOUTPUT>
+			representative regarding your inquiry.
+		<BR><BR>
+			<B><A HREF="main.cfm?section=qu"
+					TITLE="Request a Quote"
+					OnMouseOver="self.status='Request a Quote';return true"
+					OnMouseOut="self.status='';return true">Click here</A></B> to return to the Quote request form.
+		</FONT>
+	</TD>
+</TR>
+</TABLE>
+</div>
+<!--------------------------------------------------/SEVEN CONTENT---------------------------------->
+<!-----------------------------------------------------------------------------------------------------------------------SEVEN--------------------->
+</CFIF>

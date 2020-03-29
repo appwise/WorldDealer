@@ -1,0 +1,58 @@
+<!--- $Id: offer_disclaimer1.htm,v 1.2 1999/11/29 16:07:56 lswanson Exp $ --->
+<TR>
+	<TD>
+		<TABLE BORDER=1 ALIGN=CENTER VALIGN=TOP>
+		<TR>
+			<TD COLSPAN=2 BGCOLOR=CCCCCC ALIGN=CENTER>
+				<br>Please choose a Disclaimer Template<br><br>
+			</TD>
+		</TR>
+		<FORM action="nationaloffers.cfm" method="post">
+		<TR>
+			<TD ALIGN=CENTER VALIGN=MIDDLE>
+				<INPUT type="radio" name="templateID" value="1" CHECKED>
+			</TD>
+			<TD ALIGN=LEFT>
+				<b>MSRP:</b><br>MSRP. Title and taxes extra.
+			</TD>
+		</TR>
+		<TR>
+			<TD ALIGN="center" valign="middle">
+				<input type="Radio" name="templateID" value="0">
+			</TD>
+			<TD align="left">
+				<b>Custom:</b>
+				<br>
+				Enter a custom disclaimer.
+			</TD>
+		</TR>
+		<TR>
+			<TD COLSPAN=2 ALIGN=center>
+				<CFOUTPUT>
+				<INPUT TYPE="hidden" name="new" value=1>
+				<INPUT type="hidden" name="offer_name" value="#form.Offer_name#">
+				<INPUT type="hidden" name="offer_body" value="#form.offer_body#">
+				<INPUT type="hidden" name="ModelID" value="#Form.ModelID#">
+				<INPUT type="hidden" name="Expiration" value="#form.Expiration#">
+				<INPUT type="hidden" name="carcut" value="#form.carcut#">
+				</CFOUTPUT>
+				<!--- So the next stop won't fail --->
+				<INPUT type="hidden" name="dealercode" value="null">
+				<INPUT type="hidden" name="offerID" value="new">
+				<br>
+       	    	<INPUT TYPE="Image" SRC="<CFOUTPUT>#application.RELATIVE_PATH#</CFOUTPUT>/images/admin/cancel_nav.jpg" BORDER="0" NAME="btnCancel" VALUE="Cancel">
+				&nbsp;
+				<INPUT TYPE="Image" SRC="<CFOUTPUT>#application.RELATIVE_PATH#</CFOUTPUT>/images/admin/next_nav.jpg" Border="0" NAME="btnNext3" VALUE="Next">
+	            </FORM>
+   	            <FORM NAME="f_Back" ACTION="redirect.cfm" METHOD="post">
+   	            <INPUT TYPE="Image"
+					SRC="<CFOUTPUT>#application.RELATIVE_PATH#</CFOUTPUT>/images/admin/backtomain_nav.jpg"
+					Border="0"
+					NAME="BackToMain"
+					VALUE="Back To Main Menu">
+                </FORM>
+			</TD>
+		</TR>
+		</TABLE>
+	</TD>		
+</TR>

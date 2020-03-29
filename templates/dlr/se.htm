@@ -1,0 +1,244 @@
+<!---
+Created by Sigma6, Inc.
+Copyright (c) 1998 Sigma6, Inc.
+All Rights Reserved.  Used By Permission.
+
+Sigma6, interactive media, Detroit/NYC
+conceive : construct : connect
+www.sigma6.com   webmaster@sigma6.com   info@sigma6.com
+
+Last updated: <May 27, 1998>
+
+Daniel Fettinger for sigma6, interactive media, Detroit
+dfettinger@sigma6.com   www.sigma6.com    www.s6313.com
+conceive : construct : connect
+
+Sigma6, s6, and the Sigma6 logos are registered trademarks.
+All other trademarks and servicemarks are the property of
+their respective owners.
+--->
+
+<!--- Service and Parts section --->
+
+<!----get the Why We're Different & Who We Are text, bodyshopYN --->
+<CFQUERY NAME="getSvcText" datasource="#gDSN#">
+	SELECT	ServiceInqSetApartText2,
+			ServiceMainText as SvcMainText_unformat,
+			BodyShopYesNo
+	FROM	DealerWebs
+	WHERE	dealercode = '#dealerinfo.dealercode#';
+</CFQUERY>
+
+<!--- Format ServiceMainText (Who We Are) --->
+<CFSET temp = #getSvcText.SvcMainText_unformat#>
+<CFSET start_pos = 1>
+<CFLOOP from=1 to=3 index="count">
+	<CFSET #start_pos# = #Find("~~",temp,start_pos)#>
+	<CFIF #start_pos#>  <!--- IS NOT 0 --->
+		<CFSET #temp# = #RemoveChars(temp,start_pos,4)#>
+		<CFSET #start_pos# = #start_pos# + 4>
+	<CFELSE>
+		<CFBREAK>
+	</CFIF>
+</CFLOOP>
+<CFSET #q_ServiceMainText# = #temp#>
+
+<!--- Query to get the hours of operation info for service, parts, and body shop --->
+<CFQUERY NAME="getDLRHours" DATASOURCE="#gDSN#">
+    SELECT	DayOfWeek,
+			ServiceOpen,
+			ServiceClose,
+			PartsOpen,
+			PartsClose
+			<CFIF getSvcText.BodyShopYesNo IS 'Y'>,
+			   BodyShopOpen,
+			   BodyShopClose
+			</CFIF>
+	FROM	HoursOfOperation
+	WHERE	DealerCode = '#dealerinfo.dealercode#'
+	ORDER BY DayOfWeek
+</CFQUERY>
+
+
+<TABLE BORDER=0 CELLSPACING=7 CELLPADDING=0 width="100%">
+<!--- Service Appointment and Parts Request buttons --->
+<TR>
+  	<TD ALIGN="CENTER">
+		<TABLE BORDER="0" width=100%>
+		<TR>
+			<TD ALIGN="LEFT">
+				<CFOUTPUT>
+   				<A HREF="main.cfm?section=se&subsection=appt"
+				TITLE="Service Appointment"
+				OnMouseOver="self.status='Schedule a Service Appointment';return true"
+				OnMouseOut="self.status='';return true"><IMG
+				SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/se_appt_nav.gif"
+				BORDER=0
+				WIDTH=#seapptw#
+				HEIGHT=#seappth#
+				ALT="Service Appointment"></A>
+				</cfoutput>
+			</TD>
+			<TD ALIGN="RIGHT">
+				<CFOUTPUT>
+				<A HREF="main.cfm?section=se&subsection=part"
+				TITLE="Order a Part"
+				OnMouseOver="self.status='Order a Part';return true"
+				OnMouseOut="self.status='';return true"><IMG
+				SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/se_part_nav.gif"
+				BORDER=0
+				WIDTH=#separtw#
+				HEIGHT=#separth#
+				ALT="Order a Part"></A>
+				</cfoutput>
+			</TD>
+		</TR>
+		</TABLE>
+	</TD>
+</TR>
+<!--- Service: Why We're Different --->
+<CFIF #RTrim(getSvcText.ServiceInqSetApartText2)# IS NOT "">
+	<TR>
+		<TD ALIGN=LEFT VALIGN=TOP>
+		<BR>
+		<TABLE BORDER=0>
+		<TR>
+			<TD>
+				<cfoutput>
+				<IMG SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/tle_why_hea.gif"
+					BORDER=0
+					WIDTH="#whyw#"
+					HEIGHT="#whyh#"
+					ALT="Why We Are Different">
+				</cfoutput>
+				<!---why we are different is formatted with a break line (vs. side-to-side) -------->				
+				<CFIF whyweare IS "break">
+					<BR><BR>
+				<CFELSE>
+					</TD>
+					<TD>
+				</CFIF>
+				<FONT SIZE=-1 FACE="arial,helvetica">
+				<CFOUTPUT>
+					#getSvcText.ServiceInqSetApartText2#
+				</CFOUTPUT>
+				</FONT>
+			</TD>
+		</TR>
+		</TABLE>
+		</TD>
+	</TR>
+</CFIF>
+
+<!--- Service: Who We Are text --->
+<TR>
+	<TD>
+		<br><br>
+		<FONT FACE="arial, helvetica" SIZE=-1>
+			<B>Quality Service You Can Depend On</B>
+			<P>
+			<CFOUTPUT>
+			#q_ServiceMainText#
+			</CFOUTPUT>
+		</FONT>
+	</TD>
+</TR>
+
+<!--- Hours of Operation table for service, parts, and body shop --->
+<cfif getDLRHours.recordcount>
+	<tr>
+		<td>
+			<br>
+			<TABLE align="center" CELLPADDING=3 CELLSPACING=1 BORDER=1>
+			<CFOUTPUT>
+			<TR>
+				<TD BGCOLOR=#thecolor#>
+					&nbsp;
+				</TD>
+				<TD align="center" BGCOLOR=#thecolor#>
+					<FONT size=-1 FACE="arial,helvetica" COLOR=#textcolor#>
+					<B>Service</B>
+					</FONT>
+				</TD>
+				<TD align="center" BGCOLOR=#thecolor#>
+					<FONT size=-1 FACE="arial,helvetica" COLOR=#textcolor#>
+					<B>Parts</B>
+					</FONT>
+				</TD>
+				<CFIF getSvcText.BodyShopYesNo IS 'Y'>
+					<TD align="center" BGCOLOR=#thecolor#>
+						<FONT size=-1 FACE="arial,helvetica" COLOR=#textcolor#>
+						<B>Body Shop</B>
+						</FONT>
+					</TD>
+				</CFIF>
+			</TR>
+			</CFOUTPUT>
+			<CFOUTPUT QUERY="getDLRHours" GROUP="DayOfWeek">
+			<TR VALIGN=center>
+				<TD BGCOLOR=#theothercolor#>
+					<FONT size=-1 FACE="arial,helvetica" COLOR=#othertextcolor#>
+					<CFIF DayOfWeek EQ '1'><B>Mon</B>
+					<CFELSEIF DayOfWeek EQ '2'><B>Tue</B>
+					<CFELSEIF DayOfWeek EQ '3'><B>Wed</B>
+					<CFELSEIF DayOfWeek EQ '4'><B>Thu</B>
+					<CFELSEIF DayOfWeek EQ '5'><B>Fri</B>
+					<CFELSEIF DayOfWeek EQ '6'><B>Sat</B>
+					<CFELSEIF DayOfWeek EQ '7'><B>Sun</B>
+					</CFIF>
+					</FONT>
+				</TD>
+				 <CFIF ServiceOpen CONTAINS "Closed">
+					<TD ALIGN=CENTER>
+						<FONT SIZE=1 FACE="arial,helvetica">
+						Closed
+						</FONT>
+					</TD>
+				<CFELSE>
+					<TD>
+						<FONT SIZE=1 FACE="arial,helvetica">
+						#ServiceOpen# to
+						<BR>
+						#ServiceClose#
+						</FONT>
+					</TD>
+				</CFIF>
+				<CFIF PartsOpen CONTAINS "Closed">
+					<TD ALIGN=CENTER>
+						<FONT SIZE=1 FACE="arial,helvetica">
+						Closed
+						</FONT>
+					</TD>
+				<CFELSE>
+					<TD align="center">
+						<FONT SIZE=1 FACE="arial,helvetica">
+						#PartsOpen# to
+						<BR>
+						#PartsClose#
+						</FONT>
+					</TD>
+				</CFIF>
+				<CFIF getSvcText.BodyShopYesNo IS 'Y'>
+					<CFIF BodyShopOpen CONTAINS "Closed">
+						<TD ALIGN=CENTER>
+							<FONT SIZE=1 FACE="arial,helvetica">
+							Closed
+							</FONT>
+						</TD>
+					<CFELSE>
+						<TD align="center">
+							<FONT SIZE=1 FACE="arial,helvetica">
+							#BodyShopOpen# to
+							<BR>
+							#BodyShopClose#
+							</FONT>
+						</TD>
+					</CFIF>
+				</CFIF>
+				</CFOUTPUT>
+			</TR>
+			</TABLE>
+		</td>
+	</tr>
+</cfif>
+</TABLE>

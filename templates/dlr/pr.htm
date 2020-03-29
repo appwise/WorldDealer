@@ -1,0 +1,523 @@
+<!-- ----------------------------------------------------------- -->
+<!--                 Created by Sigma6, Inc.0                    -->
+<!--             Copyright (c) 1998 Sigma6, Inc.                 -->
+<!--         All Rights Reserved.  Used By Permission.           -->
+<!-- ----------------------------------------------------------- -->
+<!-- ----------------------------------------------------------- -->
+<!--           Sigma6, interactive media, Detroit/NYC            -->
+<!--               conceive : construct : connect                -->
+<!--   www.sigma6.com   webmaster@sigma6.com   info@sigma6.com   -->
+<!--                                                             -->
+<!--   Last updated: <May 21, 1998>                              -->
+<!-- ----------------------------------------------------------- -->
+<!--   Daniel Fettinger for sigma6, interactive media, Detroit   -->
+<!--   dfettinger@sigma6.com   www.sigma6.com    www.s6313.com   -->
+<!--               conceive : construct : connect                -->
+<!-- ----------------------------------------------------------- -->
+<!-- ----------------------------------------------------------- -->
+<!-- Sigma6, s6, and the Sigma6 logos are registered trademarks. -->
+<!-- All other trademarks and servicemarks are the property of   -->
+<!-- their respective owners.                                    -->
+<!-- ----------------------------------------------------------- -->
+<!--- $Id: pr.htm,v 1.24 2000/06/02 18:05:23 lswanson Exp $ --->
+
+<script language="JavaScript">
+<!--
+	function comarisonBuild(gogetID) {
+		newWindow = window.open("pr_compare.cfm?id="+gogetID+"&adding=true", "", "height=1,width=1,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,screenX=5000,screenY=5000,left=5000,right=5000");
+	}
+	function comarisonWindow() {
+		newWindow = window.open("pr_compare_view.cfm", "VehicleComparison", "toolbar=yes,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes");
+	}
+//-->
+</script>
+
+
+<CFOUTPUT>
+<!---find number of used vehicles (# of unique VINs) for collections or dealerships, 
+so we know whether to display list of vehicles (<=10) or search criteria (>10)--->
+<CFQUERY NAME="getUsedVeh" DATASOURCE="#gDSN#">
+	<!--- SELECT	UsedVehicleID --->
+	SELECT DISTINCT VIN
+	FROM	UsedVehicles
+	<CFIF #g_Col# IS "true">
+		INNER JOIN CollectionDealers ON UsedVehicles.DealerCode = CollectionDealers.DealerCode
+		WHERE CollectionDealers.Coll_DealerCode='#dealerinfo.dealercode#' AND UsedVehicles.NewUsed = 'N'
+	<cfelse>
+		WHERE UsedVehicles.dealercode='#dealerinfo.dealercode#' AND UsedVehicles.NewUsed = 'N'
+	</cfif>
+</CFQUERY>
+
+<!--- only use this section if we're setting up the search page --->
+<CFIF NOT #ISDEFINED("Url.Search")# AND #getUsedVeh.RecordCount# GT 10>
+	<!--- get Makes for drop-down list --->
+	<CFQUERY NAME="getMakes" DATASOURCE="#gDSN#">
+		SELECT DISTINCT UVMakes.MakeNumber, UVMakes.MakeName
+		FROM UVMakes 
+			INNER JOIN (UsedVehicles 
+			INNER JOIN UVModels ON UsedVehicles.ModelNumber = UVModels.ModelNumber) ON UVMakes.MakeNumber = UVModels.MakeNumber
+		<CFIF #g_Col# IS "true">
+			INNER JOIN CollectionDealers ON UsedVehicles.DealerCode = CollectionDealers.DealerCode
+			WHERE CollectionDealers.Coll_DealerCode='#dealerinfo.dealercode#' AND UsedVehicles.NewUsed = 'N'
+		<cfelse>
+			WHERE UsedVehicles.dealercode='#dealerinfo.dealercode#' AND UsedVehicles.NewUsed = 'N'
+		</cfif>
+		ORDER BY MakeName
+	</CFQUERY>
+	
+	<cfif IsDefined("URL.make")>
+		<!--- get Models for drop-down list --->
+		<CFQUERY NAME="getModels" DATASOURCE="#gDSN#">
+			SELECT DISTINCT UVModels.ModelNumber, UVModels.ModelName
+			FROM (UVModels 
+				INNER JOIN UVMakes ON UVModels.MakeNumber = UVMakes.MakeNumber) 
+				INNER JOIN UsedVehicles ON UVModels.ModelNumber = UsedVehicles.ModelNumber
+			<CFIF #g_Col# IS "true">
+				INNER JOIN CollectionDealers ON UsedVehicles.DealerCode = CollectionDealers.DealerCode
+				WHERE CollectionDealers.Coll_DealerCode='#dealerinfo.dealercode#'
+			<cfelse>
+				WHERE UsedVehicles.dealercode='#dealerinfo.dealercode#'
+			</cfif>
+			<cfif IsDefined("URL.make")>
+				AND UVModels.makenumber = #URL.make#
+			</cfif>
+			ORDER BY UVModels.ModelName
+		</CFQUERY>
+	</cfif>
+
+	<!--- onChange of selected Make in drop-down, refresh the page, passing the selected make 
+	so the models drop-down can be filtered on that make. --->	
+	<SCRIPT LANGUAGE="JavaScript">
+	<!--  
+	function onMakeChange()
+		{
+		with(document.forms[0].elements[0])
+			selectedMake = options[selectedIndex].value
+		
+		if (selectedMake != 'Any')
+			location.href = 'main.cfm?section=pr&make=' + selectedMake;
+		else
+			// this sets it back to the default.
+			location.href = 'main.cfm?section=pr';
+		}
+	//-->
+	</SCRIPT>
+</CFIF>
+
+<!--- Why We're Different - Pre-Owned ---> 
+<CFIF NOT ISDEFINED("URL.search")>
+	<CFINCLUDE TEMPLATE="pr_whyDiff.htm">
+</CFIF>
+<!--- meat and potatoes --->
+<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0>
+<TR>
+	<TD VALIGN=TOP>
+		<FONT FACE="arial,helvetica" SIZE="-1">
+		<CFIF #getUsedVeh.RecordCount# EQ 0>
+			<!--- linda: text changed per Anna 3/8/99 --->
+			Please check back with #dealerinfo.dealershipname# for future pre-owned listings.
+		<CFELSE>
+			<!--- If user has already selected from the search screen, print list of used vechicles --->
+			<CFIF #ISDEFINED("Url.Search")#>
+				<CFIF #ISDEFINED("URL.liststep")#>
+					<CFSET LISTSTEP=#URL.LISTSTEP#>
+				<CFELSE>
+					<CFSET LISTSTEP=0>
+				</CFIF>
+				
+				<!--- find the vehicles that match the search criteria --->
+				<!--- linda, 1/26/2000: need to filter out records that are dup except for the UsedVehID, 
+				so just find distinct VIN#s now. --->
+				<CFQUERY NAME="getSearchVehicles" DATASOURCE="#gDSN#">
+				SELECT DISTINCT	
+						UsedVehicles.VIN,
+						UVMakes.MakeName, 
+						UVModels.ModelName, 
+						UsedVehicles.CarYear, 
+						UsedVehicles.price, 
+						UsedVehicles.mileage, 
+						UsedVehicles.Image
+				FROM 	(UsedVehicles 
+						INNER JOIN UVModels ON UsedVehicles.ModelNumber = UVModels.ModelNumber) 
+						INNER JOIN UVMakes ON UVModels.MakeNumber = UVMakes.MakeNumber
+						<CFIF #g_Col# IS "true">
+							INNER JOIN CollectionDealers ON UsedVehicles.DealerCode = CollectionDealers.DealerCode
+							WHERE CollectionDealers.Coll_DealerCode='#dealerinfo.dealercode#' AND UsedVehicles.NewUsed = 'N'
+						<cfelse>
+							WHERE UsedVehicles.dealercode='#dealerinfo.dealercode#' AND UsedVehicles.NewUsed = 'N'
+						</cfif>
+						<!--- linda, 12/20/99: have to "undo" urlencoding that was required for javascript's use of the make in the URL --->
+						<CFIF #FORM.Make# NEQ 0> AND UVMakes.MakeNumber = #Form.Make#</CFIF>
+						<CFIF #FORM.Model# NEQ 0> AND UsedVehicles.ModelNumber = #Form.Model#</CFIF>
+						<CFIF #FORM.CARYEAR1# NEQ 0> AND UsedVehicles.Caryear >= #Form.Caryear1#</CFIF>
+						<CFIF #FORM.CARYEAR2# NEQ 0> AND UsedVehicles.Caryear <= #Form.Caryear2#</CFIF>
+						<CFIF #FORM.PRICE1# NEQ 0> AND UsedVehicles.Price >= #Form.Price1#</CFIF>
+						<CFIF #FORM.PRICE2# NEQ 0> AND UsedVehicles.Price <= #Form.Price2#</CFIF>
+						<CFIF #FORM.MILEAGE1# NEQ 0> AND UsedVehicles.Mileage >= #Form.Mileage1#</CFIF>
+						<CFIF #FORM.MILEAGE2# NEQ 0> AND UsedVehicles.Mileage <= #Form.Mileage2#</CFIF>
+						<CFIF #FORM.TRANSMISSION# EQ "auto"> AND #LCase("UsedVehicles.Transmission")# LIKE '%auto%'</CFIF>
+						<CFIF #FORM.TRANSMISSION# EQ "manual"> AND (#LCase("UsedVehicles.Transmission")# LIKE '%manual%' OR #LCase("UsedVehicles.Transmission")# LIKE '%speed%')</CFIF>
+					ORDER BY UVMakes.MakeName, UVModels.ModelName, UsedVehicles.CarYear DESC, UsedVehicles.VIN
+				</CFQUERY>				
+
+				<CFIF #getSearchVehicles.RecordCount# IS 0>
+					Sorry, no vehicles matched your search criteria. Please <A HREF='Javascript:history.back();'>try again</A>.
+				<CFELSE>
+					Following are just some of the pre-owned vehicle values at #dealerinfo.dealershipname#.
+					<BR>
+					<I>(All vehicles subject to prior sale.)</I>
+				
+					<CFIF LISTSTEP GTE 1>
+						<CFSET BEGIN=#EVALUATE((LISTSTEP*10)+1)#>		
+					<CFELSE>
+						<CFSET BEGIN=1>
+					</CFIF>
+
+					<CFIF #getSearchVehicles.RecordCount# LTE #EVALUATE(BEGIN+9)#>
+						<CFSET END=#getSearchVehicles.RecordCount#>
+					<CFELSE>
+						<CFSET END=#EVALUATE(BEGIN+9)#>
+					</CFIF>
+
+					<CFSET CHUNKS="#Evaluate("getSearchVehicles.RecordCount/10")#">
+					<CFSET CHUNKS=#CEILING(CHUNKS)#>
+
+					<P>
+					<!--- This extra table puts a border around the following table --->
+					<table border="0" cellspacing="0" cellpadding="2" bgcolor="#thecolor#">
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="5">
+							<tr bgcolor="#thecolor#">
+								<th>
+									<FONT FACE="arial,helvetica" SIZE=-1 color="#textcolor#">
+									Make
+									</font>
+								</th>
+								<th>
+									<FONT FACE="arial,helvetica" SIZE=-1 color="#textcolor#">
+									Model
+									</font>
+								</th>
+								<th>
+									<FONT FACE="arial,helvetica" SIZE=-1 color="#textcolor#">
+									Year
+									</font>
+								</th>
+								<th>
+									<FONT FACE="arial,helvetica" SIZE=-1 color="#textcolor#">
+									Price
+									</font>
+								</th>
+								<th>
+									<FONT FACE="arial,helvetica" SIZE=-1 color="#textcolor#">
+									Mileage
+									</font>
+								</th>
+								<th>
+									<FONT FACE="arial,helvetica" SIZE=-1 color="#textcolor#">
+									Photo
+									</font>
+								</th>
+							</tr>
+							<!--- used to be cfoutput. with MAXROWS=10 --->
+							<CFSET END = BEGIN + 10>
+							<cfset rowcolor = 1>
+							<cfloop query="getSearchVehicles" startrow="#BEGIN#" endrow="#END#">
+								<cfquery name="getID" datasource="#gDSN#">
+									SELECT	UsedVehicleID
+									FROM	UsedVehicles
+									WHERE	VIN = '#VIN#' AND UsedVehicles.NewUsed = 'N'
+								</cfquery>
+								<cfif rowcolor eq 2>
+									<cfset rowcolor = 0>
+									<cfset bgcol = "bgcolor='#thirdcolor#'">
+								<cfelse>
+									<cfset bgcol = "bgcolor='white'">
+								</cfif>
+								<cfset rowcolor = rowcolor + 1>
+								<tr #bgcol#>
+									<TD>
+										<font face="arial,helvetica" size="-1" color="Black">
+											<!--- linda, 1/25/2000: used to be id=#UsedVehicleID# --->
+											<B><A HREF="main.cfm?section=pr&subsection=details&id=#getID.UsedVehicleID#">#MakeName#</A></B>
+										</FONT>
+									</TD>
+									<TD>
+										<FONT FACE="arial,helvetica" SIZE=-1 color="Black">
+											<B><A HREF="main.cfm?section=pr&subsection=details&id=#getID.UsedVehicleID#">#ModelName#</A></B>
+										</FONT>
+									</TD>
+									<TD>
+										<FONT FACE="arial,helvetica" SIZE=-1 color="Black">
+											<B><A HREF="main.cfm?section=pr&subsection=details&id=#getID.UsedVehicleID#">#caryear#</A></B>
+										</FONT>
+									</TD>
+									<td align="right">
+										<FONT FACE="arial,helvetica" SIZE=-1 color="Black">
+											<!--- linda, 10/18/99: to compensate for incomplete ($0) or invalid ($1) data --->
+											<cfif #Price# GTE 10>#DollarFormat(Price)#<cfelse>&nbsp;</cfif>
+										</font>
+									</td>
+									<td align="right">
+										<FONT FACE="arial,helvetica" SIZE=-1 color="Black">
+											<!--- linda, 1/27/2000: to compensate for invalid (5 miles) data --->
+											<CFIF #MILEAGE# GTE 100>#NumberFormat(Mileage)#<cfelse>&nbsp;</cfif>
+										</font>
+									</td>
+									<td align="center">
+										<CFIF #Image# IS 'Y'><A HREF="main.cfm?section=pr&subsection=details&id=#getID.UsedVehicleID#"><IMG SRC="#application.RELATIVE_PATH#/images/admin/camera.gif" BORDER=0 ALT="Photo"></a><cfelse>&nbsp;</cfif>
+									</td>
+								</TR>
+							</CFLOOP>
+							</table>
+						</td>
+					</tr>
+					</table>
+					<!--- Back & Next buttons --->
+					<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=5 width="100%">
+					<TR>
+						<TD Colspan="2">
+						<br>
+							<FONT SIZE=-1 FACE="arial,helvetica">
+							<div align="center"></div> <a href="main.cfm?section=nv"><img src="../../images/common/NewInv.gif" border=0></a></div>
+							</FONT>
+						</TD>
+					</TR>
+					<TR>
+					<CFIF LISTSTEP GTE 1>
+						<TD ALIGN=LEFT>
+							<FONT FACE="arial,helvetica" SIZE=-1>
+							<BR><BR>
+							<FORM NAME="back" METHOD="post" ACTION="main.cfm?section=pr&search=yes&nav=previous&liststep=#Evaluate(liststep-1)#">
+							<INPUT TYPE="Image" SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_back_nav.gif" BORDER=0 ALT="" OnMouseOver="self.status='Previous Vehicle List';return true" OnMouseOut ="self.status='';return true">
+							<BR>...previous vehicles
+							</FONT>
+						</TD>
+							<INPUT TYPE="hidden" NAME="Make" VALUE="#Form.Make#">
+							<INPUT TYPE="hidden" NAME="Model" VALUE="#Form.Model#">
+							<INPUT TYPE="hidden" NAME="CarYear1" VALUE="#Form.CarYear1#">
+							<INPUT TYPE="hidden" NAME="CarYear2" VALUE="#Form.CarYear2#">
+							<INPUT TYPE="hidden" NAME="price1" VALUE="#Form.Price1#">
+							<INPUT TYPE="hidden" NAME="price2" VALUE="#Form.Price2#">
+							<INPUT TYPE="hidden" NAME="Mileage1" VALUE="#Form.Mileage1#">
+							<INPUT TYPE="hidden" NAME="Mileage2" VALUE="#Form.Mileage2#">
+							<INPUT TYPE="hidden" NAME="transmission" VALUE="#Form.Transmission#">
+						</FORM>
+					<cfelse>
+						<td>&nbsp;</td>
+					</CFIF>
+					<CFIF #END# LT #getSearchVehicles.RecordCount#>
+						<TD ALIGN=RIGHT>
+						<FONT FACE="arial,helvetica" SIZE=-1>
+						<BR><BR>
+						<FORM NAME="next" METHOD="post" ACTION="main.cfm?section=pr&search=yes&nav=next&liststep=#Evaluate(liststep+1)#">
+							<INPUT TYPE="Image" SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_next_nav.gif" BORDER=0 ALT="" OnMouseOver="self.status='Next Vehicle List';return true" OnMouseOut="self.status='';return true">
+							<BR>...more vehicles
+						</FONT>
+						</TD>
+							<INPUT TYPE="hidden" NAME="Make" VALUE="#Form.Make#">
+							<INPUT TYPE="hidden" NAME="Model" VALUE="#Form.Model#">
+							<INPUT TYPE="hidden" NAME="CarYear1" VALUE="#Form.CarYear1#">
+							<INPUT TYPE="hidden" NAME="CarYear2" VALUE="#Form.CarYear2#">
+							<INPUT TYPE="hidden" NAME="price1" VALUE="#Form.Price1#">
+							<INPUT TYPE="hidden" NAME="price2" VALUE="#Form.Price2#">
+							<INPUT TYPE="hidden" NAME="Mileage1" VALUE="#Form.Mileage1#">
+							<INPUT TYPE="hidden" NAME="Mileage2" VALUE="#Form.Mileage2#">
+							<INPUT TYPE="hidden" NAME="transmission" VALUE="#Form.Transmission#">
+						</FORM>
+					</CFIF>
+					</TR>
+					</TABLE>
+				</CFIF>							
+			<!--- Print list if total records <= 10 --->	
+			<CFELSEIF NOT #ISDEFINED("Url.Search")# AND #getUsedVeh.RecordCount# LTE 10>
+				Following are just some of the pre-owned vehicle values at #dealerinfo.dealershipname#.
+				<BR>
+				<I>(All vehicles subject to prior sale.)</I>
+				<BR><BR>
+				<!--- linda, 1/26/2000: need to filter out records that are dup except for the UsedVehID, 
+				so just find distinct VIN#s now. --->
+				<CFQUERY NAME="getvehicles" DATASOURCE="#gDSN#">
+					SELECT DISTINCT	
+							UsedVehicles.VIN,
+							UVMakes.MakeName, 
+							UVModels.ModelName, 
+							UsedVehicles.CarYear, 
+							UsedVehicles.price, 
+							UsedVehicles.mileage, 
+							UsedVehicles.Image
+					FROM 	(UsedVehicles 
+							INNER JOIN UVModels ON UsedVehicles.ModelNumber = UVModels.ModelNumber) 
+							INNER JOIN UVMakes ON UVModels.MakeNumber = UVMakes.MakeNumber
+							<CFIF #g_Col# IS "true">
+								INNER JOIN CollectionDealers ON UsedVehicles.DealerCode = CollectionDealers.DealerCode
+								WHERE CollectionDealers.Coll_DealerCode='#dealerinfo.dealercode#' AND UsedVehicles.NewUsed = 'N'
+							<cfelse>
+								WHERE UsedVehicles.dealercode='#dealerinfo.dealercode#' AND UsedVehicles.NewUsed = 'N'
+							</cfif>
+					ORDER BY UVMakes.MakeName, UVModels.ModelName, UsedVehicles.CarYear DESC, UsedVehicles.VIN						
+				</CFQUERY>
+				
+				<cfset rowcolor = 1>
+				
+				<!--- This extra table puts a border around the following table --->
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#thecolor#"><tr><td>
+				<table border="0" cellspacing="0" cellpadding="5">
+					<tr bgcolor="#thecolor#">
+						<th>
+							<FONT FACE="arial,helvetica" SIZE=-1 color="#textcolor#">
+							Make
+							</font>
+						</th>
+						<th>
+							<FONT FACE="arial,helvetica" SIZE=-1 color="#textcolor#">
+							Model
+							</font>
+						</th>
+						<th>
+							<FONT FACE="arial,helvetica" SIZE=-1 color="#textcolor#">
+							Year
+							</font>
+						</th>
+						<th>
+							<FONT FACE="arial,helvetica" SIZE=-1 color="#textcolor#">
+							Price
+							</font>
+						</th>
+						<th>
+							<FONT FACE="arial,helvetica" SIZE=-1 color="#textcolor#">
+							Mileage
+							</font>
+						</th>
+						<th>
+							<FONT FACE="arial,helvetica" SIZE=-1 color="#textcolor#">
+							Photo
+							</font>
+						</th>
+					</tr>
+					
+					<CFLOOP QUERY="getvehicles">
+						<cfquery name="getID" datasource="#gDSN#">
+							SELECT	UsedVehicleID
+							FROM	UsedVehicles
+							WHERE	VIN = '#VIN#'
+						</cfquery>
+						<cfif rowcolor eq 2>
+							<cfset rowcolor = 0>
+							<cfset bgcol = "bgcolor='#thirdcolor#'">
+						<cfelse>
+							<cfset bgcol = "bgcolor='white'">
+						</cfif>
+						<cfset rowcolor = rowcolor + 1>
+						<tr #bgcol#>
+							<TD>
+								<FONT FACE="arial,helvetica" SIZE=-1 color="Black">
+									<!--- linda, 1/25/2000: used to be id=#UsedVehicleID# --->
+									<B><A HREF="main.cfm?section=pr&subsection=details&id=#getID.UsedVehicleID#">#MakeName#</A></B>
+								</FONT>
+							</TD>
+							<TD>
+								<FONT FACE="arial,helvetica" SIZE=-1 color="Black">
+									<B><A HREF="main.cfm?section=pr&subsection=details&id=#getID.UsedVehicleID#">#ModelName#</A></B>
+								</FONT>
+							</TD>
+							<TD>
+								<FONT FACE="arial,helvetica" SIZE=-1 color="Black">
+									<B><A HREF="main.cfm?section=pr&subsection=details&id=#getID.UsedVehicleID#">#caryear#</A></B>
+								</FONT>
+							</TD>
+							<td align="right">
+								<FONT FACE="arial,helvetica" SIZE=-1 color="Black">
+									<!--- linda, 10/18/99: to compensate for incomplete ($0) or invalid ($1) data --->
+									<cfif #Price# GTE 10>#DollarFormat(Price)#<cfelse>&nbsp;</cfif>
+								</font>
+							</td>
+							<td align="right">
+								<FONT FACE="arial,helvetica" SIZE=-1 color="Black">
+									<!--- linda, 1/27/2000: to compensate for invalid (5 miles) data --->
+									<CFIF #MILEAGE# GTE 100>#NumberFormat(Mileage)#<cfelse>&nbsp;</cfif>
+								</font>
+							</td>
+							<td align="center">
+								<CFIF #Image# IS 'Y'><A HREF="main.cfm?section=pr&subsection=details&id=#getID.UsedVehicleID#"><IMG SRC="#application.RELATIVE_PATH#/images/admin/camera.gif" BORDER=0 ALT="Photo"></a><cfelse>&nbsp;</cfif>
+							</td>
+						</TR>
+					</CFLOOP>
+				</TABLE>
+				</td></tr></table>
+			<!---if more than 10 distinct vehicles, send them to the search form--->
+			<CFELSE>
+				<CFINCLUDE TEMPLATE="pr_search.htm">
+			</CFIF>
+		</CFIF>
+		</FONT>
+	</TD>
+</TR>
+</CFOUTPUT>
+
+<!--- Pre-Owned Hours of Operation.  Added by bbickel --->
+<CFIF NOT ISDEFINED("URL.search")>
+
+	<CFQUERY NAME="getDLRHours" DATASOURCE="#gDSN#">
+	    SELECT	DayOfWeek,
+				UsedOpen,
+				UsedClose
+		FROM	HoursOfOperation
+		WHERE	DealerCode = '#dealerinfo.dealercode#'
+		ORDER BY DayOfWeek
+	</CFQUERY>
+	
+	<cfif getDLRHours.recordcount>
+		<tr>
+			<td>
+				<br>
+				<TABLE align="center" CELLPADDING=3 CELLSPACING=1 BORDER=1>
+				<cfoutput>
+				<TR>
+					<TD BGCOLOR=#thecolor#>
+						&nbsp;
+					</TD>
+					<TD BGCOLOR=#thecolor#>
+						<FONT size=-1 FACE="arial,helvetica" COLOR=#textcolor#>
+							<B>Pre-Owned Hours of Operation</B>
+						</FONT>
+					</TD>
+				</TR>
+				</cfoutput>
+				<CFOUTPUT QUERY="getDLRHours" GROUP="DayOfWeek">
+				<TR>
+					<TD BGCOLOR=#theothercolor#>
+						<FONT size=-1 FACE="arial,helvetica" COLOR=#othertextcolor#>
+							<CFIF DayOfWeek EQ '1'><B>Mon</B>
+							<CFELSEIF DayOfWeek EQ '2'><B>Tue</B>
+							<CFELSEIF DayOfWeek EQ '3'><B>Wed</B>
+							<CFELSEIF DayOfWeek EQ '4'><B>Thu</B>
+							<CFELSEIF DayOfWeek EQ '5'><B>Fri</B>
+							<CFELSEIF DayOfWeek EQ '6'><B>Sat</B>
+							<CFELSEIF DayOfWeek EQ '7'><B>Sun</B>
+							</CFIF>
+						</FONT>
+					</TD>
+					<CFIF UsedOpen CONTAINS "Closed">
+						<TD ALIGN=CENTER>
+							<FONT SIZE=1 FACE="arial,helvetica">
+							Closed
+							</FONT>
+						</TD>
+					<CFELSE>
+						<TD align="center">
+							<FONT SIZE=1 FACE="arial,helvetica">
+							#UsedOpen# to
+							#UsedClose#
+							</FONT>
+						</TD>
+					</CFIF>
+				</tr>
+				</cfoutput>
+				</table>
+			</td>
+		</tr>
+	</cfif>
+</cfif>
+</TABLE>

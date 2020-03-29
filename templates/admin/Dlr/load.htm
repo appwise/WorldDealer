@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<HTML>
+
+    <!-- ----------------------------------------------------------- -->
+    <!--   Created by sigma6, Detroit           -->
+    <!--      Copyright (c) 1997, 1998, 1999 sigma6.                 -->
+    <!-- All Rights Reserved.  Copyright Does Not Imply Publication. -->
+    <!--               conceive : construct : connect                -->
+    <!-- ----------------------------------------------------------- -->
+    <!-- ----------------------------------------------------------- -->
+    <!--     John Turner for sigma6, interactive media, Detroit      -->
+    <!--    jturner@sigma6.com   www.sigma6.com    www.s6313.com     -->
+    <!--               conceive : construct : connect                -->
+    <!-- ----------------------------------------------------------- -->
+    <!-- ----------------------------------------------------------- -->
+    <!-- Updated by Alan Warchuck Sigma6, interactive media, Detroit -->
+    <!--  awarchuck@sigma6.com   www.sigma6.com    www.s6313.com     -->
+    <!--               conceive : construct : connect                -->
+    <!-- ----------------------------------------------------------- -->
+	<!--- $Id: load.htm,v 1.6 1999/11/29 16:34:04 lswanson Exp $ --->
+
+<HEAD>
+
+	<TITLE>WorldDealer | Enter Dealer Information</TITLE>
+
+	<!--- so the background doesn't repeat --->
+	<link rel=stylesheet href="admin.css" type="text/css">
+
+</HEAD>
+
+<body>
+<br><br><br><br><br>
+
+
+<div align="center">
+<TABLE CELLPADDING=0 CELLSPACING=0 BORDER=0 WIDTH=410 BGCOLOR="FFFFFF">
+<TR><TD>&nbsp;<p></TD></TR>
+<TR ALIGN="center">
+	<TD ALIGN="middle"><h3>Dealer Administration - Enter and View Information</h3></TD>
+</TR>
+<TR><TD>&nbsp;<p></TD></TR>
+<TR ALIGN=center>
+	<TD>
+	<FORM NAME="MainMenu" ACTION="loadflow.cfm" METHOD="post">
+	<TABLE CELLPADDING=0 CELLSPACING=0 BORDER=0>
+	<TR>
+		<TD ALIGN="right">Find/Modify a Dealer Already Submitted</TD>
+		<TD>&nbsp;&nbsp;&nbsp;</TD>                             
+		<TD><INPUT TYPE="submit" NAME="FindDealer" VALUE="GO!"></TD>
+	</TR>
+	<TR><TD COLSPAN=3>&nbsp;<p></TD></TR>
+	<TR>
+		<TD ALIGN="right">View/Print Dealer info</TD>
+		<TD>&nbsp;&nbsp;&nbsp;</TD>                             
+		<TD><INPUT TYPE="Image" SRC="<CFOUTPUT>#application.RELATIVE_PATH#</CFOUTPUT>/images/admin/go_nav.jpg" Border="0" NAME="ViewPrint" VALUE="GO!"></TD>
+	</TR>
+	<TR><TD COLSPAN=3>&nbsp;<p></TD></TR>
+	<TR>
+		<TD ALIGN="right">Submit a New Dealer</TD>
+		<TD>&nbsp;&nbsp;&nbsp;</TD>                             
+		<TD><INPUT TYPE="Image" SRC="<CFOUTPUT>#application.RELATIVE_PATH#</CFOUTPUT>/images/admin/go_nav.jpg" Border="0" NAME="NewDealer" VALUE="GO!"></TD>
+	</TR>
+	<TR><TD COLSPAN=3>&nbsp;<p></TD></TR>
+	<TR>
+		<TD ALIGN="right">Maintain the list of Account Executives</TD>
+		<TD>&nbsp;&nbsp;&nbsp;</TD>                             
+		<TD><INPUT TYPE="Image" SRC="<CFOUTPUT>#application.RELATIVE_PATH#</CFOUTPUT>/images/admin/go_nav.jpg" Border="0" NAME="AE" VALUE="GO!"></TD>
+	</TR>
+	<TR><TD COLSPAN=3>&nbsp;<p></TD></TR>
+	<TR>
+		<TD ALIGN="right">Maintain the list of Account Co-ordinators</TD>
+		<TD>&nbsp;&nbsp;&nbsp;</TD>                             
+		<TD><INPUT TYPE="Image" SRC="<CFOUTPUT>#application.RELATIVE_PATH#</CFOUTPUT>/images/admin/go_nav.jpg" Border="0" NAME="AC" VALUE="GO!"></TD>
+	</TR>
+	</TABLE>
+	</FORM>
+</TD>
+</TR>
+<TR><TD>&nbsp;<p></TD></TR>
+        
+</TABLE>
+</div>
+
+
+
+</BODY>
+
+</HTML>
+

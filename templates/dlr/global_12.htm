@@ -1,0 +1,122 @@
+<!-- ----------------------------------------------------------- -->
+<!--                 Created by Sigma6, Inc.                     -->
+<!--             Copyright (c) 1997, 1998, 1999 Sigma6, Inc.     -->
+<!-- All Rights Reserved.  Copyright Does Not Imply Publication. -->
+<!-- ----------------------------------------------------------- -->
+<!-- ----------------------------------------------------------- -->
+<!--           Sigma6, interactive media, Detroit/NYC            -->
+<!--               conceive : construct : connect                -->
+<!--   www.sigma6.com   webmaster@sigma6.com   info@sigma6.com   -->
+<!--                                                             -->
+<!--   Last updated: <October 1, 1999>                           -->
+<!-- ----------------------------------------------------------- -->
+<!--     Bryan Bickel for sigma6, interactive media, Detroit     -->
+<!--   bbickel@sigma6.com   www.sigma6.com    www.s6313.com      -->
+<!--               conceive : construct : connect                -->
+<!-- ----------------------------------------------------------- -->
+<!-- ----------------------------------------------------------- -->
+<!-- Sigma6, s6, and the Sigma6 logos are registered trademarks. -->
+<!-- All other trademarks and servicemarks are the property of   -->
+<!-- their respective owners.                                    -->
+<!-- ----------------------------------------------------------- -->
+<!--- $Id: global_12.htm,v 1.5 2000/05/25 18:15:51 bbickel Exp $ --->
+<!--- City Scape Globals --->
+
+<!------- NAVIGATION VARIABLES------------------------------------------------->
+<CFSET onoff = "false">  <!--- whether there's a separate leftnav image (up / down image) for section you're in --->
+<CFSET thespace = "false">	<!--- whether to insert blank spaces between LeftNav buttons --->
+<CFSET thefooter = "false">		<!--- Back to Top footer --->
+<CFSET leftnavbase = "false">  <!--- whether it has the nav_base_nav.gif at the bottom of the leftnav --->
+
+<!--------------leftnav width and height----------------->
+<CFOUTPUT>
+<!--- Collections --->
+<CFIF Mid(#dealerinfo.dealercode#, 6, 4) EQ '0000'>
+	<CFSET shw = 122><!---SH--->
+	<CFSET shh = 23>
+	<CFSET prw = 122><!---PR--->
+	<CFSET prh = 24>
+	<CFSET vew = 122><!---VE--->
+	<CFSET veh = 24>
+	<CFSET fiw = 122><!---FI--->
+	<CFSET fih = 24>
+	<CFSET lew = 122><!---LE--->
+	<CFSET leh = 24>
+	<CFSET advw = 122><!---ADV--->
+	<CFSET advh = 36>
+	<CFSET dlw = 122><!---DL--->
+	<CFSET dlh = 23>
+	<CFSET caw = 122><!---CA--->
+	<CFSET cah = 24>
+	<CFSET nocaw = 122><!---no CA--->
+	<CFSET nocah = 24>
+ <CFELSE>
+<!---Dealerships ------>
+    <CFSET shw = 124><!---SH--->
+	<CFSET shh = 19>
+	<CFSET prw = 124><!---PR--->
+	<CFSET prh = 23>
+	<CFSET quw = 124><!---QU--->
+	<CFSET quh = 25>
+	<CFSET fiw = 124><!---FI--->
+	<CFSET fih = 23>
+	<CFSET lew = 124><!---LE--->
+	<CFSET leh = 25>
+	<CFSET advw = 124><!---ADV--->
+	<CFSET advh = 36>
+	<CFSET sew = 124><!---SE--->
+	<CFSET seh = 23>
+	<CFSET dew = 124><!---DE--->
+	<CFSET deh = 24>
+	<CFSET maw = 124><!---MA--->
+	<CFSET mah = 24>
+	<CFSET cow = 124><!---CO--->
+	<CFSET coh = 25>
+	<CFSET caw = 124><!---CA--->
+	<CFSET cah = 25>
+	<CFSET nocaw = 124><!---no CA--->
+	<CFSET nocah = 25>
+</CFIF>
+</CFOUTPUT>
+
+<!--- other images width & height --->
+<CFSET seapptw = 138>		<!--- service appt --->
+<CFSET seappth = 29>
+<CFSET separtw = 138>		<!--- parts request --->
+<CFSET separth = 29>
+<CFSET whow = 282>			<!--- who we are --->
+<CFSET whoh = 24>
+<CFSET whyw = 287>			<!--- why we're different --->
+<CFSET whyh = 22>
+
+
+<!---COLORS FOR BGs AND FONTS-------------------------------------------------->
+<CFSET thecolor = "005599"> <!--- blue --->
+<CFSET theothercolor = "6699cc">	<!--- lighter blue --->
+<CFSET textcolor = "ffffff">
+<CFSET othertextcolor = "ffffff">
+<CFSET thirdcolor ="EFF2F5">
+
+<CFOUTPUT>
+<BODY
+		<CFIF section CONTAINS "sp">
+		<CFELSE>
+			BackGround="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/bg.gif"
+		</CFIF>
+		BGCOLOR="ffffff"
+		TEXT="000000"
+		LINK="0033cc"	<!---blue --->
+		ALINK="000033"	<!--- dk. blue--->
+		VLINK="000033"
+		BGPROPERTIES="fixed"
+		MARGINWIDTH="0"	<!--- so the body starts in the absolute upper left corner --->
+		MARGINHEIGHT="0"
+		leftmargin="0"
+		topmargin="0">
+</cfoutput>		
+
+<!---Are the "why we are different" and "who we are" formatted side to side or break line?-------->
+<CFSET whyweare = "break">
+
+<!---This Sets whether the manufacturer logos are black or white-------->
+<CFSET make_logo_blk = "n">

@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!---
+Created by Sigma6, Inc.
+Copyright (c) 1998 Sigma6, Inc.
+All Rights Reserved.  Used By Permission.
+
+Sigma6, interactive media, Detroit/NYC
+conceive : construct : connect
+www.sigma6.com   webmaster@sigma6.com   info@sigma6.com
+
+Last updated: <May 27, 1998>
+
+Daniel Fettinger for sigma6, interactive media, Detroit
+dfettinger@sigma6.com   www.sigma6.com    www.s6313.com
+conceive : construct : connect
+
+Sigma6, s6, and the Sigma6 logos are registered trademarks.
+All other trademarks and servicemarks are the property of
+their respective owners.
+--->
+<!--- Reflections Template (formerly known as Suburbs Template) --->
+
+<HTML>
+	<!--- $Id: template_3.htm,v 1.12 1999/11/29 20:09:42 lswanson Exp $ --->
+
+<HEAD>
+
+	<TITLE><CFOUTPUT>#dealerinfo.dealershipname#</CFOUTPUT></TITLE>
+
+</HEAD>
+
+<CFINCLUDE TEMPLATE="global_3.htm">
+
+<!--- BEGIN BODY --->
+<A NAME="top"></a>  <!--- for "Back to Top" footer --->
+
+<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0>
+<TR>
+	<TD Align="left" VALIGN=TOP WIDTH=160 rowspan="2">  <!--- width of 160, though images are just 126: builds in extra white space to the Right --->
+<!---------------------------------------------------------------------------------LEFT COLUMN------------------------------------>
+		<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0>
+		<TR><TD VALIGN="BOTTOM">
+				<CFOUTPUT>
+				<A HREF="index.cfm?dealercode=#dealerinfo.dealercode#"
+				TITLE="Return to #dealerinfo.dealershipname#'s Home Page"
+				OnMouseOver="self.status='Return to #Replace(dealerinfo.dealershipname, "'", "\'")#\'s Home Page';return true"
+				OnMouseOut="self.status='';return true"><IMG
+				SRC="#application.RELATIVE_PATH#/images/logo/#dealerinfo.dealercode#_3_logo_hea.gif"
+				WIDTH=125
+				HEIGHT=86
+				BORDER=0
+				ALT="#dealerinfo.dealershipname#"></A></CFOUTPUT></TD>
+		</TR>
+		<TR>
+			<TD valign="top">
+				<CFINCLUDE TEMPLATE="leftnav.htm"></TD>
+		</TR>
+		</TABLE>
+<!-----------------------------------------------------------------------------------END LEFT COLUMN---------------------------------->
+	</TD>
+	<TD align="center" valign="top"> 
+<!------------------------------------------------------------------------------------MAIN COLUMN--------------------------------------->
+		<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 WIDTH=450>
+<!---------------------------------------------------------BANNER/TITLE/SERVICE------------------------------->
+		<TR>
+			<TD ALIGN="CENTER">
+				<CFINCLUDE TEMPLATE="banner.htm">
+			</TD>
+		</TR>
+<!--- 	<TR>
+			<TD>
+				&nbsp;
+			</td>
+		</tr>
+ --->		<TR>
+			<TD Align="CENTER"><IMG
+				SRC="<CFOUTPUT>#application.RELATIVE_PATH#</CFOUTPUT>/images/3/tle_<CFOUTPUT>#section#</CFOUTPUT>_hea.gif"
+				BORDER=0
+				WIDTH=401
+				HEIGHT=29
+				ALT="">
+			</TD>
+		</TR>
+		<TR>
+			<TD>
+				<P>&nbsp;</P>
+			</td>
+		</tr>
+
+<!--- MAIN BODY --->
+		<TR>
+			<TD VALIGN=TOP ALIGN=CENTER>
+				<TABLE BORDER=0 WIDTH=400>
+				<TR>
+					<TD>
+						<CFIF IsDefined("subsection")>
+							<CFSET themain = "#section#_#subsection#">
+						<CFELSE>				
+							<CFSET themain = "#section#">
+						</CFIF>
+						<CFINCLUDE TEMPLATE="#themain#.htm">			
+					</TD>
+				</TR>
+				</TABLE>
+			</TD>
+		</TR>
+		</table>
+	</td>
+</tr>
+<!--------------------------------------------------------------------------------END MAIN COLUMN--------------------------------------->
+<!--- FOOTER --->
+<tr>
+<!--- 	<td></td>	 --->
+	<TD ALIGN=CENTER valign="bottom">
+		<BR><BR>
+		<CFINCLUDE TEMPLATE="footer.htm">
+		<br><br>
+		<!--- if it's Suburban Collection, show their unique footer, otherwise show generic one --->
+		<CFIF #thefooter# IS "true">
+			<A HREF="#top"
+				TITLE="Back to Top"
+				OnMouseOver="self.status='Back to Top';return true"
+				OnMouseOut="self.status='';return true"><IMG
+				SRC="<CFOUTPUT>#application.RELATIVE_PATH#</cfoutput>/images/3/<CFIF Left(#dealerinfo.dealercode#, 4) IS '0004'>nav_foot_nav_sc.gif<CFELSE>nav_foot_nav.gif</CFIF>"
+				BORDER=0
+				WIDTH=400
+				HEIGHT=20
+				ALT="Back to Top"></A>
+		</CFIF>
+	</TD>
+</TR>
+</TABLE>
+<!---------------------------------------------------------------------------------END BODY---------------------------------------------------------->

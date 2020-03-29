@@ -1,0 +1,304 @@
+<!---
+Created by Sigma6, Inc.
+Copyright (c) 1998 Sigma6, Inc.
+All Rights Reserved.  Used By Permission.
+
+Sigma6, interactive media, Detroit/NYC
+conceive : construct : connect
+www.sigma6.com   webmaster@sigma6.com   info@sigma6.com
+
+Last updated: <May 27, 1998>
+
+Daniel Fettinger for sigma6, interactive media, Detroit
+dfettinger@sigma6.com   www.sigma6.com    www.s6313.com
+conceive : construct : connect
+
+Sigma6, s6, and the Sigma6 logos are registered trademarks.
+All other trademarks and servicemarks are the property of
+their respective owners.
+--->
+
+<CFQUERY NAME="getblurb" DATASOURCE="#gDSN#">
+	SELECT	DealerProfileMainText as q_DlrProfileTxt_unformat,
+			BodyShopYesNo
+	FROM	DealerWebs
+	WHERE	dealercode = '#dealerinfo.dealercode#';
+</CFQUERY>
+
+<CFQUERY NAME="getDLRHours" DATASOURCE="#gDSN#">
+    SELECT	DayOfWeek,
+			SalesOpen,
+			SalesClose,
+			UsedOpen,
+			UsedClose,
+			ServiceOpen,
+			ServiceClose,
+			PartsOpen,
+			PartsClose
+			<CFIF getblurb.BodyShopYesNo IS 'Y'>,
+			   BodyShopOpen,
+			   BodyShopClose
+			</CFIF>
+	FROM	HoursOfOperation
+	WHERE	DealerCode = '#dealerinfo.dealercode#'
+	ORDER BY DayOfWeek
+</CFQUERY>
+
+<!--- Format Who We Are text --->
+<cfif #trim(getblurb.q_DlrProfileTxt_unformat)# neq ''>
+	<CFSET temp = #getblurb.q_DlrProfileTxt_unformat#>
+	<CFSET start_pos = 1>
+	<CFLOOP from=1 to=3 index="count">
+			<CFSET #start_pos# = #Find("~~",temp,start_pos)#>
+		<CFIF #start_pos#>  <!--- IS NOT 0 --->
+			<CFSET #temp# = #RemoveChars(temp,start_pos,4)#>
+			<CFSET #start_pos# = #start_pos# + 4>
+		<CFELSE>
+			<CFBREAK>
+		</CFIF>
+	</CFLOOP>
+	<CFSET #q_DealerProfileMainText# = #temp#>
+</cfif>
+
+<CFOUTPUT>
+<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0 width="100%">
+<!--- Dealership Name, Tagline --->
+<TR>
+	<TD ALIGN=CENTER>
+		<BR>
+		<FONT FACE="arial,helvetica">
+			<B>#dealerinfo.dealershipname#</B>
+		</FONT>
+		<BR>
+		<FONT SIZE=-1 FACE="arial,helvetica" COLOR=#thecolor#>
+			<I>#dealerinfo.tagline#</I>
+		</font>
+		<BR><br>
+	</td>
+</tr>	
+<!--- Who We Are --->
+<cfif #trim(getblurb.q_DlrProfileTxt_unformat)# neq ''>
+	<tr>
+		<td>
+			<TABLE BORDER=0 CELLSPACING=7 CELLPADDING=0>
+			<TR>
+				<TD valign="top">
+					<IMG SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/tle_whoweare_hea.gif"
+					BORDER=0
+					WIDTH=#whow#
+					HEIGHT=#whoh#
+					ALT="Who We Are">
+					<!---why we are different (& who we are) is formatted with a break line (vs. side-to-side) -------->							
+					<CFIF whyweare IS "break">
+						<BR><BR>
+					<CFELSE>
+						</TD>
+						<TD>
+					</CFIF>
+			
+					<FONT size=-1 FACE="arial,helvetica">
+					#q_DealerProfileMainText#
+					</FONT>
+				</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+</cfif>
+<!--- Contact Info --->
+<tr align="center">
+	<td>
+		<BR><BR>
+		<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=3>
+		<TR>
+			<TD COLSPAN=2 BGCOLOR=#thecolor#>
+				<FONT size=-1 FACE="arial,helvetica" COLOR=#textcolor#>
+					<B>Contact Information</B>
+				</FONT>
+			</TD>
+		</TR>
+		<TR>
+			<TD VALIGN=TOP BGCOLOR=#theothercolor#>
+				<FONT size=-1 FACE="arial,helvetica" COLOR=#othertextcolor#>
+					<B>Contact:</B>
+				</FONT>
+			</TD>
+			<TD>
+				<FONT size=-1 FACE="arial,helvetica">
+					#dealerinfo.ContactName#
+				</FONT>
+			</TD>
+		</TR>
+		<TR>
+			<TD VALIGN=TOP BGCOLOR=#theothercolor#>
+				<FONT size=-1 FACE="arial,helvetica" COLOR=#othertextcolor#>
+					<B>Address:</B>
+				</FONT>
+			</TD>
+			<TD>
+				<FONT size=-1 FACE="arial,helvetica">
+					#dealerinfo.Addressline1#<BR>
+					#dealerinfo.Addressline2#<BR>
+					#dealerinfo.City#, #dealerinfo.stateabbr# &nbsp;#dealerinfo.zip#
+				</FONT>
+			</TD>
+		</TR>
+		<TR>
+			<TD VALIGN=TOP BGCOLOR=#theothercolor#>
+				<FONT size=-1 FACE="arial,helvetica" COLOR=#othertextcolor#>
+					<B>Phone:</B>
+				</FONT>
+			</TD>
+			<TD>
+				<FONT size=-1 FACE="arial,helvetica">
+					#Left(dealerinfo.phone,3)#-#Mid(dealerinfo.phone,4,3)#-#Mid(dealerinfo.phone,7,4)#<br>
+					<cfif #dealerinfo.secondphone# IS NOT "">
+						#Left(dealerinfo.secondPhone,3)#-#Mid(dealerinfo.secondPhone,4,3)#-#Mid(dealerinfo.secondPhone,7,4)#
+					</cfif>
+				</FONT>
+			</TD>
+		</TR>
+		<TR>
+			<TD VALIGN=TOP BGCOLOR=#theothercolor#>
+				<FONT size=-1 FACE="arial,helvetica" COLOR=#othertextcolor#>
+					<B>Email:</B>
+				</FONT>
+			</TD>
+			<TD>
+				<FONT size=-1 FACE="arial,helvetica">
+					<A HREF="mailto:#dealerinfo.email#?Subject=Web Site Email">#dealerinfo.Email#</A>
+				</FONT>
+			</TD>
+		</TR>
+		</TABLE>
+	</td>
+</tr>
+</CFOUTPUT>
+<!--- Hours of Operation --->
+<cfif getDLRHours.recordcount>
+	<tr align="center">
+		<td>
+			<BR><BR>
+			<TABLE BORDER=1 CELLPADDING=3 CELLSPACING=1>
+			<CFOUTPUT>
+			<TR ALIGN=CENTER>
+				<TD align="center" BGCOLOR=#thecolor#>
+					&nbsp;
+				</TD>
+				<TD align="center" BGCOLOR=#thecolor#>
+					<FONT size=-1 FACE="arial,helvetica" COLOR=#textcolor#>
+						<B>Showroom</B>
+					</FONT>
+				</TD>
+				<TD align="center" BGCOLOR=#thecolor#>
+					<FONT size=-1 FACE="arial,helvetica" COLOR=#textcolor#>
+						<B>Pre-Owned</B>
+					</FONT>
+				</TD>
+				<TD align="center" BGCOLOR=#thecolor#>
+					<FONT size=-1 FACE="arial,helvetica" COLOR=#textcolor#>
+						<B>Service</B>
+					</FONT>
+				</TD>
+				<TD align="center" BGCOLOR=#thecolor#>
+					<FONT size=-1 FACE="arial,helvetica" COLOR=#textcolor#>
+						<B>Parts</B>
+					</FONT>
+				</TD>
+				<CFIF getblurb.BodyShopYesNo IS 'Y'>
+					<TD align="center" BGCOLOR=#thecolor#>
+						<FONT size=-1 FACE="arial,helvetica" COLOR=#textcolor#>
+							<B>Body Shop</B>
+						</FONT>
+					</TD>
+				</CFIF>
+			</TR>
+			</CFOUTPUT>
+			<CFOUTPUT QUERY="getDLRHours" GROUP="DayOfWeek">
+			<TR VALIGN=center>
+				<TD BGCOLOR=#theothercolor#>
+					<FONT size=-1 FACE="arial,helvetica" COLOR=#othertextcolor#>
+					<CFIF DayOfWeek EQ '1'><B>Mon</B>
+					<CFELSEIF DayOfWeek EQ '2'><B>Tue</B>
+					<CFELSEIF DayOfWeek EQ '3'><B>Wed</B>
+					<CFELSEIF DayOfWeek EQ '4'><B>Thu</B>
+					<CFELSEIF DayOfWeek EQ '5'><B>Fri</B>
+					<CFELSEIF DayOfWeek EQ '6'><B>Sat</B>
+					<CFELSEIF DayOfWeek EQ '7'><B>Sun</B>
+					</CFIF>
+					</FONT>
+				</TD>
+				<CFIF SalesOpen CONTAINS "Closed">
+					<TD ALIGN=CENTER>
+						<FONT SIZE=1 FACE="arial,helvetica">
+						Closed
+						</FONT>
+					</TD>
+				<CFELSE>
+					<TD align="center">
+						<FONT SIZE=1 FACE="arial,helvetica">
+						#SalesOpen# to<br> #SalesClose#
+						</FONT>
+					</TD>
+				</CFIF>
+				<CFIF UsedOpen CONTAINS "Closed">
+					<TD ALIGN=CENTER>
+						<FONT SIZE=1 FACE="arial,helvetica">
+						Closed
+						</FONT>
+					</TD>
+				<CFELSE>
+					<TD align="center">
+						<FONT SIZE=1 FACE="arial,helvetica">
+						#UsedOpen# to<br> #UsedClose#
+						</FONT>
+					</TD>
+				</CFIF>
+				<CFIF ServiceOpen CONTAINS "Closed">
+					<TD ALIGN=CENTER>
+						<FONT SIZE=1 FACE="arial,helvetica">
+						Closed
+						</FONT>
+					</TD>
+				<CFELSE>
+					<TD align="center">
+						<FONT SIZE=1 FACE="arial,helvetica">
+						#ServiceOpen# to<br> #ServiceClose#
+						</FONT>
+					</TD>
+				</CFIF>
+				<CFIF PartsOpen CONTAINS "Closed">
+					<TD ALIGN=CENTER>
+						<FONT SIZE=1 FACE="arial,helvetica">
+						Closed
+						</FONT>
+					</TD>
+				<CFELSE>
+					<TD align="center">
+						<FONT SIZE=1 FACE="arial,helvetica">
+						#PartsOpen# to<br> #PartsClose#
+						</FONT>
+					</TD>
+				</CFIF>
+				<CFIF getblurb.BodyShopYesNo IS 'Y'>
+					<CFIF BodyShopOpen CONTAINS "Closed">
+						<TD ALIGN=CENTER>
+							<FONT SIZE=1 FACE="arial,helvetica">
+							Closed
+							</FONT>
+						</TD>
+					<CFELSE>
+						<TD align="center">
+							<FONT SIZE=1 FACE="arial,helvetica">
+							#BodyShopOpen# to<br> #BodyShopClose#
+							</FONT>
+						</TD>
+					</CFIF>
+				</CFIF>
+				</CFOUTPUT>
+			</TR>
+			</TABLE>
+		</td>
+	</tr>
+</cfif>	
+</TABLE>

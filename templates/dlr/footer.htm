@@ -1,0 +1,192 @@
+<!---
+Created by Sigma6, Inc.
+Copyright (c) 1998 Sigma6, Inc.
+All Rights Reserved.  Used By Permission.
+
+Sigma6, interactive media, Detroit/NYC
+conceive : construct : connect
+www.sigma6.com   webmaster@sigma6.com   info@sigma6.com
+
+Last updated: <May 27, 1998>
+
+Daniel Fettinger for sigma6, interactive media, Detroit
+dfettinger@sigma6.com   www.sigma6.com    www.s6313.com
+conceive : construct : connect
+
+Sigma6, s6, and the Sigma6 logos are registered trademarks.
+All other trademarks and servicemarks are the property of
+their respective owners.
+--->
+<!--- $Id: footer.htm,v 1.11 2000/05/11 19:32:59 jkrauss Exp $ --->
+
+<CFOUTPUT>
+<!--- Request a Quote button --->
+<CFIF #section# IS  "sh" or #section# IS  "nv">
+	<!--- Issue: CFIF #g_Col# EQ "true" - this means if the dealer is part of a collection --->
+	<!--- for collections, it used to have: &id=#URLEncodedFormat(getvehicle.UsedVehicleID)#.  changed to #URL.id# --->
+<A HREF="main.cfm?section=<CFIF #g_Col# EQ "true">ve<cfelse>qu</cfif><CFIF IsDefined("sh_vehicle")>&modelid=#URL.modelid#<CFIF #ParameterExists(URL.shdealer)#>&shdealer=#URL.shdealer#</cfif><CFELSEIF IsDefined("pr_vehicle")>&id=#URL.id#</CFIF>"
+		TITLE="Request a Quote"
+		OnMouseOver="self.status='Request a Quote';return true"
+		OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/nav_qu_nav_low.gif"
+			<!--- SRC="../../images/common/GetQuote.gif" --->
+			BORDER=0
+			ALT="Request a Quote"></A>
+<CFIF #section# IS NOT  "nv">
+<A HREF="main.cfm?section=nv<CFIF IsDefined("sh_vehicle")>&modelid=#URL.modelid#<CFIF #ParameterExists(URL.shdealer)#>&shdealer=#URL.shdealer#</cfif><CFELSEIF IsDefined("pr_vehicle")>&id=#URL.id#</CFIF>"
+		TITLE="New Inventory"
+		OnMouseOver="self.status='New Inventory';return true"
+		OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/nav_pr_nav_low.gif"
+			<!--- SRC="../../images/common/NewInv.gif" --->
+			BORDER=0
+			ALT="New Inventory"></A>
+</cfif>
+<CFIF #section# IS NOT  "sh">		
+<A HREF="main.cfm?section=sh<CFIF IsDefined("sh_vehicle")>&modelid=#URL.modelid#<CFIF #ParameterExists(URL.shdealer)#>&shdealer=#URL.shdealer#</cfif><CFELSEIF IsDefined("pr_vehicle")>&id=#URL.id#</CFIF>"
+		TITLE="Return to Showroom"
+		OnMouseOver="self.status='Return to Showroom';return true"
+		OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/nav_sh_nav_low.gif"
+			<!--- SRC="../../images/common/ReturntoSh.gif" --->
+			BORDER=0
+			ALT="Return to Showroom"></A> 
+</cfif>	
+</CFIF>
+<br><br>
+
+<!--- Dealership Info --->
+<FONT SIZE=2 FACE="arial,helvetica">
+<B>#dealerinfo.dealershipname#</B>
+</FONT>
+<BR>
+<FONT SIZE=2 FACE="arial,helvetica" COLOR=#thecolor#>
+<cfif #trim(dealerinfo.TagLine)# IS NOT "">
+<I>#dealerinfo.TagLine#</I><BR>
+</cfif>
+</font>
+<FONT SIZE=2 FACE="arial,helvetica">
+<!--- Chris Wacker 11/09/2000 4:03 PM  Used my mod from sp_footer.cfm 
+
+
+#dealerinfo.addressline1#<cfif #trim(dealerinfo.addressline2)# is not "">, #dealerinfo.addressline2#</cfif>,  #dealerinfo.city#, #dealerinfo.stateabbr# #dealerinfo.zip#
+<br>Ph: #Left(dealerinfo.phone,3)#-#Mid(dealerinfo.phone,4,3)#-#Mid(dealerinfo.phone,7,4)#
+<cfif #Trim(dealerinfo.secondphone)# IS NOT "">
+ or #Left(dealerinfo.secondPhone,3)#-#Mid(dealerinfo.secondPhone,4,3)#-#Mid(dealerinfo.secondPhone,7,4)#
+ </cfif>
+ linda, 1/10/99: fax number is now optional 
+<cfif #Trim(dealerinfo.Faxphone)# IS NOT "">
+	<br>Fx: #Left(dealerinfo.Faxphone,3)#-#Mid(dealerinfo.Faxphone,4,3)#-#Mid(dealerinfo.Faxphone,7,4)#
+</cfif> 
+--->
+
+<cfif #trim(dealerinfo.addressline1)# IS NOT "">
+				#dealerinfo.addressline1#
+		</cfif>
+		<cfif #trim(dealerinfo.addressline2)# IS NOT "">
+				#dealerinfo.addressline2#
+		</cfif>
+<!--- Chris Wacker 11/09/2000 4:11 PM 
+		OR condition checks if ANY value is not present THEN ignors total line output --->
+		<!--- <cfif #trim(dealerinfo.city)# IS NOT "" or #trim(dealerinfo.stateabbr)# IS NOT "" or #trim(dealerinfo.zip)# IS NOT "">
+				#dealerinfo.city#, #dealerinfo.stateabbr# #dealerinfo.zip# --->
+		<cfif #trim(dealerinfo.city)# IS NOT "">
+				#dealerinfo.city#
+		<cfelseif #trim(dealerinfo.stateabbr)# IS NOT "">
+				#dealerinfo.stateabbr#
+		<cfelseif #trim(dealerinfo.zip)# IS NOT "">
+				#dealerinfo.zip#
+		<cfelse>
+		<b>No City, State or Zip Code Avalaible</b>
+		</cfif>
+		<cfif      #trim(dealerinfo.phone)# IS NOT "">
+				<br>Ph: #Left(dealerinfo.phone,3)#-#Mid(dealerinfo.phone,4,3)#-#Mid(dealerinfo.phone,7,4)#
+		</cfif>
+		<cfif #Trim(dealerinfo.secondphone)# IS NOT "">
+ 				or #Left(dealerinfo.secondPhone,3)#-#Mid(dealerinfo.secondPhone,4,3)#-#Mid(dealerinfo.secondPhone,7,4)#
+ 		</cfif>
+		<cfif #Trim(dealerinfo.Faxphone)# IS NOT "">
+				<br>Fx: #Left(dealerinfo.Faxphone,3)#-#Mid(dealerinfo.Faxphone,4,3)#-#Mid(dealerinfo.Faxphone,7,4)#
+		</cfif>
+
+<CFIF #RTrim(dealerinfo.email)# IS NOT "">
+	<br>Email: <A HREF="mailto:#dealerinfo.email#?subject=#dealerinfo.dealershipname# Website Email"
+			OnMouseOver="self.status='Send Email to #Replace(dealerinfo.dealershipname, "'", "\'")#';return true"
+			OnMouseOut="self.status='';return true">#dealerinfo.email#</A>
+</CFIF>
+</FONT>
+<BR><BR>
+<!--- Text links that match Leftnav icons --->
+<FONT SIZE=1 FACE="arial,helvetica" COLOR=#thecolor#>
+<A HREF="index.cfm?dealercode=#dealerinfo.dealercode#"
+	TITLE="Return to #dealerinfo.dealershipname#'s Home Page"
+	OnMouseOver="self.status='Return to #Replace(dealerinfo.dealershipname, "'", "\'")#\'s Home Page';return true"
+	OnMouseOut="self.status='';return true">Home</A> |
+<A	HREF="main.cfm?section=sh"
+	TITLE="Browse our Showroom"
+	OnMouseOver="self.status='Browse our Showroom of New Vehicles';return true"
+	OnMouseOut="self.status='';return true">Showroom</A> |
+<A	HREF="main.cfm?section=pr"
+	TITLE="Our Pre-Owned inventory"
+	OnMouseOver="self.status='Browse our Inventory of Pre-Owned Vehicles';return true"
+	OnMouseOut="self.status='';return true">Pre-Owned</A> |
+<!--- if Collection, show Vehicle Inquiry --->
+<CFIF Mid(#dealerinfo.dealercode#, 6, 4) EQ '0000'>
+	<A	HREF="main.cfm?section=ve"
+		TITLE="Vehicle Inquiry"
+		OnMouseOver="self.status='Inquire About Our Vehicles';return true"
+		OnMouseOut="self.status='';return true">Vehicle Inquiry</A> |
+<CFELSE>
+	<!--- Else Dealership, show Quote --->
+	<A	HREF="main.cfm?section=qu"
+		TITLE="Request a Quote"
+		OnMouseOver="self.status='Request a Quote';return true"
+		OnMouseOut="self.status='';return true">Quote</A> |
+</CFIF>
+<A	HREF="main.cfm?section=fi"
+	TITLE="Financing inquiries"
+	OnMouseOver="self.status='Financing Inquiry Form';return true"
+	OnMouseOut="self.status='';return true">Financing</A> |
+<A	HREF="main.cfm?section=le"
+	TITLE="Lease vs. Buy"
+	OnMouseOver="self.status='Information about Leasing vs. Buying';return true"
+	OnMouseOut="self.status='';return true">Lease vs. Buy</A>
+<BR>
+<A	HREF="main.cfm?section=adv"
+	TITLE="Manufacturer's Advantage"
+	OnMouseOver="self.status='Information About Manufacturer\'s Advantage';return true"
+	OnMouseOut="self.status='';return true">Manufacturer's Advantage</A> |
+<!--- if Collection, show Dealer Locator --->
+<CFIF Mid(#dealerinfo.dealercode#, 6, 4) EQ '0000'>
+	<A	HREF="main.cfm?section=dl"
+		TITLE="Locate Dealerships Within #dealerinfo.dealershipname# Collection"
+		OnMouseOver="self.status='Locate Dealerships Within #Replace(dealerinfo.dealershipname, "'", "\'")# Collection';return true"
+		OnMouseOut="self.status='';return true">Dealer Locator</A>
+<CFELSE>
+	<!--- Else Dealer, show Service & Parts, Dealer Profile, Map, and Coupons --->
+	<A	HREF="main.cfm?section=se"
+		TITLE="Send a Service or Parts request"
+		OnMouseOver="self.status='Request a Part or Service Appointment Online';return true"
+		OnMouseOut="self.status='';return true">Service & Parts</A> |
+	<A	HREF="main.cfm?section=de"
+		TITLE="About #dealerinfo.dealershipname#"
+		OnMouseOver="self.status='Everything You Always Wanted to Know About #Replace(dealerinfo.dealershipname, "'", "\'")#';return true"
+		OnMouseOut="self.status='';return true">Dealer Profile</A> |
+	<A	HREF="main.cfm?section=ma"
+		TITLE="Maps to #dealerinfo.dealershipname#"
+		OnMouseOver="self.status='Maps to Help You Find #Replace(dealerinfo.dealershipname, "'", "\'")#';return true"
+		OnMouseOut="self.status='';return true">Map</A> |
+	<A	HREF="main.cfm?section=co"
+		TITLE="Printable Coupons"
+		OnMouseOver="self.status='Printable Coupons Redeemable at #Replace(dealerinfo.dealershipname, "'", "\'")#';return true"
+		OnMouseOut="self.status='';return true">Coupons</A>
+</CFIF>
+<CFIF arttempid.CalculatorYesNo IS 'Y'> |
+<A	HREF="main.cfm?section=ca"
+	TITLE="Payment Calculator"
+	OnMouseOver="self.status='Calculate a Payment';return true"
+	OnMouseOut="self.status='';return true">Calculator</A>
+</CFIF>
+</FONT>
+</CFOUTPUT>
+<!--- </body> --->

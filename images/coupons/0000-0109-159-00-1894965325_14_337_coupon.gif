@@ -1,0 +1,15 @@
+<h1>Error: 500</h1>
+<b>Internal Servlet Error:</b><br>
+<pre>
+javax.servlet.ServletException: The text justification string must be specified to create a text justification value
+	at ImageGenerator.doGet(ImageGenerator.java:155)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:516)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:611)
+	at com.sun.web.core.ServletWrapper.handleRequest(ServletWrapper.java:140)
+	at com.sun.web.core.InvokerServlet.service(InvokerServlet.java:169)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:611)
+	at com.sun.web.core.ServletWrapper.handleRequest(ServletWrapper.java:140)
+	at com.sun.web.core.Context.handleRequest(Context.java:375)
+	at com.sun.web.server.ConnectionHandler.run(ConnectionHandler.java:135)
+</pre>
+

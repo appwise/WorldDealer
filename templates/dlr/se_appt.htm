@@ -1,0 +1,1645 @@
+<!---
+Created by Sigma6, Inc.
+Copyright (c) 1998 Sigma6, Inc.
+All Rights Reserved.  Used By Permission.
+Sigma6, interactive media, Detroit/NYC
+conceive : construct : connect
+www.sigma6.com   webmaster@sigma6.com   info@sigma6.com
+Last updated: <February 25, 1999>
+Daniel Fettinger, Linda Swanson for sigma6, interactive media, Detroit
+dfettinger@sigma6.com, lswanson@sigma6.com   www.sigma6.com    www.s6313.com
+conceive : construct : connect
+Sigma6, s6, and the Sigma6 logos are registered trademarks.
+All other trademarks and servicemarks are the property of
+their respective owners.
+--->
+<CFIF NOT IsDefined("sub")>
+	<CFSET sub = 1>
+</CFIF>
+
+<!-----------------------------------------------------------------------------------------------------------------ONE----------->
+<CFIF sub IS 1>
+<!-----------------------------------------------------------------------------------------------------------------ONE----------->
+<TABLE BORDER=0 CELLPADDING=0>
+<FORM ACTION="main.cfm?section=se&subsection=appt&sub=2" METHOD="POST" NAME="apptform">
+<INPUT TYPE="hidden" NAME="stepnumber" VALUE="1">
+<TR>
+	<TD COLSPAN=2>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			Enter your information below and press <b>next</b>; we will check to see if your
+			data is already on file with the <CFOUTPUT QUERY="dealerinfo">#dealershipname#</CFOUTPUT> Service Department.
+		</FONT>
+	</TD>
+</TR>
+<TR><TD Colspan="2"><P>&nbsp;</P></td></tr>
+<TR>
+	<TD COLSPAN=2>
+		&nbsp;
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<b>Personal Information</b>
+		</FONT>
+	</TD>
+	<TD>
+		<P>&nbsp;</P>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<b>First Name</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<INPUT TYPE="text" size=25 NAME="f_name" MAXLENGTH=20>
+			<INPUT TYPE="hidden" NAME="f_name_required" value="<A HREF='Javascript:history.back();'>Please enter your first name in the entry field</A>">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<b>Last Name</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<INPUT TYPE="text" size=25 NAME="l_name" MAXLENGTH=30>
+			<INPUT TYPE="hidden" NAME="l_name_required" value="<A HREF='Javascript:history.back();'>Please enter your surname in the entry field</A>">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			E-Mail
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<INPUT TYPE="text" size=25 NAME="Email" MAXLENGTH=60>
+		</FONT>
+	</TD>
+</TR>
+<TR><TD Colspan="2"><P>&nbsp;</P></td></tr>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<b>Vehicle Information</b>
+		</FONT>
+	</TD>
+	<TD>
+		<P>&nbsp;</P>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			Select Model<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or<br>
+		</FONT>
+	</TD>
+  	<TD align="left">
+ 		<!--- Linda: get Makes for dealership --->
+		<CFQUERY NAME="getDlrMakes" DATASOURCE="#gDSN#">
+			SELECT 	Makes.MakeNumber,
+					MakeName
+			FROM 	Makes INNER JOIN DealerFranchise ON Makes.MakeNumber = DealerFranchise.MakeNumber
+			WHERE	DealerFranchise.dealercode = '#dealerinfo.dealercode#'
+		</cfquery>
+		<!--- Drop-down box of MakeName & all models under that make --->
+   	    <SELECT NAME="modelid">
+		
+		<CFLOOP query="getDlrMakes">
+			<CFOUTPUT>
+			<OPTION VALUE=""><B>#UCase(MakeName)#</b> 
+			<OPTION VALUE=""><B>------------------</b> 
+			
+			<!--- get all vehicles for the make we're on --->
+			<CFQUERY NAME="getvehiclelist" DATASOURCE="#gDSN#">
+				SELECT	description,
+	        			VehicleType,
+						modelid
+				FROM	models
+				Where   Make = #getDlrMakes.MakeNumber#
+				ORDER BY VehicleType, description ASC
+			</CFQUERY>
+			
+			<CFSET prevcartype=" ">
+			
+			<!--- get all vehicles for the make we're on --->
+			<CFLOOP QUERY="getvehiclelist">
+				<!--- If new vehicle type, do white space, vehicle type, underline --->
+				<CFIF #prevcartype# IS NOT #VehicleType#>
+	    			<CFSET prevcartype=#VehicleType#>
+					<OPTION VALUE="">
+					<cfswitch expression="#VehicleType#">
+						<cfcase value="c"><OPTION VALUE="">Cars</cfcase>
+						<cfcase value="s"><OPTION VALUE="">Sport Utility Vehicles</cfcase>									
+						<cfcase value="t"><OPTION VALUE="">Trucks</cfcase>									
+						<cfcase value="v"><OPTION VALUE="">Vans</cfcase>									
+					</cfswitch>
+    				<OPTION VALUE="">--------------------
+  			    </cfif>
+	    		<OPTION VALUE="#modelid#">#description#					
+			</CFLOOP>
+			<OPTION VALUE="">
+			</CFOUTPUT>
+		</CFLOOP>
+		</SELECT>
+		<!--- <INPUT TYPE="hidden" NAME="modelid_required" value="<A HREF='Javascript:history.back();'>Please select your vehicle model.</A>"> --->	
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			Enter Make/Model
+		</FONT>
+	</TD>
+	<td>
+		<!--- linda, 8/12/99: free-form entry of any make & model --->
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<INPUT TYPE="text" size=25 NAME="othermodel" MAXLENGTH=35>
+		</FONT>
+	</td>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			Year
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+        <SELECT NAME="year" size="1">
+ 			<OPTION VALUE="2001">2001
+            <OPTION VALUE="2000">2000
+            <OPTION VALUE="1999">1999
+   			<OPTION VALUE="1998">1998
+			<OPTION VALUE="1997">1997
+			<OPTION VALUE="1996">1996
+		    <OPTION VALUE="1995">1995
+		    <OPTION VALUE="1994">1994
+			<OPTION VALUE="1993">1993
+			<OPTION VALUE="1992">1992
+  			<OPTION VALUE="1991">1991
+			<OPTION VALUE="1990">1990
+			<OPTION VALUE="1989">1989
+			<OPTION VALUE="1988">1988
+  			<OPTION VALUE="1987">1987
+			<OPTION VALUE="1986">1986
+			<OPTION VALUE="1985">1985
+			<OPTION VALUE="Prior">Prior
+		</SELECT>
+		</Font>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			License Plate
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="license" SIZE=16 MAXLENGTH=25 VALUE="">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			VIN Number
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="VIN" SIZE=20 MAXLENGTH=25 VALUE="">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<BR>Required fields are <b>bolded</b>.
+		</FONT>		
+	</td>
+</tr>
+<TR>
+	<TD ALIGN=CENTER COLSPAN=2>
+	<BR><BR>
+	<CFOUTPUT>
+		<A HREF="JavaScript:history.back();"
+			OnMouseOver="self.status='Back';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_back_nav.gif" BORDER=0></A>			
+		<A HREF="JavaScript:document.apptform.reset();"
+			OnMouseOver="self.status='Blank Out Form';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_reset_nav.gif" BORDER=0></A>		
+		<INPUT TYPE="image" src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_next_nav.gif" BORDER=0>
+	</CFOUTPUT>
+	</TD>
+</TR>
+</FORM>
+</TABLE>
+</CFIF>
+<!-----------------------------------------------------------------------------------------------------------------TWO----------->
+<CFIF sub IS 2>
+<!-----------------------------------------------------------------------------------------------------------------TWO----------->
+<CFQUERY NAME="getstates" DATASOURCE="#gDSN#">
+	SELECT * FROM states
+</CFQUERY>
+<INPUT TYPE="hidden" NAME="stepnumber" VALUE="2">
+<TABLE BORDER=0 CELLPADDING=0>
+<FORM ACTION="main.cfm?section=se&subsection=appt&sub=3" METHOD="POST" NAME="apptform">
+<CFOUTPUT>
+	<INPUT TYPE="hidden" NAME="stepnumber" VALUE="2">
+</cfoutput>
+<TR>
+	<TD COLSPAN=2>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<CFOUTPUT QUERY="dealerinfo">
+ 				Simply complete this form and select <b>next</b> so we may schedule an appointment at the
+				#dealershipname# Service Department.
+			</CFOUTPUT>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>
+		<P>&nbsp;</P>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<b>First Name</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+		<CFOUTPUT>
+			<INPUT TYPE="text" size=25 NAME="f_name" MAXLENGTH=20 value="#form.f_name#">
+			<INPUT TYPE="hidden" NAME="f_name_required" value="<A HREF='Javascript:history.back();'>Please enter your first name in the entry field</A>">
+		</cfoutput>	
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<b>Last Name</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+		<cfoutput>
+			<INPUT TYPE="text" size=25 NAME="l_name" MAXLENGTH=30 value="#form.l_name#">
+   			<INPUT TYPE="hidden" NAME="l_name_required" value="<A HREF='Javascript:history.back();'>Please enter your surname in the entry field</A>">
+		</cfoutput>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<b>Address(1)</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+		<cfoutput>
+			<INPUT TYPE="text" size=25 NAME="address1" MAXLENGTH=35>
+   			<INPUT TYPE="hidden" NAME="address1_required" value="<A HREF='Javascript:history.back();'>Please enter your Street Address in the entry field</A>">
+		</cfoutput>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			Address(2)
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<INPUT TYPE="text" size=25 NAME="address2" MAXLENGTH=35>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<b>City</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="city" size=25 MAXLENGTH=35 <!--- VALUE="<CFOUTPUT QUERY="dealerinfo">#city#</CFOUTPUT>" --->>
+   			<INPUT TYPE="hidden" NAME="city_required" value="<A HREF='Javascript:history.back();'>Please enter your city in the entry field</A>">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<b>State</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+		<SELECT NAME="state">
+			<OPTION VALUE="">Select Your State
+			<CFOUTPUT QUERY="getstates">
+				<OPTION VALUE="#stateabbr#" <CFIF #stateabbr# IS #dealerinfo.stateabbr#>SELECTED</CFIF>>#description#
+			</CFOUTPUT>
+		</SELECT>
+		<INPUT TYPE="hidden" NAME="state_required" value="<A HREF='Javascript:history.back();'>Please enter your state in the entry field</A>">
+		</FONT>
+	</TD>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<b>Zip</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="zip" size=25 MAXLENGTH=10<!---  VALUE="<CFOUTPUT QUERY="dealerinfo">#zip#</CFOUTPUT>" --->>
+   			<INPUT TYPE="hidden" NAME="zip_required" value="<A HREF='Javascript:history.back();'>Please enter your zip code in the entry field</A>">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<b>Day Phone</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="dayphone1" SIZE=3 MAXLENGTH=3>
+			<INPUT TYPE="text" NAME="dayphone2" SIZE=3 MAXLENGTH=3>
+			<INPUT TYPE="text" NAME="dayphone3" SIZE=4 MAXLENGTH=4>
+			<INPUT TYPE="hidden" NAME="dayphone1_required" value="<A HREF='Javascript:history.back();'>Please enter your daytime phone number in the entry field</A>">
+			<INPUT TYPE="hidden" NAME="dayphone2_required" value="<A HREF='Javascript:history.back();'>Please enter your daytime phone number in the entry field</A>">
+			<INPUT TYPE="hidden" NAME="dayphone3_required" value="<A HREF='Javascript:history.back();'>Please enter your daytime phone number in the entry field</A>">	
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			Eve Phone
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="evephone1" SIZE=3 MAXLENGTH=3>
+			<INPUT TYPE="text" NAME="evephone2" SIZE=3 MAXLENGTH=3>
+			<INPUT TYPE="text" NAME="evephone3" SIZE=4 MAXLENGTH=4>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			Fax Number
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="faxphone1" SIZE=3 MAXLENGTH=3>
+			<INPUT TYPE="text" NAME="faxphone2" SIZE=3 MAXLENGTH=3>
+			<INPUT TYPE="text" NAME="faxphone3" SIZE=4 MAXLENGTH=4>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<b>E-Mail</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+		<cfoutput>
+			<INPUT TYPE="text" NAME="email" size=25 MAXLENGTH=50 value="#form.Email#">
+			<INPUT TYPE="hidden" NAME="email_required" value="<A HREF='Javascript:history.back();'>Please enter your e-mail address in the entry field</A>">	
+		</cfoutput>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			Model
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+		<CFOUTPUT>
+		<!--- if they selected a model from the drop-down list, it's in the db.  find corresp. make. --->
+		<cfif #form.Modelid# IS NOT "">
+			<!--- figure out make of selected model --->
+			<CFQUERY NAME="getMakeModel" DATASOURCE="#gDSN#">
+				SELECT	Makes.MakeName,
+						Models.Description
+				FROM 	Makes INNER JOIN Models ON Makes.MakeNumber = Models.Make
+				WHERE	Models.modelid=#Form.Modelid#
+ 			</cfquery>
+			<INPUT TYPE="hidden" NAME="make" SIZE=50 MAXLENGTH=50 VALUE="#getMakeModel.MakeName#">
+			<INPUT TYPE="text" NAME="model" size=25 MAXLENGTH=35 VALUE="#getMakeModel.Description#">
+  			<INPUT TYPE="hidden" NAME="modelid" size=25 MAXLENGTH=35 VALUE="#form.Modelid#">
+			<!--- init othermodel, so it's defined & it doesn't barf on following pages. --->
+			<INPUT TYPE="hidden" NAME="otherModel" size=25 MAXLENGTH=35 VALUE="">
+			<!--- get type of service maintenance --->
+			 <!--- don't have data for service yet.
+			 <cfswitch expression="#getMakeModel.MakeName#">
+				<cfcase value="1"><CFSET servtype = "FOZZ"></cfcase>
+				<cfcase value="4"><CFSET servtype = "PNZZ"></cfcase>
+				<cfcase value="9"><CFSET servtype = "NIZZ"></cfcase>
+				<cfcase value="11"><CFSET servtype = "OLZZ"></cfcase>
+				<cfcase value="13"><CFSET servtype = "CAZZ"></cfcase>
+				<cfcase value="15"><CFSET servtype = "VOZZ"></cfcase>
+				<cfdefaultcase><CFSET servtype = "ZZZZ"></cfdefaultcase>
+			</cfswitch>
+			<INPUT TYPE="hidden" NAME="servicetype2" size=25 MAXLENGTH=35 VALUE="#servtype#"> --->
+		<cfelse>
+			<!--- 8/12/99: manually entered make & model name (not selected from model drop-down).  --->
+			<INPUT TYPE="text" NAME="otherModel" size=25 MAXLENGTH=35 VALUE="#form.otherModel#">
+			<!--- init make, model, & modelid, so they're defined & it doesn't barf on following pages. --->
+			<INPUT TYPE="hidden" NAME="make" SIZE=50 MAXLENGTH=50 VALUE="">
+  			<INPUT TYPE="hidden" NAME="model" size=25 MAXLENGTH=35 VALUE="">			
+  			<INPUT TYPE="hidden" NAME="modelid" size=25 MAXLENGTH=35 VALUE=0>			
+		</cfif>
+		</cfoutput>	
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			Year
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+		<CFOUTPUT>
+			<INPUT TYPE="text" NAME="year" SIZE=4 MAXLENGTH=4 VALUE="#form.year#">
+		</cfoutput>	
+		</Font>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			License Plate
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+		<CFOUTPUT>
+			<INPUT TYPE="text" NAME="license" SIZE=16 MAXLENGTH=25 VALUE="#form.License#">
+		</cfoutput>	
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			VIN Number
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+		<CFOUTPUT>
+			<INPUT TYPE="text" NAME="VIN" SIZE=20 MAXLENGTH=25 VALUE="#form.VIN#">
+		</cfoutput>	
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<b>Mileage</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+		<CFOUTPUT>
+			<INPUT TYPE="text" NAME="Mileage" SIZE=16 MAXLENGTH=25>
+			<INPUT TYPE="hidden" NAME="mileage_required" value="<A HREF='Javascript:history.back();'>Please enter your mileage in the entry field</A>">
+		</cfoutput>
+		</FONT>
+		<BR>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+		<I>Please enter current mileage</I>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2 ALIGN=CENTER>
+	<BR>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			I have been a customer at the <CFOUTPUT QUERY="dealerinfo">#dealershipname#</CFOUTPUT> Service Department before.
+			<BR>
+			<INPUT TYPE="radio" NAME="prevcustomer" VALUE="Yes" CHECKED> Yes <INPUT TYPE="radio" NAME="prevcustomer" VALUE="No"> No
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<BR>Required fields are <b>bolded</b>.
+		</FONT>		
+	</td>
+</tr>
+<TR>
+	<TD ALIGN=CENTER COLSPAN=2>
+		<BR><BR>
+	<CFOUTPUT>
+		<A HREF="JavaScript:history.back();"
+			OnMouseOver="self.status='Back';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_back_nav.gif" BORDER=0></A>			
+		<A HREF="JavaScript:document.apptform.reset();"
+			OnMouseOver="self.status='Blank Out Form';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_reset_nav.gif" BORDER=0></A>		
+		<INPUT TYPE="image" src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_next_nav.gif" BORDER=0>
+	</CFOUTPUT>
+	</TD>
+</TR>
+</FORM>
+</TABLE>
+</CFIF>
+<!----------------------------------------------------------------------------------------------------------------/TWO-------------->
+<CFIF sub IS 3>
+<!---------------------------------------------------------------------------------------------------------------THREE-------------->
+<CFSET dayphone = '#Form.dayphone1##Form.dayphone2##Form.dayphone3#'>
+<CFSET evephone = '#Form.evephone1##Form.evephone2##Form.evephone3#'>
+<CFSET faxphone = '#Form.faxphone1##Form.faxphone2##Form.faxphone3#'>
+<CFIF FIND(',',Form.Mileage,1) NEQ 0>
+	<CFSET theMileage = REPLACE(FORM.mileage,',','','ALL')>
+	<CFSET good = 1>
+<CFELSEIF NOT IsNumeric(FORM.Mileage)>
+	<FONT SIZE="2" FACE="arial,helvetica">
+		<P><BR>
+		You must enter a numeric value for the vehicle mileage.
+		<P><BR><P>
+		<A HREF="JavaScript:history.go(-1)"
+			OnMouseOver="self.status='Back';return true"
+			OnMouseOut="self.status='';return true"><B>Click here to go back.</B></A>
+	</FONT>
+	<CFSET good = 0>
+<CFELSE>
+	<CFSET good = 1>
+	<CFSET theMileage = FORM.mileage>
+</CFIF>
+
+<TABLE BORDER=0 CELLPADDING=0>
+<FORM ACTION="main.cfm?section=se&subsection=appt&sub=4" METHOD="POST" NAME="apptform">
+<cfoutput>
+<INPUT TYPE="hidden" NAME="stepnumber" VALUE="3">
+<INPUT TYPE="hidden" NAME="address1" VALUE="#form.address1#">
+<INPUT TYPE="hidden" NAME="address2" VALUE="#form.address2#">
+<INPUT TYPE="hidden" NAME="city" VALUE="#form.city#">
+<INPUT TYPE="hidden" NAME="state" VALUE="#form.state#">
+<INPUT TYPE="hidden" NAME="zip" VALUE="#form.zip#">
+<INPUT TYPE="hidden" NAME="dayphone" VALUE="#variables.dayphone#">
+<INPUT TYPE="hidden" NAME="evephone" VALUE="#variables.evephone#">
+<INPUT TYPE="hidden" NAME="faxphone" VALUE="#variables.faxphone#">
+<INPUT TYPE="hidden" NAME="prevcustomer" VALUE="#form.prevcustomer#">
+<INPUT TYPE="hidden" NAME="f_name" VALUE="#form.f_name#">
+<INPUT TYPE="hidden" NAME="l_name" VALUE="#form.l_name#">
+<INPUT TYPE="hidden" NAME="email" VALUE="#form.email#">
+<INPUT TYPE="hidden" NAME="Make" VALUE="#form.make#">
+<INPUT TYPE="hidden" NAME="model" VALUE="#form.model#">
+<INPUT TYPE="hidden" NAME="modelid" VALUE="#form.modelid#">
+<INPUT TYPE="hidden" NAME="othermodel" VALUE="#form.othermodel#">
+<INPUT TYPE="hidden" NAME="year" VALUE="#form.year#">
+<INPUT TYPE="hidden" NAME="License" VALUE="#form.License#">
+<INPUT TYPE="hidden" NAME="VIN" VALUE="#form.VIN#">
+<INPUT TYPE="hidden" NAME="mileage" VALUE="#form.Mileage#">
+</cfoutput>
+<TR>
+	<TD COLSPAN=3>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<CFOUTPUT QUERY="dealerinfo">
+				Thank you, #form.f_name# #form.l_name#, for using #dealershipname#'s on-line Service Scheduling.<p>
+				Please select when you would like to come in for service and what type of service you would like.
+				<!--- Below you will find a list of service recommendations. ---><P>
+				<!--- If you need any additional service,  please fill out the "Service Requests" portion of this
+				form, and one of our Service representatives will contact you.--->
+			</CFOUTPUT>
+		</FONT>
+	</TD>
+</TR> 
+<TR>
+	<TD COLSPAN=3>
+		<P>&nbsp;</P>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=3>
+	<CFOUTPUT>
+		<FONT SIZE=-1 FACE="arial,helvetica" COLOR=#thecolor#><B>
+			Preferred Times of Service
+		</B></FONT>
+	</CFOUTPUT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=3>
+	<CFOUTPUT>
+		<FONT SIZE=-1 FACE="arial,helvetica" COLOR=#thecolor#>
+			<BR><B>Option 1.</B>
+		</FONT>
+	</CFOUTPUT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=3>
+	<CFOUTPUT>
+		<FONT SIZE=-1 FACE="arial,helvetica"><B>
+			<INPUT TYPE="radio" NAME="emailsched" VALUE="No" Checked>Schedule Service Time Now 
+		</B></FONT>
+	</CFOUTPUT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<B>First Choice</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+   	   	    <SELECT NAME="date1">
+           	<OPTION VALUE="">Select Date
+		<CFLOOP INDEX="theCounter"
+                    FROM="3"
+                    TO="14">				
+				<CFSET NextDay=DateAdd("d",#theCounter#, now())>
+				<CFIF #DayOfWeek("#NextDay#")# GT 1 AND #DayOfWeek("#NextDay#")# LT 7>
+					<CFSET outdate=#DateFormat("#NextDay#", "ddd, mmmm dd, yyyy")#>
+					<OPTION VALUE="<CFOUTPUT>#DateFormat("#NextDay#", "mm/dd/yyyy")#">#outdate#</cfoutput>
+				</CFIF>
+			</CFLOOP>
+			</SELECT>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+				<!--- <CFSET theRander=RandRange(1,8)> --->
+    	   	    <SELECT NAME="time1" size="1">
+	            	<OPTION VALUE="">Select Time 
+					<!--- <CFIF theRander EQ 1> --->
+					<OPTION VALUE="7:00 AM">7:00 AM
+					<OPTION VALUE="7:30 AM">7:30 AM
+					<OPTION VALUE="8:00 AM">8:00 AM
+					<OPTION VALUE="8:30 AM">8:30 AM
+					<OPTION VALUE="9:00 AM">9:00 AM
+					<OPTION VALUE="9:30 AM">9:30 AM
+					<!--- </CFIF>
+					<CFIF theRander EQ 2> --->
+					<OPTION VALUE="10:00 AM">10:00 AM
+					<OPTION VALUE="10:30 AM">10:30 AM
+					<OPTION VALUE="11:00 AM">11:00 AM
+					<OPTION VALUE="11:30 AM">11:30 AM
+					<OPTION VALUE="12:00 PM">12:00 PM
+					<OPTION VALUE="12:30 PM">12:30 PM
+					<!--- </CFIF>
+					<CFIF theRander EQ 3> --->
+					<OPTION VALUE="1:00 PM">1:00 PM
+					<OPTION VALUE="1:30 PM">1:30 PM
+					<OPTION VALUE="2:00 PM">2:00 PM
+					<OPTION VALUE="2:30 PM">2:30 PM
+					<OPTION VALUE="3:00 PM">3:00 PM
+					<OPTION VALUE="3:30 PM">3:30 PM
+					<!--- </CFIF>
+					<CFIF theRander EQ 4> --->
+					<OPTION VALUE="4:00 PM">4:00 PM
+					<OPTION VALUE="4:30 PM">4:30 PM
+					<OPTION VALUE="5:00 PM">5:00 PM
+					<OPTION VALUE="5:30 PM">5:30 PM
+					<OPTION VALUE="6:00 PM">6:00 PM
+					<!--- </CFIF>
+					<CFIF theRander EQ 5>
+					<OPTION VALUE="8:00 AM">8:00 AM
+					<OPTION VALUE="8:30 AM">8:30 AM
+					<OPTION VALUE="2:00 PM">2:00 PM
+					<OPTION VALUE="2:30 PM">2:30 PM
+					<OPTION VALUE="4:00 PM">4:00 PM
+					<OPTION VALUE="4:30 PM">4:30 PM
+					</CFIF>
+					<CFIF theRander EQ 6>
+					<OPTION VALUE="7:00 AM">7:00 AM
+					<OPTION VALUE="7:30 AM">7:30 AM
+					<OPTION VALUE="11:00 AM">11:00 AM
+					<OPTION VALUE="11:30 AM">11:30 AM
+					<OPTION VALUE="3:00 PM">3:00 PM
+					<OPTION VALUE="3:30 PM">3:30 PM
+					</CFIF>
+					<CFIF theRander EQ 7>
+					<OPTION VALUE="10:00 AM">10:00 AM
+					<OPTION VALUE="10:30 AM">10:30 AM
+					<OPTION VALUE="2:00 PM">2:00 PM
+					<OPTION VALUE="2:30 PM">2:30 PM
+					<OPTION VALUE="3:00 PM">3:00 PM
+					<OPTION VALUE="3:30 PM">3:30 PM
+					</CFIF>
+					<CFIF theRander EQ 8> 
+					<OPTION VALUE="9:00 AM">9:00 AM
+					<OPTION VALUE="10:00 AM">10:00 AM
+					<OPTION VALUE="5:00 PM">5:00 PM
+					<OPTION VALUE="5:30 PM">5:30 PM
+					<OPTION VALUE="6:00 PM">6:00 PM
+					</CFIF> --->
+				</Select>	
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<B>Second Choice</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+   	   	    <SELECT NAME="date2">
+           	<OPTION VALUE="">Select Date
+			<CFLOOP INDEX="theCounter"
+                    FROM="3"
+                    TO="14">				
+				<CFSET NextDay=DateAdd("d",#theCounter#, now())>
+				<CFIF #DayOfWeek("#NextDay#")# GT 1 AND #DayOfWeek("#NextDay#")# LT 7>
+					<CFSET outdate=#DateFormat("#NextDay#", "ddd, mmmm dd, yyyy")#>
+					<OPTION VALUE="<CFOUTPUT>#DateFormat("#NextDay#", "mm/dd/yyyy")#">#outdate#</cfoutput>
+				</CFIF>
+			</CFLOOP>
+			</SELECT>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+				<!--- <CFSET theRander=RandRange(1,8)> --->
+    	   	    <SELECT NAME="time2" size="1">
+	            	<OPTION VALUE="">Select Time 
+					<!--- <CFIF theRander EQ 1> --->
+					<OPTION VALUE="7:00 AM">7:00 AM
+					<OPTION VALUE="7:30 AM">7:30 AM
+					<OPTION VALUE="8:00 AM">8:00 AM
+					<OPTION VALUE="8:30 AM">8:30 AM
+					<OPTION VALUE="9:00 AM">9:00 AM
+					<OPTION VALUE="9:30 AM">9:30 AM
+					<!--- </CFIF>
+					<CFIF theRander EQ 2> --->
+					<OPTION VALUE="10:00 AM">10:00 AM
+					<OPTION VALUE="10:30 AM">10:30 AM
+					<OPTION VALUE="11:00 AM">11:00 AM
+					<OPTION VALUE="11:30 AM">11:30 AM
+					<OPTION VALUE="12:00 PM">12:00 PM
+					<OPTION VALUE="12:30 PM">12:30 PM
+					<!--- </CFIF>
+					<CFIF theRander EQ 3> --->
+					<OPTION VALUE="1:00 PM">1:00 PM
+					<OPTION VALUE="1:30 PM">1:30 PM
+					<OPTION VALUE="2:00 PM">2:00 PM
+					<OPTION VALUE="2:30 PM">2:30 PM
+					<OPTION VALUE="3:00 PM">3:00 PM
+					<OPTION VALUE="3:30 PM">3:30 PM
+					<!--- </CFIF>
+					<CFIF theRander EQ 4> --->
+					<OPTION VALUE="4:00 PM">4:00 PM
+					<OPTION VALUE="4:30 PM">4:30 PM
+					<OPTION VALUE="5:00 PM">5:00 PM
+					<OPTION VALUE="5:30 PM">5:30 PM
+					<OPTION VALUE="6:00 PM">6:00 PM
+					<!--- </CFIF>
+					<CFIF theRander EQ 5>
+					<OPTION VALUE="8:00 AM">8:00 AM
+					<OPTION VALUE="8:30 AM">8:30 AM
+					<OPTION VALUE="2:00 PM">2:00 PM
+					<OPTION VALUE="2:30 PM">2:30 PM
+					<OPTION VALUE="4:00 PM">4:00 PM
+					<OPTION VALUE="4:30 PM">4:30 PM
+					</CFIF>
+					<CFIF theRander EQ 6>
+					<OPTION VALUE="7:00 AM">7:00 AM
+					<OPTION VALUE="7:30 AM">7:30 AM
+					<OPTION VALUE="11:00 AM">11:00 AM
+					<OPTION VALUE="11:30 AM">11:30 AM
+					<OPTION VALUE="3:00 PM">3:00 PM
+					<OPTION VALUE="3:30 PM">3:30 PM
+					</CFIF>
+					<CFIF theRander EQ 7>
+					<OPTION VALUE="10:00 AM">10:00 AM
+					<OPTION VALUE="10:30 AM">10:30 AM
+					<OPTION VALUE="2:00 PM">2:00 PM
+					<OPTION VALUE="2:30 PM">2:30 PM
+					<OPTION VALUE="3:00 PM">3:00 PM
+					<OPTION VALUE="3:30 PM">3:30 PM
+					</CFIF>
+					<CFIF theRander EQ 8> 
+					<OPTION VALUE="9:00 AM">9:00 AM
+					<OPTION VALUE="10:00 AM">10:00 AM
+					<OPTION VALUE="5:00 PM">5:00 PM
+					<OPTION VALUE="5:30 PM">5:30 PM
+					<OPTION VALUE="6:00 PM">6:00 PM
+					</CFIF> --->
+				</Select>	
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<B>Third Choice</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+   	   	    <SELECT NAME="date3">
+           	<OPTION VALUE="">Select Date
+			<CFLOOP INDEX="theCounter"
+                    FROM="3"
+                    TO="14">				
+				<CFSET NextDay=DateAdd("d",#theCounter#, now())>
+				<CFIF #DayOfWeek("#NextDay#")# GT 1 AND #DayOfWeek("#NextDay#")# LT 7>
+					<CFSET outdate=#DateFormat("#NextDay#", "ddd, mmmm dd, yyyy")#>
+					<OPTION VALUE="<CFOUTPUT>#DateFormat("#NextDay#", "mm/dd/yyyy")#">#outdate#</cfoutput>
+				</CFIF>
+			</CFLOOP>
+			</SELECT>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+				<CFSET theRander=RandRange(1,8)>
+    	   	    <SELECT NAME="time3" size="1">
+	            	<OPTION VALUE="">Select Time 
+					<!--- <CFIF theRander EQ 1> --->
+					<OPTION VALUE="7:00 AM">7:00 AM
+					<OPTION VALUE="7:30 AM">7:30 AM
+					<OPTION VALUE="8:00 AM">8:00 AM
+					<OPTION VALUE="8:30 AM">8:30 AM
+					<OPTION VALUE="9:00 AM">9:00 AM
+					<OPTION VALUE="9:30 AM">9:30 AM
+					<!--- </CFIF>
+					<CFIF theRander EQ 2> --->
+					<OPTION VALUE="10:00 AM">10:00 AM
+					<OPTION VALUE="10:30 AM">10:30 AM
+					<OPTION VALUE="11:00 AM">11:00 AM
+					<OPTION VALUE="11:30 AM">11:30 AM
+					<OPTION VALUE="12:00 PM">12:00 PM
+					<OPTION VALUE="12:30 PM">12:30 PM
+					<!--- </CFIF>
+					<CFIF theRander EQ 3> --->
+					<OPTION VALUE="1:00 PM">1:00 PM
+					<OPTION VALUE="1:30 PM">1:30 PM
+					<OPTION VALUE="2:00 PM">2:00 PM
+					<OPTION VALUE="2:30 PM">2:30 PM
+					<OPTION VALUE="3:00 PM">3:00 PM
+					<OPTION VALUE="3:30 PM">3:30 PM
+					<!--- </CFIF>
+					<CFIF theRander EQ 4> --->
+					<OPTION VALUE="4:00 PM">4:00 PM
+					<OPTION VALUE="4:30 PM">4:30 PM
+					<OPTION VALUE="5:00 PM">5:00 PM
+					<OPTION VALUE="5:30 PM">5:30 PM
+					<OPTION VALUE="6:00 PM">6:00 PM
+					<!--- </CFIF>
+					<CFIF theRander EQ 5>
+					<OPTION VALUE="8:00 AM">8:00 AM
+					<OPTION VALUE="8:30 AM">8:30 AM
+					<OPTION VALUE="2:00 PM">2:00 PM
+					<OPTION VALUE="2:30 PM">2:30 PM
+					<OPTION VALUE="4:00 PM">4:00 PM
+					<OPTION VALUE="4:30 PM">4:30 PM
+					</CFIF>
+					<CFIF theRander EQ 6>
+					<OPTION VALUE="7:00 AM">7:00 AM
+					<OPTION VALUE="7:30 AM">7:30 AM
+					<OPTION VALUE="11:00 AM">11:00 AM
+					<OPTION VALUE="11:30 AM">11:30 AM
+					<OPTION VALUE="3:00 PM">3:00 PM
+					<OPTION VALUE="3:30 PM">3:30 PM
+					</CFIF>
+					<CFIF theRander EQ 7>
+					<OPTION VALUE="10:00 AM">10:00 AM
+					<OPTION VALUE="10:30 AM">10:30 AM
+					<OPTION VALUE="2:00 PM">2:00 PM
+					<OPTION VALUE="2:30 PM">2:30 PM
+					<OPTION VALUE="3:00 PM">3:00 PM
+					<OPTION VALUE="3:30 PM">3:30 PM
+					</CFIF>
+					<CFIF theRander EQ 8> 
+					<OPTION VALUE="9:00 AM">9:00 AM
+					<OPTION VALUE="10:00 AM">10:00 AM
+					<OPTION VALUE="5:00 PM">5:00 PM
+					<OPTION VALUE="5:30 PM">5:30 PM
+					<OPTION VALUE="6:00 PM">6:00 PM
+					</CFIF> --->
+				</Select>	
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<P>&nbsp;</P>
+	</td>
+</tr>
+<TR>
+	<TD COLSPAN=3>
+	<CFOUTPUT>
+		<FONT SIZE=-1 FACE="arial,helvetica" COLOR=#thecolor#><B>
+			Option 2. 
+		</B></FONT>
+	</CFOUTPUT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=3>
+	<CFOUTPUT>
+		<FONT SIZE=-1 FACE="arial,helvetica"><B>
+		<INPUT TYPE="radio" NAME="emailsched" VALUE="Yes"> I would like to schedule a date in the future.
+		Please have a service representative contact me to schedule a time.
+		</B></FONT>
+	</CFOUTPUT>
+	</TD>
+</TR>
+<TR>
+	<TD Colspan="3">
+	<CFOUTPUT>
+		<FONT SIZE=-1 FACE="arial,helvetica" COLOR=#thecolor#>
+			<P>&nbsp;</P>
+			<!--- <B>Any Additional Service Requests:</B>--->
+			<B>Type of Service Required</b><BR>
+	</CFOUTPUT>
+		<BR>
+		<!--- linda, 10/29/99: max 255 char.  displaying warning in next step & truncating before inserting into db --->
+		<TEXTAREA NAME="comments" ROWS=10 COLS=30 WRAP="virtual"></TEXTAREA>
+		</FONT>
+	</TD>
+</TR>
+
+<TR>
+	<TD ALIGN=CENTER COLSPAN=3>
+	<CFOUTPUT>
+		<BR><BR>
+		<A HREF="JavaScript:history.back();"
+			OnMouseOver="self.status='Back';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_back_nav.gif" BORDER=0></A>			
+		<A HREF="JavaScript:document.apptform.reset();"
+			OnMouseOver="self.status='Blank Out Form';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_reset_nav.gif" BORDER=0></A>		
+		<INPUT TYPE="image" SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_next_nav.gif" BORDER=0>
+	</CFOUTPUT>
+	</TD>
+</TR>
+</FORM>
+</TABLE>
+</CFIF>
+<!--------------------------------------------------------------------------------------------------------------/THREE-------------->
+<CFIF sub IS 4>
+<!--------------------------------------------------------------------------------------------------------------FOUR---------------->
+	<!--- <FORM ACTION="main.cfm?section=se&subsection=appt&sub=4" METHOD="POST" NAME="apptform">	 --->
+	
+	<FONT SIZE=-1 FACE="arial,helvetica">
+	<CFSET theError=0>
+	<CFIF NOT #form.emailsched#>
+		<!--- Check for blank dates or times --->
+		<CFSET theLength=#Len(form.date1)#>
+		<CFIF theLength EQ 0>
+	  		<CFOUTPUT>
+			Missing First Preferred Service Request Date<BR>
+			</CFOUTPUT>
+			<P>
+			<CFSET theError=1>		
+		</CFIF>
+		<CFSET theLength=#Len(form.time1)#>
+		<CFIF theLength EQ 0>
+	  		<CFOUTPUT>
+			Missing First Preferred Service Request Time<BR>
+			</CFOUTPUT>
+			<P>
+			<CFSET theError=1>		
+		</CFIF>
+		<CFSET theLength=#Len(form.date2)#>
+		<CFIF theLength EQ 0>
+	  		<CFOUTPUT>
+			Missing Second Preferred Service Request Date<BR>
+			</CFOUTPUT>
+			<P>
+			<CFSET theError=1>		
+		</CFIF>
+		<CFSET theLength=#Len(form.time2)#>
+		<CFIF theLength EQ 0>
+	  		<CFOUTPUT>
+			Missing Second Preferred Service Request Time<BR>
+			</CFOUTPUT>
+			<P>
+			<CFSET theError=1>		
+		</CFIF>
+		<CFSET theLength=#Len(form.date3)#>
+		<CFIF theLength EQ 0>
+	  		<CFOUTPUT>
+			Missing Third Preferred Service Request Date<BR>
+			</CFOUTPUT>
+			<P>
+			<CFSET theError=1>		
+		</CFIF>
+		<CFSET theLength=#Len(form.time3)#>
+		<CFIF theLength EQ 0>
+	  		<CFOUTPUT>
+			Missing Third Preferred Service Request Time<BR>
+			</CFOUTPUT>
+			<P>
+			<CFSET theError=1>		
+		</CFIF>
+	</CFIF>
+ 
+	<CFIF #theError# EQ 1>
+		<A HREF='Javascript:history.back();'><B>Click here to return</B></A>
+	<CFELSE>
+		<!--- If dates/times were OK, show confirmation page --->
+		<TABLE BORDER=0 CELLPADDING=0>
+		<FORM ACTION="main.cfm?section=se&subsection=appt&sub=5" METHOD="POST" NAME="apptform">
+		<TR>
+			<TD colspan="3">
+				<CFOUTPUT>
+				<FONT COLOR=#thecolor# FACE="arial,helvetica" SIZE=2>
+					<B>
+					Service Request Verification<BR>
+					</B>
+				</FONT>
+				</CFOUTPUT>
+			</TD>
+		</TR>
+		<TR>
+			<TD colspan="3">
+				&nbsp;
+			</TD>
+		</TR>
+		<TR>
+			<TD colspan="3">
+				<FONT SIZE=-1 FACE="arial,helvetica">
+				<CFOUTPUT>
+					Thank you, #form.f_name# #form.l_name#.  Please review the following information and if
+                	you are satisfied with the selections, click the <b>submit</b> button at the bottom.
+					To change your selections, click the <b>back</b> button.<br>
+					You will receive a verification email when your request is processed.
+				</cfoutput>				
+				</FONT>
+			</TD>
+		</TR>
+		<TR>
+			<TD COLSPAN="3">
+				<P>&nbsp;</P>
+			</TD>
+		</TR>
+		<TR>
+			<TD Align="left" Colspan="3">
+				<cfoutput>
+				<FONT COLOR=#thecolor# FACE="arial,helvetica" SIZE=2>
+				<B>Customer Information</b><P>
+				</cfoutput>
+				</Font>
+			</TD>
+		</TR>
+		<cfoutput>
+		<CFSET Options=0>
+		<TR>
+			<TD Align="left">
+				<FONT SIZE=-1 FACE="arial,helvetica">
+				Name
+				</Font>
+			</TD>
+			<TD colspan=2 Align="right">
+				<FONT SIZE=-1 FACE="arial,helvetica">
+					 #form.f_name# #form.l_name#
+				</Font>
+			</TD>
+		</TR>
+		<TR>
+			<TD Align="left">
+				<FONT SIZE=-1 FACE="arial,helvetica">
+				Email
+				</Font>
+			</TD>
+			<TD colspan=2 Align="right">
+				<FONT SIZE=-1 FACE="arial,helvetica">
+					 #form.email#
+				</Font>
+			</TD>
+		</TR>
+		<cfif #form.make# IS NOT "" AND #form.model# IS NOT "">
+		<TR>
+			<TD Align="left">
+				<FONT SIZE=-1 FACE="arial,helvetica">
+				Make
+				</Font>
+			</TD>
+			<TD colspan=2 Align="right">
+				<FONT SIZE=-1 FACE="arial,helvetica">
+					#form.make#
+				</Font>
+			</TD>
+		</TR>
+		<TR>
+			<TD Align="left">
+				<FONT SIZE=-1 FACE="arial,helvetica">
+				Model
+				</Font>
+			</TD>
+			<TD colspan=2 Align="right">
+				<FONT SIZE=-1 FACE="arial,helvetica">
+					 #form.model#
+				</Font>
+			</TD>
+		</TR>
+		<cfelse>
+		<TR>
+			<TD Align="left">
+				<FONT SIZE=-1 FACE="arial,helvetica">
+				Model
+				</Font>
+			</TD>
+			<TD colspan=2 Align="right">
+				<FONT SIZE=-1 FACE="arial,helvetica">
+					 #form.othermodel#
+				</Font>
+			</TD>
+		</TR>
+		
+		</cfif>
+		<TR>
+			<TD Align="left">
+				<FONT SIZE=-1 FACE="arial,helvetica">
+				Year
+				</Font>
+			</TD>
+			<TD colspan=2 Align="right">
+				<FONT SIZE=-1 FACE="arial,helvetica">
+					 #form.Year#
+				</Font>
+			</TD>
+		</TR>
+		<TR>
+			<TD Align="left">
+				<FONT SIZE=-1 FACE="arial,helvetica">
+				License Plate
+				</Font>
+			</TD>
+			<TD colspan=2 Align="right">
+				<FONT SIZE=-1 FACE="arial,helvetica">
+					 #form.License#
+				</Font>
+			</TD>
+		</TR>
+		<TR>
+			<TD Align="left">
+				<FONT SIZE=-1 FACE="arial,helvetica">
+				VIN Number
+				</Font>
+			</TD>
+			<TD colspan=2 Align="right">
+				<FONT SIZE=-1 FACE="arial,helvetica">
+					 #form.VIN#
+				</Font>
+			</TD>
+		</TR>
+		<CFIF NOT #form.emailsched#>
+			<TR>
+				<TD Align="left">
+					<FONT SIZE=-1 FACE="arial,helvetica">
+					First Choice
+					</Font>
+				</TD>
+				<TD  Colspan="2" Align="right">
+					<FONT SIZE=-1 FACE="arial,helvetica">
+						#DateFormat("#form.date1#", "ddd, mmmm dd, yyyy")#
+						#form.time1#
+					</Font>
+				</TD>
+			</TR>
+			<TR>
+				<TD Align="left">
+					<FONT SIZE=-1 FACE="arial,helvetica">
+					Second Choice
+					</Font>
+				</TD>
+				<TD  Colspan="2" Align="right">
+					<FONT SIZE=-1 FACE="arial,helvetica">
+						#DateFormat("#form.date2#", "ddd, mmmm dd, yyyy")#
+						#form.time2#
+					</Font>
+				</TD>
+			</TR>
+			<TR>
+				<TD Align="left">
+					<FONT SIZE=-1 FACE="arial,helvetica">
+					Third Choice
+					</Font>
+				</TD>
+				<TD Colspan="2" Align="right">
+					<FONT SIZE=-1 FACE="arial,helvetica">
+						#DateFormat("#form.date3#", "ddd, mmmm dd, yyyy")#
+						#form.time3#
+					</Font>
+				</TD>
+			</TR>
+		<CFELSE>
+			<TR>
+				<TD Align="left" COLSPAN="3">
+					<FONT SIZE=-1 FACE="arial,helvetica">
+					I would like to schedule a date in the future. Please have a service representative contact me to schedule a time.
+					</Font>
+				</TD>
+			</TR>
+		</CFIF>
+	</cfoutput>
+<!--- Linda, 2-22-99: don't have data yet	
+		<TR>
+			<TD>
+				<P>&nbsp;</P>
+			</td>
+		</tr>			
+		<TR>
+			<TD Align="left" Colspan="3">
+				<cfoutput>
+				<FONT COLOR=#thecolor# FACE="arial,helvetica" SIZE=2>
+				<B>Suggested Service</b><P>
+				</FONT>	
+				</cfoutput>
+			</TD>	
+		</TR>			
+		<CFSET TotalPrice=0>
+		<CFLOOP INDEX="LoopCount" FROM="1" TO="#Form.Totalops#">
+			<CFOUTPUT>
+			<tr>
+				<TD  Colspan="2">
+					<FONT SIZE=-1 FACE="arial,helvetica">			
+					<CFSET Desc = 'FORM.SRV' & #LoopCount#>
+					<CFSET Desc2 = 'Form.Service' & #LoopCount#>
+					<CFSET Price = 'Form.Price' & #LoopCount#>
+					<CFIF #Evaluate(Desc2)#>
+				    	#Evaluate(Desc)# 
+					</cfif> 
+					</Font>
+				</td>
+				<td Align="right">
+					<FONT SIZE=-1 FACE="arial,helvetica">
+					<CFIF #Evaluate(Desc2)#>
+				    	#Evaluate(Price)# 
+						<CFSET TempPrice = LSParseCurrency(#Evaluate(Price)#)>
+						<CFSET TotalPrice=TotalPrice + #TempPrice#>
+					</cfif> 
+				</Font>
+				</td>				
+			</tr>
+			</CFOUTPUT>
+		</CFLOOP>
+		<TR>
+			<TD colspan="3">
+				<P>&nbsp;</P>
+			</td>
+		</tr>
+		<TR>
+			<TD>
+			 <P>&nbsp;</P>
+			</td>
+			<TD Align="left">
+		     <FONT SIZE=-1 FACE="arial,helvetica">			 
+			 <P>Total</P>
+			 </Font>
+			</td>
+			<TD Align="right">
+				<FONT SIZE=-1 FACE="arial,helvetica">
+				<CFOUTPUT>
+				$#TotalPrice#</P>
+				</cfoutput>
+				</Font>
+			</td>
+		</tr>			
+		<TR>
+			<TD colspan="3">
+				<P>&nbsp;</P>
+			</td>
+		</tr>
+ --->	
+		<TR>
+			<TD Align="left" Colspan="3">
+				<cfoutput>
+				<FONT COLOR=#thecolor# FACE="arial,helvetica" SIZE=2>
+				<B>	Service Requests</b>
+				</font>
+				</cfoutput>
+				</Font>
+			</TD>
+		</TR>
+		<TR>
+			<TD Colspan="3">
+				<FONT SIZE=-1 FACE="arial,helvetica">
+				 <CFOUTPUT>
+				 #form.comments#
+				<cfif Len(#Form.comments#) GT 255>
+					<br><br><b><font color="red">WARNING!</font>  The Type of Service Required text that you entered on the previous page is too long and will be truncated to 255 characters as follows:</b>
+					<br><br>#Left(comments, 255)#
+					<br><br>unless you click the <b>Back</b> button on your browser to revise the text.
+				</cfif>
+				 </Font> 			
+				 </cfoutput>
+			</td>
+		</TR>
+		<TR>
+			<TD colspan="3">
+				<P>&nbsp;</P>
+			</td>
+		</tr>
+
+		<TR>
+			<TD COLSPAN=3 ALIGN=CENTER>
+			<CFOUTPUT>
+			<INPUT TYPE="hidden" NAME="stepnumber" VALUE="4">
+			<INPUT TYPE="hidden" NAME="f_name" VALUE="#form.f_name#">
+			<INPUT TYPE="hidden" NAME="l_name" VALUE="#form.l_name#">
+			<INPUT TYPE="hidden" NAME="address1" VALUE="#form.address1#">
+			<INPUT TYPE="hidden" NAME="address2" VALUE="#form.address2#">
+			<INPUT TYPE="hidden" NAME="city" VALUE="#form.city#">
+			<INPUT TYPE="hidden" NAME="state" VALUE="#form.state#">
+			<INPUT TYPE="hidden" NAME="zip" VALUE="#form.zip#">
+			<INPUT TYPE="hidden" NAME="dayphone" VALUE="#form.dayphone#">
+			<INPUT TYPE="hidden" NAME="evephone" VALUE="#form.evephone#">
+			<INPUT TYPE="hidden" NAME="email" VALUE="#form.email#">
+			<INPUT TYPE="hidden" NAME="prevcustomer" VALUE="#form.prevcustomer#">
+			<INPUT TYPE="hidden" NAME="faxphone" VALUE="#form.faxphone#">
+			<INPUT TYPE="hidden" NAME="year" VALUE="#form.year#">
+			<INPUT TYPE="hidden" NAME="make" VALUE="#form.make#">
+			<INPUT TYPE="hidden" NAME="model" VALUE="#form.model#">
+			<INPUT TYPE="hidden" NAME="modelid" VALUE="#form.modelid#">
+			<INPUT TYPE="hidden" NAME="othermodel" VALUE="#form.othermodel#">
+			<INPUT TYPE="hidden" NAME="License" VALUE="#form.License#">
+			<INPUT TYPE="hidden" NAME="VIN" VALUE="#form.VIN#">
+			<INPUT TYPE="hidden" NAME="mileage" VALUE="#form.Mileage#">
+			<INPUT TYPE="hidden" NAME="emailsched" VALUE="#form.emailsched#">
+			<CFIF NOT #form.emailsched#>
+				<INPUT TYPE="hidden" NAME="date1" VALUE="#form.date1#">
+				<INPUT TYPE="hidden" NAME="date2" VALUE="#form.date2#">
+				<INPUT TYPE="hidden" NAME="date3" VALUE="#form.date3#">
+				<INPUT TYPE="hidden" NAME="time1" VALUE="#form.time1#">
+				<INPUT TYPE="hidden" NAME="time2" VALUE="#form.time2#">
+				<INPUT TYPE="hidden" NAME="time3" VALUE="#form.time3#">
+				<!--- whether the times are already filled or not --->
+				<!--- <INPUT TYPE="hidden" NAME="time1Error" VALUE="#time1Error#">
+				<INPUT TYPE="hidden" NAME="time2Error" VALUE="#time2Error#">
+				<INPUT TYPE="hidden" NAME="time3Error" VALUE="#time3Error#"> --->
+			</CFIF>
+			<!--- linda, 10/29/99: truncate service request description to 255 char so it goes into db varchar field of 255 --->
+			<INPUT TYPE="hidden" NAME="comments" VALUE="#Left(form.comments, 255)#">
+			<INPUT TYPE="hidden" NAME="whensubmitted" VALUE="#CreateODBCDateTime(Now())#">
+			</cfoutput>
+			<BR><BR>
+			<CFOUTPUT>
+				<A HREF="JavaScript:history.back();"
+				OnMouseOver="self.status='Back';return true"
+				OnMouseOut="self.status='';return true"><IMG
+				SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_back_nav.gif" BORDER=0></A>			
+				<INPUT TYPE="image" SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_submit_nav.gif" BORDER=0>
+			</CFOUTPUT>
+			</TD>
+		</TR>
+		</FORM>
+		</TABLE>
+	</CFIF>
+</CFIF>
+<!--------------------------------------------------------------------------------------------------------------/FOUR-------------->
+<CFIF sub IS 5>
+<!--------------------------------------------------------------------------------------------------------------FIVE--------------->
+
+<!-------------------------------------------------------FOUR PROC--------------------------------->
+
+<CFQUERY NAME="insert" DATASOURCE="#gDSN#">
+	INSERT INTO requestinfogeneral (	
+			requestinfotypeid,
+			dealercode,
+			fname,
+			lname,
+			emailaddress,
+			addressline1,
+			addressline2,
+			city,
+			stateabbr,
+			zip,
+			evephone,
+			dayphone,
+			useragent,
+			whensubmitted,
+			CustomerFax)
+	VALUES (
+			4,
+			'#RTrim(dealerinfo.dealercode)#',
+			'#form.f_name#',
+			'#form.l_name#',
+			'#form.email#',
+			'#form.address1#',
+			'#form.address2#',
+			'#form.city#',
+			'#form.state#',
+			'#form.zip#',
+			'#form.evephone#',
+			'#form.dayphone#',
+			'#CGI.http_user_agent#',
+			#form.whensubmitted#,
+			'#Form.faxphone#');
+</CFQUERY>
+
+<CFQUERY NAME="getid" DATASOURCE="#gDSN#">
+	SELECT	Max(RequestInfoID) AS newest
+	FROM	RequestInfoGeneral
+	WHERE	dealercode='#RTrim(dealerinfo.dealercode)#'
+		AND whensubmitted=#form.whensubmitted#
+		AND	emailaddress='#form.email#'
+		AND	requestinfotypeid=4;
+</CFQUERY>
+
+<CFQUERY NAME="insert2" DATASOURCE="#gDSN#">
+	INSERT INTO requestinfoservice (	
+			requestinfogeneralid,
+			prevcustomer,
+			caryear,
+			make,
+			model,
+			VIN,
+			servicerequestdesc,
+			<CFIF NOT #form.emailsched#>
+				date1,
+				date2,
+				date3,
+				time1,
+				time2,
+				time3,
+			</CFIF>
+			modelid
+			)
+	VALUES	(
+			#getid.newest#,
+			'#form.prevcustomer#',
+			<cfif #form.year# IS "prior">
+				'prio',
+			<cfelse>
+				'#form.year#',
+			</cfif>
+			'#form.make#',
+			<cfif #form.model# IS NOT "">
+				'#form.model#',
+			<cfelse>
+				'#form.othermodel#',
+			</cfif>
+			'#form.VIN#',
+			'#form.comments#',
+			<CFIF NOT #form.emailsched#> 
+				'#form.date1#',
+				'#form.date2#',
+				'#form.date3#',
+				'#form.time1#',
+				'#form.time2#',
+				'#form.time3#',
+			</CFIF>
+			#form.modelid#
+			);
+</CFQUERY>
+
+<!--- linda, 8/31/99: if there's a separate email for service, use that.  otherwise, send to main email address. --->
+<cfoutput>
+<cfif #trim(dealerinfo.ServiceEmail)# IS NOT "">
+	<cfset toemail = #dealerinfo.ServiceEmail#>
+<cfelse>
+	<cfset toemail = #dealerinfo.email#>
+</cfif>
+<!---This adds the second service request for dealers --->
+<cfif #trim(dealerinfo.ServiceEmail2)# IS NOT "">
+	<cfset toemail2 = #dealerinfo.ServiceEmail2#>
+<cfelse>
+	<cfset toemail2 = #dealerinfo.email#>
+</cfif>
+
+</cfoutput>
+<!--- Linda, 6/5/00: worlddealer.net emails aren't working
+, service_request@worlddealer.net --->
+<CFMAIL TO="#toemail#"
+		CC="#toemail2#, jweitz@worlddealer.net"
+		FROM="#email#"
+		SUBJECT="#dealerinfo.dealershipname# Service Appointment Request">
+        
+URGENT SERVICE REQUEST FROM WORLDDEALER!
+		
+#TimeFormat(now(),'h:mm tt')# #DateFormat(now(),'mmmm d, yyyy')#
+Name: #f_name# #l_name#
+Address: #address1# #address2#
+City, State Zip: #city#, #state# #zip#
+Day Phone: #dayphone#
+Eve Phone: #evephone#
+Fax Phone: #faxphone#
+Email: #email#
+Previous Customer? #prevcustomer#
+Vehicle:
+Make: #make#
+Model: #model# #othermodel#
+Year: #year#
+VIN: #VIN#
+Description of problem:
+#form.comments#
+<CFIF NOT #form.emailsched#> 
+Preferred times:
+1) #DateFormat("#form.date1#", "ddd, mmmm dd, yyyy")#  #form.time1#
+2) #DateFormat("#form.date2#", "ddd, mmmm dd, yyyy")#  #form.time2#
+3) #DateFormat("#form.date3#", "ddd, mmmm dd, yyyy")#  #form.time3#
+<CFELSE>
+I would like to schedule a date in the future. Please have a service representative contact me to schedule a time.
+</CFIF>
+</CFMAIL>
+<!---Bryan: 11/02/99 Faxing Function Activated--->
+<cfoutput>
+<!--- linda, 11/4/99: if there's a separate fax for service dept, use that.  otherwise, send to main fax number. --->
+<cfif #len(trim(dealerinfo.ServiceFax))# eq 10>
+	<cfset toFax = #dealerinfo.ServiceFax#>
+<cfelse>
+	<cfset toFax = #dealerinfo.FaxPhone#>
+</cfif>
+<CFSET #variables.dialthisnumber# = "#dealerinfo.dealershipname#" & "@" & 1 & #toFax# & ".fax">
+</cfoutput>
+<cfif #len(trim(toFax))# eq 10>
+	<!--- Linda, 6/5/00: worlddealer.net emails aren't working
+	FROM="service_request@worlddealer.net"
+	6/6/00: to test from Olympus, insert this SERVER line into the CFMAIL.
+	SERVER="arizona.sigma6.com"
+	 --->
+	<CFMAIL TO="#variables.dialthisnumber#"
+			FROM="info@worlddealer.net"
+			SUBJECT="#dealerinfo.dealershipname# Service Appointment Request">
+		
+	URGENT SERVICE REQUEST FROM WORLDDEALER!
+			
+	#DateFormat(now(),'mmmm d, yyyy')# #TimeFormat(now(),'h:mm tt')#
+	#dealerinfo.dealershipname# Service Appointment Request
+	
+	Name: #f_name# #l_name#
+	Address: #address1# #address2#
+	City, State Zip: #city#, #state# #zip#
+	Day Phone: #dayphone#
+	Eve Phone: #evephone#
+	Fax Phone: #faxphone#
+	Email: #email#
+	Previous Customer? #prevcustomer#
+	
+	Vehicle:
+	Year:#year#
+	Make:#make#
+	Model:#model# #othermodel#
+	VIN:#VIN#
+	Description of problem:
+	#form.comments#
+	
+	<CFIF NOT #form.emailsched#> 
+	Preferred times:
+	1) #DateFormat("#form.date1#", "ddd, mmmm dd, yyyy")#  #form.time1#
+	2) #DateFormat("#form.date2#", "ddd, mmmm dd, yyyy")#  #form.time2#
+	3) #DateFormat("#form.date3#", "ddd, mmmm dd, yyyy")#  #form.time3#
+	<CFELSE>
+	I would like to schedule a date in the future. Please have a service representative contact me to schedule a time.
+	</CFIF>
+	</CFMAIL> 
+</cfif>
+	
+<!-------------------------------------------------------/FOUR PROC--------------------------------->
+<!-------------------------------------------------------FOUR COMMENT------------------------------->
+<div align="center">
+<TABLE BORDER=0>
+<TR>
+	<TD ALIGN=LEFT>
+	<FONT SIZE=-1 FACE="arial,helvetica">
+ 			<CFOUTPUT>
+			#form.f_name# #form.l_name#, you will receive an email reply
+			from an authorized #dealerinfo.dealershipname#
+			representative soon.
+			<BR><BR>
+			</CFOUTPUT>
+<!--- 	</CFIF> --->
+		<A HREF="main.cfm?section=se">Click here</A> to return to the Service & Parts main page.
+	</FONT>
+	</TD>
+</TR>
+</TABLE>
+</div>
+<!-------------------------------------------------------/FOUR PROC-------------------------------->
+<!-------------------------------------------------------------------------------------------------------------/FIVE--------------->
+</CFIF>

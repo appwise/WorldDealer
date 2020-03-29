@@ -1,0 +1,118 @@
+<!---
+Created by Sigma6, Inc.
+Copyright (c) 1999 Sigma6, Inc.
+All Rights Reserved.  Used By Permission.
+
+Sigma6, interactive media, Detroit/NYC
+conceive : construct : connect
+www.sigma6.com   webmaster@sigma6.com   info@sigma6.com
+
+Last updated: <August 18, 1999>
+
+Linda Swanson for sigma6, interactive media, Detroit
+lswanson@sigma6.com   www.sigma6.com    www.s6313.com
+conceive : construct : connect
+
+Sigma6, s6, and the Sigma6 logos are registered trademarks.
+All other trademarks and servicemarks are the property of
+their respective owners.
+--->
+<!--- $Id: global_7.htm,v 1.5 2000/05/25 18:15:51 bbickel Exp $ --->
+<!--- Side Product Globals --->
+
+
+
+<!------- NAVIGATION VARIABLES------------------------------------------------->
+<CFSET onoff = "false">  <!--- whether there's a separate leftnav image (up / down image) for section you're in --->
+<CFSET thespace = "false">	<!--- whether to insert blank spaces between LeftNav buttons --->
+<CFSET thefooter = "false">		<!--- Back to Top footer --->
+<CFSET leftnavbase = "true">  <!--- whether it has the nav_base_nav.gif at the bottom of the leftnav --->
+
+<!--------------leftnav width and height----------------->
+<CFOUTPUT>
+<!--- Collections --->
+<CFIF Mid(#dealerinfo.dealercode#, 6, 4) IS '0000'>
+	<CFSET shw = 125><!---SH--->
+	<CFSET shh = 22>
+	<CFSET prw = 125><!---PR--->
+	<CFSET prh = 22>
+	<CFSET vew = 125><!---VE--->
+	<CFSET veh = 20>
+	<CFSET fiw = 125><!---FI--->
+	<CFSET fih = 22>
+	<CFSET lew =125 ><!---LE--->
+	<CFSET leh = 22>
+	<CFSET advw =125 ><!---ADV--->
+	<CFSET advh = 34>
+	<CFSET dlw =125 ><!---DL--->
+	<CFSET dlh = 24>
+	<CFSET caw = 125><!---CA--->
+	<CFSET cah = 63>
+	<CFSET nocaw =125 ><!---No CA--->
+	<CFSET nocah = 63>
+	<CFSET bsw =125 ><!---BASE--->
+	<CFSET bsh =4 >
+<CFELSE>
+	<!--- Dealerships --->
+	<CFSET shw = 125><!---SH--->
+	<CFSET shh = 23>
+	<CFSET prw = 125><!---PR--->
+	<CFSET prh = 21>
+	<CFSET quw = 125><!---QU--->
+	<CFSET quh = 24>
+	<CFSET fiw = 125><!---FI--->
+	<CFSET fih = 21>
+	<CFSET lew = 125><!---LE--->
+	<CFSET leh = 22>
+	<CFSET advw = 125><!---ADV--->
+	<CFSET advh = 34>
+	<CFSET sew = 125><!---SE--->
+	<CFSET seh = 22>
+	<CFSET dew = 125><!---DE--->
+	<CFSET deh = 22>
+	<CFSET maw = 125><!---MA--->
+	<CFSET mah = 21>
+	<CFSET cow = 125><!---CO--->
+	<CFSET coh = 22>
+	<CFSET caw = 125><!---CA--->
+	<CFSET cah = 29>
+	<CFSET nocaw = 125><!---No CA--->
+	<CFSET nocah = 29>
+	<CFSET bsw = 125><!---BASE--->
+	<CFSET bsh = 4>
+</CFIF>
+</CFOUTPUT>
+
+<!--- other images width & height --->
+<CFSET seapptw = 151>		<!--- service appt --->
+<CFSET seappth = 59>
+<CFSET separtw = 125>		<!--- parts request --->
+<CFSET separth = 59>
+<CFSET whow = 407>			<!--- who we are --->
+<CFSET whoh = 25>
+<CFSET whyw = 407>			<!--- why we're different --->
+<CFSET whyh = 25>
+
+
+<!---COLORS FOR BGs AND FONTS-------------------------------------------------->
+<CFSET thecolor = "33ccee">  		<!--- light blue --->
+<CFSET theothercolor = "000000">	<!--- black --->
+<CFSET textcolor = "000000">
+<CFSET othertextcolor = "ffffff">
+<CFSET thirdcolor ="EFEFEF">
+
+<CFOUTPUT>
+<BODY	
+		BACKGROUND="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/bg.gif"
+		BGCOLOR="0066aa" <!--- closest web-safe color to dark blue stripe in background --->
+		TEXT="ffffff"
+		LINK="eedd00"  <!--- yellow --->
+		ALINK="ffffff" <!--- white --->
+		VLINK="ffffff">
+</cfoutput>
+
+<!---Is the why we are different formatted side to side or break line?-------->
+<CFSET whyweare = "break">
+
+<!---This Sets whether the manufacturer logos are black or white-------->
+<CFSET make_logo_blk = "y">

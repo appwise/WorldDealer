@@ -1,0 +1,122 @@
+<!-- ----------------------------------------------------------- -->
+<!--                 Created by Sigma6, Inc.                     -->
+<!--             Copyright (c) 1997, 1998, 1999 Sigma6, Inc.     -->
+<!-- All Rights Reserved.  Copyright Does Not Imply Publication. -->
+<!-- ----------------------------------------------------------- -->
+<!-- ----------------------------------------------------------- -->
+<!--           Sigma6, interactive media, Detroit/NYC            -->
+<!--               conceive : construct : connect                -->
+<!--   www.sigma6.com   webmaster@sigma6.com   info@sigma6.com   -->
+<!--                                                             -->
+<!--   Last updated: <October 1, 1999>                           -->
+<!-- ----------------------------------------------------------- -->
+<!--     Bryan Bickel for sigma6, interactive media, Detroit     -->
+<!--   bbickel@sigma6.com   www.sigma6.com    www.s6313.com      -->
+<!--               conceive : construct : connect                -->
+<!-- ----------------------------------------------------------- -->
+<!-- ----------------------------------------------------------- -->
+<!-- Sigma6, s6, and the Sigma6 logos are registered trademarks. -->
+<!-- All other trademarks and servicemarks are the property of   -->
+<!-- their respective owners.                                    -->
+<!-- ----------------------------------------------------------- -->
+<!--- CitySCape Inside Pages --->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+	<!--- $Id: template_12.htm,v 1.4 2000/06/01 18:20:08 bbickel Exp $ --->
+
+<HEAD>
+	<CFOUTPUT>
+	<TITLE>#dealerinfo.dealershipname#</TITLE>
+	
+	<!--- so the background doesn't repeat --->
+	<STYLE TYPE="text/css">
+		BODY { background: ##ffffff url(#application.RELATIVE_PATH#/images/#arttempid.arttempid#/bg.gif) no-repeat top left }
+    </STYLE>
+	</CFOUTPUT>
+</HEAD>
+
+
+<!--- BEGIN BODY --->
+<CFOUTPUT>
+<CFINCLUDE TEMPLATE="global_#arttempid.arttempid#.htm">
+</CFOUTPUT>
+
+<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0>
+<TR>
+	<!--- LEFT COLUMN --->
+	<TD Align="left" VALIGN="TOP" rowspan="2">  <!--- width of 130 (matches width of gray column) --->
+		<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 width="125">
+
+		<TR>
+			<TD align="left" valign="bottom">
+				<CFOUTPUT>
+				<A HREF="index.cfm?dealercode=#dealerinfo.dealercode#"
+				TITLE="Return to #dealerinfo.dealershipname#'s Home Page"
+				OnMouseOver="self.status='Return to #Replace(dealerinfo.dealershipname, "'", "\'")#\'s Home Page';return true" 
+				OnMouseOut="self.status='';return true"><IMG
+				SRC="#application.RELATIVE_PATH#/images/logo/#dealerinfo.dealercode#_#arttempid.arttempid#_logo_hea.gif"
+				WIDTH=124
+				HEIGHT=88
+				BORDER=0
+				ALT="#dealerinfo.dealershipname#"></A></CFOUTPUT></TD>
+		</TR>
+		<TR>
+			<TD align="left" valign="top">
+				<CFINCLUDE TEMPLATE="leftnav.htm">
+			</TD>
+		</TR>
+		</TABLE>
+	</TD>
+
+	<!--- MAIN COLUMN --->
+	<TD align="center" valign="top"> 
+		<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 WIDTH=475>
+		<!--- BANNER/TITLE --->
+		<TR>
+			<TD ALIGN="CENTER" height="88">  <!--- height of 88 = height of left logo.  so banner rides down lower without additional spaces or rows inserted --->
+				<CFINCLUDE TEMPLATE="banner.htm">
+			</TD>
+		</TR>
+		<TR>
+			<TD Align="CENTER" valign="bottom">
+				<IMG SRC="<CFOUTPUT>#application.RELATIVE_PATH#</CFOUTPUT>/images/<CFOUTPUT>#arttempid.arttempid#</CFOUTPUT>/tle_<CFOUTPUT>#section#</CFOUTPUT>_hea.gif"
+				BORDER=0
+				WIDTH=400	
+				HEIGHT=27
+				ALT="">
+				<br><br>
+			</TD>
+		</TR>
+		<!--- MAIN BODY --->
+		<TR>
+			<TD VALIGN=TOP ALIGN=CENTER>
+				<TABLE BORDER=0 WIDTH=400>
+				<TR>
+					<TD>
+						<CFIF IsDefined("subsection")>
+							<CFSET themain = "#section#_#subsection#">
+						<CFELSE>				
+							<CFSET themain = "#section#">
+						</CFIF>
+						<CFINCLUDE TEMPLATE="#themain#.htm">			
+					</TD>
+				</TR>
+				</TABLE>
+			</TD>
+		</TR>
+		</table>
+	</td>
+</tr>
+
+<!--- FOOTER --->
+<tr>
+	<TD ALIGN="CENTER" valign="bottom">
+		<BR><BR>
+		<CFINCLUDE TEMPLATE="footer.htm">
+	</TD>
+</TR>
+</TABLE>
+
+</BODY>
+</HTML>

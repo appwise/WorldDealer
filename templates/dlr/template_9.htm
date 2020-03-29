@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!---
+Created by Sigma6, Inc.
+Copyright (c) 1999 Sigma6, Inc.
+All Rights Reserved.  Used By Permission.
+
+Sigma6, interactive media, Detroit/NYC
+conceive : construct : connect
+www.sigma6.com   webmaster@sigma6.com   info@sigma6.com
+
+Last updated: <September 1, 1999>
+
+Linda Swanson for sigma6, interactive media, Detroit
+lswanson@sigma6.com   www.sigma6.com    www.s6313.com
+conceive : construct : connect
+
+Sigma6, s6, and the Sigma6 logos are registered trademarks.
+All other trademarks and servicemarks are the property of
+their respective owners.
+--->
+<!--- Needle Template --->
+
+
+<HTML>
+	<!--- $Id: template_9.htm,v 1.6 1999/11/29 20:09:42 lswanson Exp $ --->
+
+<HEAD>
+	<CFOUTPUT>
+	<TITLE>#dealerinfo.dealershipname#</TITLE>
+
+	<!--- so the background doesn't repeat --->
+	<STYLE TYPE="text/css">
+		BODY { background: ##ffffff url(#application.RELATIVE_PATH#/images/#arttempid.arttempid#/bg.jpg) no-repeat top left }
+    </STYLE>
+	</CFOUTPUT>
+</HEAD>
+
+<!--- BEGIN BODY --->
+<CFOUTPUT>
+<CFINCLUDE TEMPLATE="global_#arttempid.arttempid#.htm">
+</CFOUTPUT>
+
+<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0>
+<TR>
+	<!--- LEFT COLUMN --->
+	<TD ALIGN=left VALIGN=TOP WIDTH=150 rowspan="2">    <!--- only 135 wide, but building in buffer for column spacer --->
+		<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 ALIGN=LEFT>
+		<TR>
+			<TD WIDTH=135 ALIGN=left VALIGN="bottom">
+				<CFOUTPUT>
+				<A HREF="index.cfm?dealercode=#DealerCode#" 
+				TITLE="Return to #dealerinfo.dealershipname#'s Home Page" 
+				OnMouseOver="self.status='Return to #Replace(dealerinfo.dealershipname, "'", "\'")#\'s Home Page';return true" 
+				OnMouseOut="self.status='';return true"><IMG 
+				SRC="#application.RELATIVE_PATH#/images/logo/#dealerinfo.dealercode#_#arttempid.arttempid#_logo_hea.gif" 
+				BORDER=0
+				width="134"
+				height="123"
+				ALT="#dealerinfo.dealershipname#"></A>
+				</CFOUTPUT>
+			</td>
+		</tr>
+		<tr>
+			<td align="left" valign="top">
+				<CFINCLUDE TEMPLATE="leftnav.htm">
+			</TD>
+		</TR>
+		</TABLE>
+	</TD>
+	
+	<!--- MAIN COLUMN --->	
+	<TD ALIGN=CENTER VALIGN=TOP width="450">
+		<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0>
+		<!--- BANNER --->
+		<TR>
+			<TD align="center">
+				<CFINCLUDE TEMPLATE="banner.htm">
+			</TD>
+		</TR>
+		<!-----------------------------------------------------------TITLE-------------->
+		<CFOUTPUT>
+		<TR>
+			<TD align="right">
+				<IMG
+				SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/tle_#section#_hea.gif"
+				BORDER=0
+				width="437"
+				height="49"
+				ALT=""></TD>
+		</TR>
+		</CFOUTPUT>
+		<!--- MAIN BODY --->
+		<TR>
+			<TD WIDTH=400 VALIGN=TOP>
+				<CFIF IsDefined("subsection")>
+					<CFSET themain = "#section#_#subsection#">
+				<CFELSE>				
+					<CFSET themain = "#section#">
+				</CFIF>
+				<CFINCLUDE TEMPLATE="#themain#.htm">
+			</TD>
+		</TR>
+		</TABLE>
+	</TD>
+</TR>
+
+<!--- FOOTER --->
+<TR>
+	<TD ALIGN=CENTER valign="bottom">
+		<BR><BR>
+		<CFINCLUDE TEMPLATE="footer.htm">
+	</TD>
+</TR>
+</TABLE>
+
+</BODY>
+</HTML>

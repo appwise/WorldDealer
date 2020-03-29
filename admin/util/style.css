@@ -1,0 +1,22 @@
+/*
+HH style sheet
+
+Copyright (c) 1998 Sigma6 Inc.  All rights reserved.
+$Id: style.css,v 1.1 2000/03/16 16:13:11 lswanson Exp $
+*/
+
+/* debug output */
+div.debug td, div.debug th {
+	font-size: smaller;
+	padding: 0em;
+	margin: 0em;
+}
+div.debug th {
+	font-weight: normal;
+	color: #ffffff;
+	background-color: #000070;
+}
+div.debug td {
+	color: #000000;
+	background-color: #c6c6c6;
+}

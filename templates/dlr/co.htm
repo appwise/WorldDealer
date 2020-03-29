@@ -1,0 +1,67 @@
+<!---
+Created by Sigma6, Inc.
+Copyright (c) 1998 Sigma6, Inc.
+All Rights Reserved.  Used By Permission.
+
+Sigma6, interactive media, Detroit/NYC
+conceive : construct : connect
+www.sigma6.com   webmaster@sigma6.com   info@sigma6.com
+
+Last updated: <May 27, 1998>
+
+Daniel Fettinger for sigma6, interactive media, Detroit
+dfettinger@sigma6.com   www.sigma6.com    www.s6313.com
+conceive : construct : connect
+
+Sigma6, s6, and the Sigma6 logos are registered trademarks.
+All other trademarks and servicemarks are the property of
+their respective owners.
+--->
+<!--- $Id: co.htm,v 1.7 2000/03/17 20:29:11 jkrauss Exp $ --->
+
+<!---get the promotions--->
+<CFQUERY NAME="getpromos" DATASOURCE="#gDSN#">
+	SELECT	VirtualCouponID, 
+			description,
+			ExpirationDate
+	FROM	virtualcoupons
+	WHERE	dealerwebid=#arttempid.dealerwebid#
+	AND		status='A'
+	AND 	ExpirationDate >= #CreateODBCDate(DateFormat(Now(),"mm/dd/yyyy"))#
+</CFQUERY>
+
+<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0>
+<TR>
+	<TD>
+		<BR>
+		<FONT SIZE=3 FACE="arial,helvetica">
+		<CFIF getpromos.RecordCount IS NOT 0>
+			<B>Print out this page and bring it to <CFOUTPUT QUERY="dealerinfo">#dealershipname#</CFOUTPUT>!</B>
+			</FONT>
+			<BR><BR>
+	</TD>
+</TR>
+	<CFOUTPUT QUERY="getpromos">
+	<TR>
+		<TD ALIGN=CENTER>
+			<IMG SRC="#application.RELATIVE_PATH#/images/coupons/#RTrim(dealerinfo.dealercode)#_#arttempid.arttempid#_#getpromos.virtualcouponID#_coupon.gif"
+				BORDER=0
+				ALT="#dealerinfo.dealershipname# Coupon">
+			<BR>
+			<FONT SIZE=2 FACE="arial,helvetica">
+			#Replace("#ParagraphFormat(description)#","~","<BR>","ALL")#
+			<b>Coupon Expires:</b> #DateFormat(expirationdate,'mmmm d, yyyy')#
+			</FONT>
+		</TD>
+	</TR>
+	<TR>
+		<TD>&nbsp;</TD>
+	</TR>
+	</CFOUTPUT>
+	<CFELSE>
+			There are currently no virtual coupons being offered by <CFOUTPUT QUERY="dealerinfo">#dealershipname#</CFOUTPUT>.
+		</FONT>
+		</TD>
+	</TR>
+	</CFIF>
+</TABLE>

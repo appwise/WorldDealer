@@ -1,0 +1,787 @@
+<!---
+Created by Sigma6, Inc.
+Copyright (c) 1998 Sigma6, Inc.
+All Rights Reserved.  Used By Permission.
+
+Sigma6, interactive media, Detroit/NYC
+conceive : construct : connect
+www.sigma6.com   webmaster@sigma6.com   info@sigma6.com
+
+Last updated: <May 27, 1998>
+
+Daniel Fettinger for sigma6, interactive media, Detroit
+dfettinger@sigma6.com   www.sigma6.com    www.s6313.com
+conceive : construct : connect
+
+Sigma6, s6, and the Sigma6 logos are registered trademarks.
+All other trademarks and servicemarks are the property of
+their respective owners.
+--->
+
+<CFIF NOT IsDefined("sub")>
+	<CFSET sub = 1>
+</CFIF>
+
+<CFIF sub IS 1>
+<!---------------------------------------------------------------------------ONE------------------------------------------------------------------------------------->
+
+<CFQUERY NAME="getstates" DATASOURCE="#gDSN#">
+	SELECT * FROM states
+</CFQUERY>
+
+<TABLE BORDER=0 CELLPADDING=0>
+<FORM ACTION="main.cfm?section=se&subsection=part&sub=2" METHOD="POST" NAME="partform">
+<INPUT TYPE="hidden" NAME="stepnumber" VALUE="2">
+<TR>
+	<TD COLSPAN=2>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Simply complete this form and click <b>next</b>.  Your information will be automatically faxed to the
+			<CFOUTPUT>#dealerinfo.dealershipname#</CFOUTPUT> Parts Department.
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>
+		&nbsp;
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>
+	<CFOUTPUT>
+		<FONT COLOR=#thecolor# FACE="arial,helvetica" SIZE=2><B>
+			PARTS REQUEST FORM<BR>
+			-- 1 OF 3
+		</B></FONT>
+	</CFOUTPUT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>&nbsp;</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<b>First Name</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" size=25 NAME="f_name" MAXLENGTH=20>
+			<INPUT TYPE="hidden" NAME="f_name_required" value="<A HREF='Javascript:history.back();'>Please enter your first name in the entry field</A>">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<b>Last Name</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" size=25 NAME="l_name" MAXLENGTH=30>
+			<INPUT TYPE="hidden" NAME="l_name_required" value="<A HREF='Javascript:history.back();'>Please enter your surname in the entry field</A>">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Address(1)
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" size=25 NAME="address1" MAXLENGTH=35>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Address(2)
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" size=25 NAME="address2" MAXLENGTH=35>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			City
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="city" size=25 MAXLENGTH=35<!---  VALUE="<CFOUTPUT>#dealerinfo.city#</CFOUTPUT>" --->>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<b>State</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+		<SELECT NAME="state">
+			<OPTION VALUE="">Select Your State
+			<CFOUTPUT QUERY="getstates">
+				<OPTION VALUE="#stateabbr#" <CFIF #stateabbr# IS #dealerinfo.stateabbr#>SELECTED</CFIF>>#description#
+			</CFOUTPUT>
+		</SELECT>
+		<INPUT TYPE="hidden" NAME="state_required" value="<A HREF='Javascript:history.back();'>Please enter your state in the entry field</A>">
+		</FONT>
+	</TD>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Zip
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="zip" size=25 MAXLENGTH=10<!---  VALUE="<CFOUTPUT>#dealerinfo.zip#</CFOUTPUT>" --->>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<b>Day Phone</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="dayphone1" SIZE=3 MAXLENGTH=3>
+			<INPUT TYPE="text" NAME="dayphone2" SIZE=3 MAXLENGTH=3>
+			<INPUT TYPE="text" NAME="dayphone3" SIZE=4 MAXLENGTH=4>
+			<INPUT TYPE="hidden" NAME="dayphone1_required" value="<A HREF='Javascript:history.back();'>Please enter your daytime phone number in the entry field</A>">
+			<INPUT TYPE="hidden" NAME="dayphone2_required" value="<A HREF='Javascript:history.back();'>Please enter your daytime phone number in the entry field</A>">
+			<INPUT TYPE="hidden" NAME="dayphone3_required" value="<A HREF='Javascript:history.back();'>Please enter your daytime phone number in the entry field</A>">	
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Evening Phone
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="evephone1" SIZE=3 MAXLENGTH=3>
+			<INPUT TYPE="text" NAME="evephone2" SIZE=3 MAXLENGTH=3>
+			<INPUT TYPE="text" NAME="evephone3" SIZE=4 MAXLENGTH=4>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Fax Number
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="faxphone1" SIZE=3 MAXLENGTH=3>
+			<INPUT TYPE="text" NAME="faxphone2" SIZE=3 MAXLENGTH=3>
+			<INPUT TYPE="text" NAME="faxphone3" SIZE=4 MAXLENGTH=4>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<b>E-Mail</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="email" size=25 MAXLENGTH=50>
+			<INPUT TYPE="hidden" NAME="email_required" value="<A HREF='Javascript:history.back();'>Please enter your e-mail address in the entry field</A>">	
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2 ALIGN=CENTER>
+	<BR>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			I have been a customer at the <CFOUTPUT>#dealerinfo.dealershipname#</CFOUTPUT> Service Department before.
+			<BR>
+			<INPUT TYPE="radio" NAME="prevcustomer" VALUE="Yes" CHECKED> Yes <INPUT TYPE="radio" NAME="prevcustomer" VALUE="no"> No
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<BR>Required fields are <b>bolded</b>.
+		</FONT>		
+	</td>
+</tr>
+<TR>
+	<TD ALIGN=CENTER COLSPAN=2>
+	<CFOUTPUT>
+		<BR><BR>
+		<A HREF="JavaScript:history.back();"
+			OnMouseOver="self.status='Back';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_back_nav.gif" BORDER=0></A>			
+		<A HREF="JavaScript:document.partform.reset();"
+			OnMouseOver="self.status='Blank Out Form';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_reset_nav.gif" BORDER=0></A>		
+		<INPUT TYPE="image" SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_next_nav.gif" BORDER=0>
+	</CFOUTPUT>
+	</TD>
+</TR>
+</FORM>
+</TABLE>
+
+<!--------------------------------------------------------------------------/ONE------------------------------------------------------------------------------------->
+<CFELSEIF sub IS 2>
+<!---------------------------------------------------------------------------TWO------------------------------------------------------------------------------------->
+
+<CFSET dayphone = '#Form.dayphone1##Form.dayphone2##Form.dayphone3#'>
+<CFSET evephone = '#Form.evephone1##Form.evephone2##Form.evephone3#'>
+<CFSET faxphone = '#Form.faxphone1##Form.faxphone2##Form.faxphone3#'>
+
+<TABLE BORDER=0 CELLPADDING=0>
+<FORM ACTION="main.cfm?section=se&subsection=part&sub=3" METHOD="POST" NAME="partform">
+<INPUT TYPE="hidden" NAME="stepnumber" VALUE="3">
+<TR>
+	<TD ALIGN+LEFT COLSPAN=2>
+	<CFOUTPUT>
+		<FONT COLOR=#thecolor# FACE="arial,helvetica" SIZE=2><B>
+			PARTS REQUEST FORM<BR>
+			-- 2 OF 3
+		</B></FONT>
+	</CFOUTPUT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>&nbsp;</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>
+	<CFOUTPUT>
+		<FONT SIZE=2 FACE="arial,helvetica" COLOR=#thecolor#><B>
+			Car for which a part is to be ordered or located:
+		</B></FONT>
+	</CFOUTPUT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>&nbsp;</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<b>Year</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="year" size=20 MAXLENGTH=4>
+			<INPUT TYPE="hidden" NAME="year_required" value="<A HREF='Javascript:history.back();'>Please select a year from the select field</A>">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<b>Make</b> (i.e. Ford)
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="Make" size=20 MAXLENGTH=50>
+			<INPUT TYPE="hidden" NAME="Make_required" value="<A HREF='Javascript:history.back();'>Please enter a Make name in the entry field</A>">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<b>Model</b> (i.e. Escort)
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="model" size=20 MAXLENGTH=35>
+			<INPUT TYPE="hidden" NAME="model_required" VALUE="<A HREF='Javascript:history.back();'>Please enter a model name in the entry field</A>">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			VIN 
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="Vin" size=20 MAXLENGTH=20></FONT>
+	</TD>
+</TR>
+
+<TR>
+	<TD COLSPAN=2>
+		&nbsp;
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>
+	<CFOUTPUT>
+		<FONT SIZE=2 FACE="arial,helvetica" COLOR=#thecolor#><B>
+			Part Requested<BR>
+		</FONT>
+		<FONT SIZE=1 FACE="arial,helvetica" COLOR=#thecolor#>
+			<I>(Include original equipment serial number of part being replaced, if possible)</I>
+		</B></FONT>
+	</CFOUTPUT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<TEXTAREA NAME="description" ROWS=10 COLS=32 WRAP="virtual"></TEXTAREA>
+			<INPUT TYPE="hidden" NAME="description_required" VALUE="<A HREF='Javascript:history.back();'>Please enter the part requested in the entry field</A>">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<BR>Required fields are <b>bolded</b>.
+		</FONT>		
+	</td>
+</tr>
+<TR>
+	<TD ALIGN=CENTER COLSPAN=2>
+	<CFOUTPUT>
+	<!--STEP 1-------------------------------------------------------------------------->
+		<INPUT TYPE="hidden" NAME="f_name" VALUE="#form.f_name#">
+		<INPUT TYPE="hidden" NAME="l_name" VALUE="#form.l_name#">
+		<INPUT TYPE="hidden" NAME="address1" VALUE="#form.address1#">
+		<INPUT TYPE="hidden" NAME="address2" VALUE="#form.address2#">
+		<INPUT TYPE="hidden" NAME="city" VALUE="#form.city#">
+		<INPUT TYPE="hidden" NAME="state" VALUE="#form.state#">
+		<INPUT TYPE="hidden" NAME="zip" VALUE="#form.zip#">
+		<INPUT TYPE="hidden" NAME="dayphone" VALUE="#variables.dayphone#">
+		<INPUT TYPE="hidden" NAME="evephone" VALUE="#variables.evephone#">
+		<INPUT TYPE="hidden" NAME="email" VALUE="#form.email#">
+		<INPUT TYPE="hidden" NAME="prevcustomer" VALUE="#form.prevcustomer#">
+		<INPUT TYPE="hidden" NAME="faxphone" VALUE="#variables.faxphone#">
+	<!--END STEP 1---------------------------------------------------------------------->
+		<BR><BR>
+		<A HREF="JavaScript:history.back();"
+			OnMouseOver="self.status='Back';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_back_nav.gif" BORDER=0></A>			
+		<A HREF="JavaScript:document.partform.reset();"
+			OnMouseOver="self.status='Blank Out Form';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_reset_nav.gif" BORDER=0></A>		
+		<INPUT TYPE="image" src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_next_nav.gif" BORDER=0>
+	</CFOUTPUT>
+	</TD>
+</TR>
+</FORM>
+</TABLE>
+
+<!--------------------------------------------------------------------------/TWO------------------------------------------------------------------------------------->
+<!---<CFELSEIF sub IS 3>
+<!--------------------------------------------------------------------------THREE------------------------------------------------------------------------------------>
+<!--- 
+<TABLE BORDER=0 CELLPADDING=0>
+<FORM ACTION="main.cfm?section=se&subsection=part&sub=4" METHOD="POST" NAME="partform">
+<INPUT TYPE="hidden" NAME="stepnumber" VALUE="4">
+<TR>
+	<TD ALIGN=LEFT COLSPAN=2>
+	<CFOUTPUT>
+		<FONT COLOR=#thecolor# FACE="arial,helvetica" SIZE=2><B>
+			PARTS REQUEST FORM<BR>
+			-- 3 OF 4
+		</B></FONT>
+	</CFOUTPUT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>
+		&nbsp;
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>
+	<CFOUTPUT>
+		<FONT SIZE=2 FACE="arial,helvetica" COLOR=#thecolor#><B>
+			A 20% deposit is required to order any part
+		</B></FONT>
+	</CFOUTPUT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>
+		&nbsp;
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>
+		<FONT SIZE=2 FACE="arial,helvetica">
+		<INPUT TYPE="radio" NAME="depositinfo" VALUE="creditcard">
+		Please put deposit on my credit card.
+		<BR>
+		</FONT>
+		<FONT SIZE=1 FACE="arial,helvetica"><I>
+		(Please be advised that this is NOT a secure connection,
+		and any information you include on this form
+		can be viewed by outside parties during transit.)
+		</I></FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Card Type
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="cardtype" SIZE=25 MAXLENGTH=16>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Number
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="cardnumber" SIZE=25 MAXLENGTH=16>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Expiration Date
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="cardexp" SIZE=25 MAXLENGTH=7>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>&nbsp;</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>
+		<FONT SIZE=2 FACE="arial,helvetica">
+		<INPUT TYPE="radio" NAME="depositinfo" VALUE="locate only" CHECKED>
+		Please just locate the part at this time, and let me know the price and estimated time to get it.
+		I will make a deposit at a later time.
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD ALIGN=CENTER COLSPAN=2>
+	<CFOUTPUT>
+	<!--STEP 1-------------------------------------------------------------------------->
+		<!--- <INPUT TYPE="hidden" NAME="f_name" VALUE="#form.f_name#">
+		<INPUT TYPE="hidden" NAME="l_name" VALUE="#form.l_name#">
+		<INPUT TYPE="hidden" NAME="address1" VALUE="#form.address1#">
+		<INPUT TYPE="hidden" NAME="address2" VALUE="#form.address2#">
+		<INPUT TYPE="hidden" NAME="city" VALUE="#form.city#">
+		<INPUT TYPE="hidden" NAME="state" VALUE="#form.state#">
+		<INPUT TYPE="hidden" NAME="zip" VALUE="#form.zip#">
+		<INPUT TYPE="hidden" NAME="dayphone" VALUE="#form.dayphone#">
+		<INPUT TYPE="hidden" NAME="evephone" VALUE="#form.evephone#">
+		<INPUT TYPE="hidden" NAME="email" VALUE="#form.email#">
+		<INPUT TYPE="hidden" NAME="prevcustomer" VALUE="#form.prevcustomer#">
+		<INPUT TYPE="hidden" NAME="faxphone" VALUE="#form.faxphone#"> --->
+	<!--END STEP 1---------------------------------------------------------------------->
+	<!--STEP 2-------------------------------------------------------------------------->
+		<!--- <INPUT TYPE="hidden" NAME="year" VALUE="#form.year#">
+		<INPUT TYPE="hidden" NAME="make" VALUE="#form.make#">
+		<INPUT TYPE="hidden" NAME="model" VALUE="#form.model#">
+		<INPUT TYPE="hidden" NAME="vin" VALUE="#form.vin#">
+		<INPUT TYPE="hidden" NAME="description" VALUE="#form.description#"> --->
+	<!--END STEP 2---------------------------------------------------------------------->
+		<!--- <BR><BR>
+		<A HREF="JavaScript:history.back();"
+			OnMouseOver="self.status='Back';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_back_nav.gif" BORDER=0></A>			
+		<A HREF="JavaScript:document.partform.reset();"
+			OnMouseOver="self.status='Blank Out Form';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_reset_nav.gif" BORDER=0></A>		
+		<INPUT TYPE="image" src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_next_nav.gif" BORDER=0>
+	</CFOUTPUT>
+	</TD>
+</TR>
+</FORM>
+</TABLE> ---> 
+<!-------------------------------------------------------------------------/THREE------------------------------------------------------------------------------------> 
+<CFELSEIF sub IS 3>
+<!--------------------------------------------------------------------------FOUR------------------------------------------------------------------------------------->
+<TABLE BORDER=0 CELLPADDING=0>
+<FORM ACTION="main.cfm?section=se&subsection=part&sub=5" METHOD="POST" NAME="partform">
+<TR>
+	<TD ALIGN=LEFT COLSPAN=2>
+	<CFOUTPUT>
+		<FONT COLOR=#thecolor# FACE="arial,helvetica" SIZE=2><B>
+			PARTS REQUEST FORM<BR>
+			-- 3 OF 3
+		</B></FONT>
+	</CFOUTPUT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>&nbsp;</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>
+	<CFOUTPUT>
+		<FONT SIZE=2 FACE="arial,helvetica" COLOR=#thecolor#><B>
+			Any additional comments:
+		</B></FONT>
+	</CFOUTPUT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<TEXTAREA NAME="comments" ROWS=10 COLS=30 WRAP="virtual"></TEXTAREA>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD ALIGN=CENTER COLSPAN=2>
+	<CFOUTPUT>
+	<!--STEP 1-------------------------------------------------------------------------->
+		<INPUT TYPE="hidden" NAME="f_name" VALUE="#form.f_name#">
+		<INPUT TYPE="hidden" NAME="l_name" VALUE="#form.l_name#">
+		<INPUT TYPE="hidden" NAME="address1" VALUE="#form.address1#">
+		<INPUT TYPE="hidden" NAME="address2" VALUE="#form.address2#">
+		<INPUT TYPE="hidden" NAME="city" VALUE="#form.city#">
+		<INPUT TYPE="hidden" NAME="state" VALUE="#form.state#">
+		<INPUT TYPE="hidden" NAME="zip" VALUE="#form.zip#">
+		<INPUT TYPE="hidden" NAME="dayphone" VALUE="#form.dayphone#">
+		<INPUT TYPE="hidden" NAME="evephone" VALUE="#form.evephone#">
+		<INPUT TYPE="hidden" NAME="email" VALUE="#form.email#">
+		<INPUT TYPE="hidden" NAME="prevcustomer" VALUE="#form.prevcustomer#">
+		<INPUT TYPE="hidden" NAME="faxphone" VALUE="#form.faxphone#">
+	<!--END STEP 1---------------------------------------------------------------------->
+	<!--STEP 2-------------------------------------------------------------------------->
+		<INPUT TYPE="hidden" NAME="year" VALUE="#form.year#">
+		<INPUT TYPE="hidden" NAME="Make" VALUE="#form.Make#">
+		<INPUT TYPE="hidden" NAME="model" VALUE="#form.model#">
+		<INPUT TYPE="hidden" NAME="vin" VALUE="#form.vin#">
+		<INPUT TYPE="hidden" NAME="description" VALUE="#form.description#">
+	<!--END STEP 2---------------------------------------------------------------------->
+	<!--STEP 3-------------------------------------------------------------------------->
+		<!--- <INPUT TYPE="hidden" NAME="depositinfo" VALUE="#form.depositinfo#">
+		<INPUT TYPE="hidden" NAME="cardtype" VALUE="#form.cardtype#">
+		<INPUT TYPE="hidden" NAME="cardnumber" VALUE="#form.cardnumber#">
+		<INPUT TYPE="hidden" NAME="cardexp" VALUE="#form.cardexp#">--->
+		<INPUT TYPE="hidden" NAME="whensubmitted" VALUE="#CreateODBCDateTime(now())#"> 
+	<!--END STEP 3---------------------------------------------------------------------->
+		<BR><BR>
+		<A HREF="JavaScript:history.back();"
+			OnMouseOver="self.status='Back';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_back_nav.gif" BORDER=0></A>			
+		<A HREF="JavaScript:document.partform.reset();"
+			OnMouseOver="self.status='Blank Out Form';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_reset_nav.gif" BORDER=0></A>		
+		<INPUT TYPE="image" SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_submit_nav.gif" BORDER=0>
+	</CFOUTPUT>
+	</TD>
+</TR>
+</FORM>
+</TABLE>
+<!-------------------------------------------------------------------------/FOUR------------------------------------------------------------------------------------->
+<CFELSEIF sub IS 5>
+<!--------------------------------------------------------------------------FIVE------------------------------------------------------------------------------------->
+<!------------------------------------------------------------------FIVE PROC---------------------------------->
+
+<CFQUERY NAME="insert" DATASOURCE="#gDSN#">
+	INSERT INTO requestinfogeneral (	requestinfotypeid,
+										dealercode,
+										fname,
+										lname,
+										emailaddress,
+										addressline1,
+										addressline2,
+										city,
+										stateabbr,
+										zip,
+										evephone,
+										dayphone,
+										useragent,
+										whensubmitted,
+										CustomerFax)
+	VALUES (	5,
+				'#RTrim(dealerinfo.dealercode)#',
+				'#form.f_name#',
+				'#form.l_name#',
+				'#form.email#',
+				'#form.address1#',
+				'#form.address2#',
+				'#form.city#',
+				'#form.state#',
+				'#form.zip#',
+				'#form.evephone#',
+				'#form.dayphone#',
+				'#CGI.http_user_agent#',
+				#form.whensubmitted#,
+				'#form.faxphone#');
+</CFQUERY>
+<CFQUERY NAME="getid" DATASOURCE="#gDSN#">
+	SELECT	Max(RequestInfoID) AS newest
+	FROM	RequestInfoGeneral
+	WHERE	dealercode='#RTrim(dealerinfo.dealercode)#'
+		AND whensubmitted=#form.whensubmitted#
+		AND	emailaddress='#form.email#'
+		AND	requestinfotypeid=5;
+</CFQUERY>
+<CFQUERY NAME="insert2" DATASOURCE="#gDSN#">
+	INSERT INTO requestinfoparts (	requestinfogeneralid,
+										prevcustomer,
+										caryear,
+										carmake,
+										carmodel,
+										vin,
+										partrequestdesc
+									)
+						VALUES		(	#getid.newest#,
+										'#form.prevcustomer#',
+										'#form.year#',
+										'#form.make#',
+										'#form.model#',
+										'#form.vin#',
+										'#form.description#'
+									);
+</CFQUERY>
+
+<!--- linda, 8/31/99: if there's a separate email for Parts, use that.  otherwise, send to main email address. --->
+<cfoutput>
+<cfif #trim(dealerinfo.PartsEmail)# IS NOT "">
+	<cfset toemail = #dealerinfo.PartsEmail#>
+<cfelse>
+	<cfset toemail = #dealerinfo.email#>
+</cfif>
+<!---This adds the second parts request for dealers --->
+<cfif #trim(dealerinfo.PartsEmail2)# IS NOT "">
+	<cfset toemail2 = #dealerinfo.PartsEmail2#>
+<cfelse>
+	<cfset toemail2 = #dealerinfo.email#>
+</cfif>
+</cfoutput>
+<!--- Linda, 6/5/00: worlddealer.net emails aren't working
+, part_request@worlddealer.net --->
+<CFMAIL TO="#toemail#"
+		CC="#toemail2#, jweitz@worlddealer.net"
+		FROM="#email#"
+		SUBJECT="#dealerinfo.dealershipname# Parts Request">
+URGENT PARTS REQUEST FROM WORLDDEALER!
+#TimeFormat(now(),'h:mm tt')# #DateFormat(now(),'mmmm d, yyyy')#
+Name: #f_name# #l_name#
+Address: #address1# #address2#
+City, State Zip: #city#, #state# #zip#
+Day Phone: #dayphone#
+Eve Phone: #evephone#
+Fax Phone: #faxphone#
+Email: #email#
+Previous Customer? #prevcustomer#
+Vehicle:
+Make: #Make#
+Model: #model#
+Year: #year#
+VIN: #form.vin#
+Description of part(s):
+#form.description#
+Comments:
+#comments#
+</CFMAIL>
+
+<!--- Bryan 11/02/99 Faxing Function Activated ---> 
+<cfoutput>
+<!--- linda, 11/4/99: if there's a separate fax for parts dept, use that.  otherwise, send to main fax number. --->
+<cfif #len(trim(dealerinfo.PartsFax))# eq 10>
+	<cfset toFax = #dealerinfo.PartsFax#>
+<cfelse>
+	<cfset toFax = #dealerinfo.FaxPhone#>
+</cfif>
+<CFSET #variables.dialthisnumber# = "#dealerinfo.dealershipname#" & "@" & 1 & #toFax# & ".fax">
+</cfoutput>
+<cfif #len(trim(toFax))# eq 10>
+	<!--- Linda, 6/5/00: worlddealer.net emails aren't working
+	FROM="part_request@worlddealer.net"
+	6/6/00: to test from Olympus, insert this SERVER line into the CFMAIL.
+	SERVER="arizona.sigma6.com"
+	--->
+	<CFMAIL TO="#variables.dialthisnumber#"
+			FROM="info@worlddealer.net"
+			SUBJECT="#dealerinfo.dealershipname# Part Request">		
+			
+	
+	URGENT PARTS REQUEST FROM WORLDDEALER!
+	
+	#DateFormat(now(),'mmmm d, yyyy')# #TimeFormat(now(),'h:mm tt')#
+	
+	#dealerinfo.dealershipname# Part Request
+	
+	Name: #f_name# #l_name#
+	Address: #address1# #address2#
+	City, State Zip: #city#, #state# #zip#
+	Day Phone: #dayphone#
+	Eve Phone: #evephone#
+	Fax Phone: #faxphone#
+	Email: #email#
+	Previous Customer? #prevcustomer#
+	
+	Vehicle:
+	#year#
+	#Make#
+	#model#
+	#vin#
+	Description of part(s):
+	#form.description#
+	
+	Comments:
+	#comments#
+	</CFMAIL> 
+</cfif>
+<!-----------------------------------------------------------------/FIVE PROC------------------------------>
+<!---------------------------------FIVE CONTENT------------------------------------------------------------>
+<div align="center">
+	<TABLE BORDER=0>
+	<TR>
+		<TD ALIGN=CENTER>
+			<FONT SIZE=2 FACE="arial,helvetica">
+				<B>Thank you for your submission!</B><BR>
+				You will be contacted by an authorized <CFOUTPUT>#dealerinfo.dealershipname#</CFOUTPUT>
+				representative regarding your inquiry.
+				<BR><BR>
+				<A HREF="main.cfm?section=se">Click here</A> to return to the Service & Parts main page.
+			</FONT>
+		</TD>
+	</TR>
+	</TABLE>
+</div>
+<!---------------------------------/FIVE CONTENT------------------------------------------------------------>
+<!--------------------------------------------------------------------------/FIVE------------------------------------------------------------------------------------->
+</CFIF>

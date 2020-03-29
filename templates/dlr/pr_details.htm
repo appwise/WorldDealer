@@ -1,0 +1,551 @@
+<!---
+Created by Sigma6, Inc.
+Copyright (c) 1998 Sigma6, Inc.
+All Rights Reserved.  Used By Permission.
+
+Sigma6, interactive media, Detroit/NYC
+conceive : construct : connect
+www.sigma6.com   webmaster@sigma6.com   info@sigma6.com
+
+Last updated: <May 27, 1998>
+
+Daniel Fettinger for sigma6, interactive media, Detroit
+dfettinger@sigma6.com   www.sigma6.com    www.s6313.com
+conceive : construct : connect
+
+Sigma6, s6, and the Sigma6 logos are registered trademarks.
+All other trademarks and servicemarks are the property of
+their respective owners.
+--->
+
+<script language="JavaScript">
+<!--
+	function comarisonBuild() {
+		newWindow = window.open("pr_compare.cfm?id=<cfoutput>#URL.ID#</cfoutput>&adding=true", "", "height=1,width=1,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,screenX=5000,screenY=5000,left=5000,right=5000");
+	}
+	function comarisonWindow() {
+		newWindow = window.open("pr_compare_view.cfm", "VehicleComparison", "toolbar=yes,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes");
+	}
+//-->
+</script>
+
+<cfquery name="getvehicle" datasource="#gDSN#">
+	SELECT	UsedVehicles.*, UVModels.ModelName, UVMakes.MakeName
+	FROM	(UsedVehicles 
+			INNER JOIN UVModels ON UsedVehicles.ModelNumber = UVModels.ModelNumber) 
+			INNER JOIN UVMakes ON UVModels.MakeNumber = UVMakes.MakeNumber
+	WHERE 	UsedVehicles.UsedVehicleID = #URL.ID#
+</cfquery>
+
+<cfquery name="getvehicleDetails" datasource="#gDSN#">
+	SELECT *
+	FROM UVDetails
+	WHERE UsedVehicleID = #URL.ID#
+</cfquery>
+
+<cfquery name="getVehicleFeatures" datasource="#gDSN#">
+	SELECT	features
+	FROM 	UsedVehicles 
+	WHERE	VIN = '#getvehicle.VIN#'
+</cfquery>
+
+<cfquery name="getDealers" datasource="#gDSN#">
+	SELECT	Dealers.DealerCode, DealershipName, URL
+	FROM	Dealers INNER JOIN UsedVehicles ON Dealers.DealerCode = UsedVehicles.DealerCode
+	WHERE	UsedVehicles.VIN = '#getvehicle.VIN#'
+</cfquery>
+
+<cfset pr_vehicle="true">
+
+<cfquery name="getvehicleoptions" datasource="#gDSN#">
+	SELECT	Options
+	FROM	UsedVehiclesOptions
+	WHERE	UsedVehiclesOptions.UsedVehicleID = #URL.ID#;
+</cfquery>
+
+<cfif isDefined("cookie.pr_compare")>
+	<cfset cookiecounter = 0>	
+	<cfloop index="count" list="#cookie.pr_compare#" delimiters=",">
+		<cfquery name="checkCookie" datasource="#gDSN#">
+			SELECT *
+			FROM UsedVehicles
+			WHERE UsedVehicleID = #count#
+		</cfquery>
+		<cfif checkCookie.recordcount>
+			<cfset cookiecounter=cookiecounter + 1>
+		</cfif>
+	</cfloop>
+</cfif>
+
+<!--- <cfoutput query="getvehicle">
+
+	<cfset descriptionDisplay = "">
+	<cfset catDisplay = "">
+	<cfset bodyDisplay = "">
+	<cfset typeDisplay = "">
+	
+	<cfif lcase(vehicleCategory) contains "van" or lcase(vehicleCategory) contains "pickup">
+		<cfset catDisplay = vehicleCategory>
+	<cfelseif vehicleCategory is "Sport Utility">
+		<cfset catDisplay = "Sport Utility Vehicle">
+	<cfelseif vehicleCategory contains "Mini">
+		<cfset catDisplay = "Minivan">
+	</cfif>
+	
+	<cfif bodyStyle is "Club Cab" or bodyStyle is "Extended" or bodyStyle is "Standard" or bodyStyle is "Utility">
+		<cfset bodyDisplay = "">
+	<cfelse>
+		<cfset bodyDisplay = bodyStyle>
+	</cfif>
+	
+	<cfif vehicleType is not "Car">
+		<cfif vehicleType is "Sport utility">
+			<cfset typeDisplay = "Sport Utility Vehicle">
+		<cfelse>
+			<cfset typeDisplay = vehicleType>
+		</cfif>
+	</cfif>
+	
+	<cfif catDisplay is "">
+		<cfset descriptionDisplay = vehicleCategory & " " & bodyDisplay & " " & typeDisplay>
+	<cfelse>
+		<cfset discriptionDisplay = catDisplay>
+	</cfif>
+		
+</cfoutput> --->
+
+<cfset rowcolor = 1>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+	<td colspan=2>
+	<font size=2 face="arial,helvetica">Here is the detailed information about the vehicle you selected:</font><br>	
+	<font size=1 face="arial,helvetica"><i>(All vehicles subject to prior sale.)</i></font>
+	</td>
+</tr>
+</table><p>
+	
+<table width="100%" border="0" cellspacing="0" cellpadding="2" bgcolor="<cfoutput>#thecolor#</cfoutput>"><tr><td>
+	<cfoutput>
+	<table width="100%" border="0" cellspacing="0" cellpadding="2">
+	<tr bgcolor="#thecolor#">
+		<td colspan="2">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>
+				<font face="arial,helvetica" size="4" color="#textcolor#">
+					<b>#getvehicle.caryear# #getvehicle.makename# #getvehicle.modelname#<cfif #trim(getvehicle.trim)# is not ''> #getvehicle.trim#</cfif></b>		
+				</font>
+				</td>
+				<td align="RIGHT">
+				<font face="arial,helvetica" size="3" color="#othertextcolor#">
+					<b><cfif #getvehicle.price# lt 10>Please See Dealer for Price<cfelse>#DollarFormat(getvehicle.Price)#</cfif></b>
+				</font>
+				</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	<tr bgcolor="#theothercolor#">
+		<td colspan="2">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>
+					<table border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<td width="23"><cfif isDefined("cookie.pr_compare")><cfset cookieLength = arrayLen(listtoarray(cookie.pr_compare, ","))><cfif #trim(cookie.pr_compare)# contains "#URL.id#"><img src="#application.RELATIVE_PATH#/images/common/current.gif" border="0" alt="selected for comparison"><cfelse><a href="javascript:comarisonBuild()"><img src="#application.RELATIVE_PATH#/images/common/add.gif" border="0" alt="add to comparison list"></a></cfif><cfelse><a href="javascript:comarisonBuild()"><img src="#application.RELATIVE_PATH#/images/common/add.gif" border="0" alt="add to comparison list"></a></cfif></td>
+						<td nowrap>
+						<font face="arial,helvetica" size="1" color="#textcolor#">
+						<cfif isDefined("cookie.pr_compare")>
+							<cfif #trim(cookie.pr_compare)# contains "#URL.id#">
+								&nbsp;<font color="#othertextcolor#">Selected for Comparison -- #cookieCounter# vehicle<cfif cookieCounter gt 1>s</cfif></font>
+							<cfelse>
+								&nbsp;<a href="javascript:comarisonBuild()" style="text-decoration: none; color: #textcolor#;">Add to Comparison List -- #cookieCounter# vehicle<cfif cookieCounter gt 1>s</cfif></a>
+							</cfif>
+						<cfelse>
+							&nbsp;<a href="javascript:comarisonBuild()" style="text-decoration: none; color: #textcolor#;">Add to Comparison List</a>
+						</cfif>
+						</font>
+						</td>
+					</tr>
+					</table>
+				</td>
+				<td align="RIGHT">
+				<cfif isDefined("cookie.pr_compare")>
+					<cfif #trim(cookie.pr_compare)# is not "">
+					<table border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<td nowrap><font face="arial,helvetica" size="1" color="#textcolor#"><a href="javascript:comarisonWindow()" style="text-decoration: none; color: #textcolor#;">View Comparison List</a>&nbsp;</font></td>
+						<td width="23"><a href="javascript:comarisonWindow()"><img src="#application.RELATIVE_PATH#/images/common/view.gif" border="0" alt="view comparison list"></a></td>
+					</tr>
+					</table>
+					</cfif>
+				<cfelse>
+					&nbsp;
+				</cfif>
+				</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	<cfif #getvehicle.image# is "Y">
+		<tr bgcolor="White">
+			<td colspan="2" align="CENTER" bgcolor="White">
+				<a href="pr_photo.cfm?id=#URL.ID#" target="newwindow" style="text-decoration: none;">
+				<img src="#application.RELATIVE_PATH#/images/usedvehicles/#Trim(getvehicle.VIN)#.jpg" width=390 border=1 vspace=10 hspace=10 alt=""><br>
+				<font face="arial, verdana, helvetica" size="1">click here for larger photo</font></a><br>&nbsp;
+			</td>
+		</tr>
+	</cfif>		
+	<tr bgcolor="#thecolor#">
+		<td colspan="2"><font face="arial,helvetica" size="2" color="#textcolor#"><b>VEHICLE DESCRIPTION:</b></font></td>
+	</tr>
+	<!--- <cfif trim(descriptionDisplay) is not "">
+		<tr>
+			<td colspan="2" align="RIGHT" bgcolor="#thirdcolor#">
+				<font face="arial,helvetica" size="2" color="Black">
+					<b>#descriptionDisplay#</b>
+				</font>
+			</td>
+		</tr>
+	</cfif> --->
+	<tr>
+		<td colspan="2" width="100%" align="CENTER" valign="TOP" bgcolor="White">
+			<table border="0" cellspacing="0" cellpadding="0" bgcolor="White">
+			<tr>
+				<td align="RIGHT"><font face="arial,helvetica" size="2" color="Black"><b>Mileage:&nbsp;</b></font></td>
+				<td><font face="arial,helvetica" size="2" color="Black"><cfif #getvehicle.Mileage# GTE 100>#NumberFormat(getvehicle.Mileage)#<cfelse>See Dealer</cfif></font></td>
+				<cfif trim(getvehicle.extcolor) is not ''>
+					<td width="10">&nbsp;</td>
+					<td align="RIGHT" nowrap><font face="arial,helvetica" size="2" color="Black"><b>Exterior Color:&nbsp;</b></font></td>
+					<td><font face="arial,helvetica" size="2" color="Black">#getvehicle.extcolor#</font></td>
+				</cfif>
+			</tr>
+			<cfset ShowTranny = false>
+			<cfset ShowIntCol = false>
+			<cfif trim(getvehicle.transmission) is not ''>
+				<cfset ShowTranny = true>
+			</cfif>
+			<cfif trim(getvehicle.intcolor) is not ''>
+				<cfset ShowIntCol = true>
+			</cfif>
+			<cfif ShowTranny OR ShowIntCol>
+			<tr>
+				<cfif ShowTranny>
+					<td align="RIGHT"><font face="arial,helvetica" size="2" color="Black"><b>Transmission:&nbsp;</b></font></td>
+					<td><font face="arial,helvetica" size="2" color="Black">#getvehicle.transmission#</font></td>
+				<cfelse>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</cfif>
+				<cfif ShowIntCol>
+					<td width="10">&nbsp;</td>
+					<td align="RIGHT"><font face="arial,helvetica" size="2" color="Black"><b>Interior Color:&nbsp;</b></font></td>
+					<td><font face="arial,helvetica" size="2" color="Black">#getvehicle.intcolor#</font></td>
+				</cfif>
+			</tr>
+			</cfif>
+			<cfset ESize = false>
+			<cfset EOther = false>			
+			<cfif trim(getvehicleDetails.enginesize) is not ''>
+				<cfset ESize = true>
+			</cfif>
+			<cfif trim(getvehicleDetails.engineConfig) is not '' AND trim(getvehicleDetails.engineCylinders) is not ''>
+				<cfset EOther = true>
+			</cfif>			
+			<cfif EOther>
+			<tr>
+				<td align="RIGHT"><font face="arial,helvetica" size="2" color="Black"><b>Engine:&nbsp;</b></font></td>
+				<td><font face="arial,helvetica" size="2" color="Black">
+				<cfif ESize>#getvehicleDetails.engineSize# L </cfif><cfif EOther><cfif getvehicleDetails.engineConfig is 'I'>In-line <cfelse>V</cfif>#getvehicleDetails.engineCylinders#<cfif getvehicleDetails.engineConfig is 'I'> Cylinder</cfif></cfif></font></td>
+			</tr>
+			</cfif>
+			</table>
+		</td>
+	</tr>
+	<tr bgcolor="#thirdcolor#">
+		<td colspan="2" align="CENTER" bgcolor="#thirdcolor#">
+			<table border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<td align="RIGHT"><font face="arial,helvetica" size="2" color="Black"><b>VIN:&nbsp;</b></font></td>
+				<td><font face="arial,helvetica" size="2" color="Black">#getvehicle.VIN#</font></td>
+				<cfif getvehicle.stock is not ''>
+					<td width="10">&nbsp;</td>
+					<td align="RIGHT"><font face="arial,helvetica" size="2" color="Black"><b>Stock Number:&nbsp;</b></font></td>
+					<td><font face="arial,helvetica" size="2" color="Black">#getvehicle.stock#</font></td>
+				</cfif>
+			</tr>
+			</table>
+		</td>
+	</tr>	
+	</cfoutput>
+	<cfif getVehicleDetails.recordcount gt 0>
+	
+		<!--- decide which sections of this page have content and can therefore be displayed --->
+		<cfset ComfortSeating = false>
+		<cfset ComfortStereo = false>
+		<cfset upholsteryDisplay = false>
+		<cfset ComfortOther = false>
+		<cfset Comfort = false>
+		<cfset Convenience = false>
+		<cfset Safety = false>
+		<cfset ConvenienceSafety = false>
+		<cfset Options = false>		
+		<cfset MiscWheel = false>
+		<cfset MiscOther = false>
+		<cfset MiscOtherOther = false>
+		<cfset MiscFeatures = false>
+		<cfset Misc = false>
+		
+		<cfif getVehicleDetails.seatingType is not 'other' AND trim(getVehicleDetails.seatingType) is not ''>
+			<cfset ComfortSeating = true>
+		</cfif>
+		<cfif trim(getVehicleDetails.stereoType) is not ''>
+			<cfset ComfortStereo = true>
+		</cfif>
+		<cfif getVehicleDetails.upholstery is not 'other' AND trim(getVehicleDetails.upholstery) is not ''>
+			<cfset upholstery = true>
+		</cfif>
+		<cfif upholsteryDisplay or getVehicleDetails.stereoRear is 'y' or getVehicleDetails.television is 'y' or getVehicleDetails.airConditioning is 'y' or getVehicleDetails.airConditioningRear is 'y' or getVehicleDetails.climateControl is 'y'>
+			<cfset ComfortOther = true>
+		</cfif>
+		<cfif ComfortSeating or ComfortStereo or ComfortOther>
+			<cfset Comfort = true>
+		</cfif>
+		<cfif getVehicleDetails.cruiseControl is 'y' or getVehicleDetails.tiltWheel is 'y' or getVehicleDetails.brakes contains 'power' or getVehicleDetails.powerLocks is 'y' or getVehicleDetails.powerSeats is 'y' or getVehicleDetails.powerSteering is 'y' or getVehicleDetails.powerWindows is 'y'>
+			<cfset Convenience = true>
+		</cfif>
+		<cfif getVehicleDetails.airbagDriver is 'y' or getVehicleDetails.airbagPassenger is 'y' or getVehicleDetails.brakes contains 'ABS' or getVehicleDetails.tractionControl is 'y'>
+			<cfset Safety = true>
+		</cfif>
+		<cfif Convenience or Safety>
+			<cfset ConvenienceSafety = true>
+		</cfif>
+		<cfif getVehicleDetails.wheelDescription is not 'other' AND trim(getVehicleDetails.wheelDescription) is not ''>
+			<cfset MiscWheel = true>
+		</cfif>	
+		<cfif getVehicleDetails.luggageRack is 'y' OR getVehicleDetails.runningBoards is 'y' OR getVehicleDetails.slidingWindow is 'y' OR getVehicleDetails.towingPackage is 'y'>
+			<cfset MiscOther = true>
+		</cfif>	
+		<cfif getVehicleOptions.recordcount>
+			<cfset MiscOtherOther = true>
+		</cfif>	
+		<cfif MiscWheel OR MiscOther OR MiscOtherOther>
+			<cfset Misc = true>
+		</cfif>		
+		<cfif Comfort or ConvenienceSafety or Misc>
+			<cfset Options = true>
+		</cfif>
+	
+		<!--- display the options --->
+		<cfif Options>
+			<cfoutput query="getVehicleDetails">
+			<tr bgcolor="#thecolor#">
+				<td colspan="2"><font face="arial,helvetica" size="2" color="#textcolor#"><b>OPTIONS:</b></font></td>
+			</tr>
+			<cfif Comfort>
+				<tr bgcolor="#thirdcolor#">
+					<td colspan="2"><font face="arial,helvetica" size="2" color="Black"><b>Comfort</b></font></td>
+				</tr>
+				<tr bgcolor="White">
+					<td colspan="2" align="CENTER">
+						<table cellspacing="0" cellpadding="0">
+						<cfif ComfortSeating>
+							<tr>
+								<td align="RIGHT" valign="TOP"><font face="arial,helvetica" size="2" color="Black"><b>Seating:&nbsp;</b></font></td>
+								<td valign="TOP"><font face="arial,helvetica" size="2" color="Black">#seatingType#</font></td>
+							</tr>
+						</cfif>
+						<cfif ComfortStereo>
+							<tr>
+								<td valign="TOP" align="RIGHT"><font face="arial,helvetica" size="2" color="Black"><b>Stereo:&nbsp;</b></font></td>
+								<td valign="TOP"><font face="arial,helvetica" size="2" color="Black">#stereoType#</font></td>
+							</tr>
+						</cfif>
+						<cfif ComfortOther>
+							<tr>
+								<td valign="TOP" align="RIGHT"><font face="arial,helvetica" size="2" color="Black"><b>Other:&nbsp;</b></font></td>
+								<td valign="TOP"><font face="arial,helvetica" size="2" color="Black">
+								<cfif upholsteryDisplay><li>#upholstery# Seats<br></cfif>
+								<cfif #stereoRear# is 'y'><li>Rear Stereo Controls<br></cfif>
+								<cfif #television# is 'y'><li>Television<br></cfif>
+								<cfif #airConditioning# is 'y'><li>Air Conditioning<br></cfif>
+								<cfif #airConditioningRear# is 'y'><li>Rear Air Conditioning<br></cfif>
+								<cfif #climateControl# is 'y'><li>Climate Control</cfif></font></td>
+							</tr>
+						</cfif>
+						</table>			
+					</td>
+				</tr>
+			</cfif>
+			<cfif ConvenienceSafety>
+				<tr bgcolor="#thirdcolor#">
+					<cfif Convenience>
+						<td width="50%"><font face="arial,helvetica" size="2" color="Black"><b>Convenience</b></font></td>
+					<cfelse>
+						<td>&nbsp;</td>
+					</cfif>
+					<cfif Safety>
+						<td width="50%"><font face="arial,helvetica" size="2" color="Black"><b>Safety</b></font></td>
+					<cfelse>
+						<td>&nbsp;</td>
+					</cfif>
+				</tr>
+				<tr bgcolor="White">
+					<cfif Convenience>
+						<td valign="TOP" width="50%">
+							<table><tr><td><font face="arial,helvetica" size="2" color="Black">
+							<ul><cfif #cruiseControl# is 'y'><li>Cruise Control<br></cfif>
+							<cfif #tiltWheel# is 'y'><li>Tilt Wheel<br></cfif>
+							<cfif #brakes# contains 'power'><li>Power Brakes<br></cfif>
+							<cfif #powerLocks# is 'y'><li>Power Locks<br></cfif>
+							<cfif #powerSeats# is 'y'><li>Power Seats<br></cfif>
+							<cfif #powerSteering# is 'y'><li>Power Steering<br></cfif>
+							<cfif #powerWindows# is 'y'><li>Power Windows</cfif></ul>
+							</font></td></tr></table>
+						</td>
+					<cfelse>
+						<td>&nbsp;</td>
+					</cfif>
+					<cfif Safety>
+						<td valign="TOP" width="50%">
+							<table><tr><td><font face="arial,helvetica" size="2" color="Black">
+							<ul><cfif #airbagDriver# is 'y'><li>Driver Side Air Bag<br></cfif>
+							<cfif #airbagPassenger# is 'y'><li>Passenger Side Air Bag<br></cfif>
+							<cfif #brakes# contains 'ABS'><li>ABS<br></cfif>
+							<cfif #tractionControl# is 'y'><li>Traction Control<br></cfif></ul>
+							</font></td></tr></table>
+						</td>
+					<cfelse>
+						<td>&nbsp;</td>
+					</cfif>
+				</tr>
+			</cfif>
+			<cfif getVehicleDetails.warranty is 'y'>
+				<tr bgcolor="#thirdcolor#">
+					<td colspan="2"><font face="arial,helvetica" size="2" color="Black"><b>Warranty</b></font></td>
+				</tr>
+				<tr bgcolor="White">
+					<td colspan="2" align="CENTER">
+						<table cellspacing="0" cellpadding="0">
+						<tr>
+							<td valign="TOP"><font face="arial,helvetica" size="2" color="Black">#warrantyMonths# months / #warrantyMiles# miles</font></td>
+						</tr>
+						</table>			
+					</td>
+				</tr>
+			</cfif>
+			</cfoutput>		
+			<cfif Misc>
+			<tr bgcolor="<cfoutput>#thirdcolor#</cfoutput>">
+				<td colspan="2"><font face="arial,helvetica" size="2" color="Black"><b>Miscellaneous</b></font></td>
+			</tr>
+			<tr>
+				<td colspan="2" width="100%" align="CENTER" valign="TOP" bgcolor="White">
+					<table border="0" cellspacing="0" cellpadding="0">
+					<cfif MiscWheel>
+					<tr>
+						<td align="RIGHT">
+							<font face="arial,helvetica" size="2" color="Black"><b>Wheels:&nbsp;</b></font>
+						</td>
+						<td>
+							<font face="arial,helvetica" size="2" color="Black"><cfoutput>#getVehicleDetails.wheelDescription#<cfif getVehicleDetails.wheelDescription is "Deluxe cover">s</cfif></cfoutput></font>
+						</td>
+					</tr>
+					</cfif>
+					<cfif MiscOther>
+					<tr>
+						<td valign="TOP" align="RIGHT"><font face="arial,helvetica" size="2" color="Black"><b>Other:&nbsp;</b></font></td>
+						<td valign="TOP">
+							<font face="arial,helvetica" size="2" color="Black">
+							<cfoutput query="getVehicleDetails">
+								<cfif #luggageRack# is 'y'><li>Luggage Rack<br></cfif>
+								<cfif #runningBoards# is 'y'><li>Running Boards<br></cfif>
+								<cfif #slidingWindow# is 'y'><li>Sliding Rear Window<br></cfif>
+								<cfif #towingPackage# is 'y'><li>Towing Package</cfif>
+							</cfoutput>
+							</font>
+						</td>
+					</tr>
+					</cfif>
+					<cfif MiscOtherOther>
+						<tr>
+							<td valign="TOP" align="RIGHT"><cfif not MiscOther><font face="arial,helvetica" size="2" color="Black"><b>Other:&nbsp;</b></font></cfif></td>
+							<td valign="TOP">
+							<font face="arial,helvetica" size="2" color="Black">
+							<cfloop query="getVehicleOptions">
+									<cfoutput><li>#options#<br></cfoutput>
+							</cfloop>
+							</font>
+							</td>
+						</tr>
+					</cfif>
+					</table>
+				</td>
+			</tr>
+			</cfif>
+		</cfif>
+	</cfif>
+	
+	<cfif getVehicleFeatures.recordcount>
+	<cfset count = 0>
+	<cfloop query="getVehicleFeatures">
+		<cfif #rtrim(getVehicleFeatures.features)# is "" or #rtrim(getVehicleFeatures.features)# is 'none'>
+			<cfset count = count + 1>
+		</cfif>
+	</cfloop>
+		<cfif count is not getVehicleFeatures.recordcount>
+			<cfoutput>
+				<tr bgcolor="#thecolor#">
+					<td colspan="2"><font face="arial,helvetica" size="2" color="#textcolor#"><b>COMMENTS:</b></font></td>
+				</tr>
+				<tr bgcolor="White">
+					<td colspan="2" valign=top>
+						<table width="100%" border="0" cellspacing="0" cellpadding="3"><tr><td>						
+							<ul>
+							<cfloop query="getVehicleFeatures">
+								<cfif #rtrim(getVehicleFeatures.features)# is not "" and #rtrim(getVehicleFeatures.features)# is not 'none'>
+								<font face="arial,helvetica" size="2" color="Black"><li>#features#</font>
+								</cfif>
+							</cfloop>
+							</ul>
+						</td></tr></table>
+					</td>									
+				</tr>
+			</cfoutput>
+		</cfif>
+	</cfif>
+	</table>
+</td></tr></table><br>
+
+<div align="center">
+<table border="0" cellspacing="2" cellpadding="0">
+<!--- if you're viewing dealership's Pre-Owned via collection's Pre-Owned, --->
+<!--- show link to dealership's home page --->
+<cfif #g_col# is "true">
+	<tr>
+		<td valign="top">
+			<font size=2 face="arial,helvetica">
+			<b>Dealership<cfif #getdealers.recordcount# gt 1>s</cfif> : </b>
+			<cfoutput query="getDealers">
+				<a href=<cfif #url# neq "">"http://<cfif #left(#url#, 6)# eq "wddemo">#URL#<cfelse>www.#URL#</cfif>"<cfelse>"index.cfm?dealercode=#DealerCode#"</cfif>
+					TITLE="Go to #dealershipname#'s Home Page"
+					OnMouseOver="self.status='Go to #dealershipname#\'s Home Page';return true"
+					OnMouseOut="self.status='';return true">#DealershipName#</a><br>
+			</cfoutput>
+			</font>		
+		</td>
+	</tr>
+</cfif>
+
+<tr>
+	<td colspan=2 align="center">
+			<a href="JavaScript:history.back()"
+			onmouseover="self.status='Return to Previous Page';return true"
+			onmouseout="self.status='';return true"><img
+				src="<CFOUTPUT>#application.RELATIVE_PATH#</cfoutput>/images/<cfoutput>#arttempid.arttempid#</cfoutput>/frm_back_nav.gif"
+				BORDER="0"
+				ALT="Back"></a>
+	</td>
+</tr>
+</table></div>

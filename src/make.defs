@@ -1,0 +1,15 @@
+#
+# Copyright (c) 1998-1999 Sigma6 Inc.  All rights reserved.
+#
+# $Id: make.defs,v 1.4 2000/06/20 20:13:29 lswanson Exp $
+#
+
+PATHDIR = /lswanson
+PROJDIR = /lswanson/worlddealer
+SRCDIR  = $(PROJDIR)/src
+LIBDIR  = $(PROJDIR)/lib
+JAVADIR = //E/jdk1.1.8
+
+CLASSPATH = "E:/jdk1.1.8/lib/classes.zip;$(LIBDIR);$(SRCDIR);$(PATHDIR)/jfusion/lib/jfusion.jar"
+JAVAC   = E:/jdk1.1.8/bin/javac -classpath $(CLASSPATH) -d $(LIBDIR)
+JAVACFLAGS = -g

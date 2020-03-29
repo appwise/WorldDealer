@@ -1,0 +1,397 @@
+<!---
+Created by Sigma6, Inc.
+Copyright (c) 1998 Sigma6, Inc.
+All Rights Reserved.  Used By Permission.
+
+Sigma6, interactive media, Detroit/NYC
+conceive : construct : connect
+www.sigma6.com   webmaster@sigma6.com   info@sigma6.com
+
+Last updated: <January 21, 1999>
+
+Daniel Fettinger, Linda Swanson for sigma6, interactive media, Detroit
+dfettinger@sigma6.com   www.sigma6.com    www.s6313.com
+conceive : construct : connect
+
+Sigma6, s6, and the Sigma6 logos are registered trademarks.
+All other trademarks and servicemarks are the property of
+their respective owners.
+--->
+<!--- $Id: leftnav.htm,v 1.21 2000/06/14 21:08:42 bbickel Exp $ --->
+
+
+<CFIF #ParameterExists(URL.modelid)#>
+    <CFQUERY NAME="getvehicles2" DATASOURCE="#gDSN#">
+	    SELECT	description,
+		    	glamourcopy,
+			    features
+	    FROM	models
+	   WHERE	models.modelid=#URL.modelid#
+    </CFQUERY>
+</CFIF>	
+<CFQUERY NAME="getmakelogo" DATASOURCE="#gDSN#">
+	    SELECT	MakeLogoYN,
+				MakeLogoLinkYN	
+		FROM	DealerWebs
+	   WHERE	dealercode ='#dealerinfo.dealercode#'
+    </CFQUERY>
+<CFOUTPUT>
+<A HREF="main.cfm?section=sh"
+	TITLE="Browse our Showroom"
+	OnMouseOver="self.status='Browse our Showroom of New Vehicles';return true"
+	OnMouseOut="self.status='';return true"><IMG
+		SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/<CFIF #g_Col# IS "true">Col_</cfif>nav_sh<CFIF #section# IS "sh" AND #onoff# IS "true">_dn</CFIF>_nav.gif"
+		BORDER=0
+		<CFIF #section# IS "sh" AND #onoff# IS "true">
+			WIDTH=#shwd#
+			HEIGHT=#shhd#
+		<CFELSE>
+			WIDTH=#shw#
+			HEIGHT=#shh#
+		</CFIF>
+		ALT="Browse Our Showroom"></A><BR><CFIF thespace IS "true"><IMG SRC="#application.RELATIVE_PATH#/images/common/spacer.gif" BORDER=0 WIDTH=1 HEIGHT=#spaceheight#><BR></CFIF>
+	<A
+	HREF="main.cfm?section=pr"
+	TITLE="Our Pre-Owned Inventory"
+	OnMouseOver="self.status='Browse our Inventory of Pre-Owned Vehicles';return true"
+	OnMouseOut="self.status='';return true"><IMG
+		SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/<CFIF #g_Col# IS "true">Col_</cfif>nav_pr<CFIF #section# IS "pr" AND #onoff# IS "true">_dn</CFIF>_nav.gif"
+		BORDER=0
+		<CFIF #section# IS "pr" AND #onoff# IS "true">
+			WIDTH=#prwd#
+			HEIGHT=#prhd#
+		<CFELSE>
+			WIDTH=#prw#
+			HEIGHT=#prh#
+		</CFIF>
+		ALT="Our Pre-Owned Inventory"></A><BR><CFIF thespace IS "true"><IMG SRC="#application.RELATIVE_PATH#/images/common/spacer.gif" BORDER=0 WIDTH=1 HEIGHT=#spaceheight#><BR></CFIF>
+<!--- if Collection, show Vehicle Inquiry --->
+<CFIF #g_Col# IS "true">
+	<A
+	HREF="main.cfm?section=ve"
+	TITLE="Vehicle Inquiry"
+	OnMouseOver="self.status='Inquire About Our Vehicles';return true"
+	OnMouseOut="self.status='';return true"><IMG
+		SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/Col_nav_ve<CFIF #section# IS "ve" AND #onoff# IS "true">_dn</CFIF>_nav.gif"
+		BORDER=0
+		<CFIF #section# IS "ve" AND #onoff# IS "true">
+			WIDTH=#vewd#
+			HEIGHT=#vehd#
+		<CFELSE>
+			WIDTH=#vew#
+			HEIGHT=#veh#
+		</CFIF>
+		ALT="Inquire About Our Vehicles"></A><BR><CFIF thespace IS "true"><IMG SRC="#application.RELATIVE_PATH#/images/common/spacer.gif" BORDER=0 WIDTH=1 HEIGHT=#spaceheight#><BR></CFIF>
+<CFELSE>
+	<!--- Else Dealership, show Quote --->
+	<A
+	HREF="main.cfm?section=qu<CFIF #ParameterExists(URL.modelid)#>&model=#URLEncodedFormat(getvehicles2.description)#</CFIF><CFIF #ParameterExists(URL.id)#>&id=#URLEncodedFormat(URL.id)#</CFIF>"
+	TITLE="Request a Quote"
+	OnMouseOver="self.status='Request a Quote';return true"
+	OnMouseOut="self.status='';return true"><IMG
+		SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/nav_qu<CFIF #section# IS "qu" AND #onoff# IS "true">_dn</CFIF>_nav.gif"
+		BORDER=0
+		<CFIF #section# IS "qu" AND #onoff# IS "true">
+			WIDTH=#quwd#
+			HEIGHT=#quhd#
+		<CFELSE>
+			WIDTH=#quw#
+			HEIGHT=#quh#
+		</CFIF>
+		ALT="Request a Quote"></A><BR><CFIF thespace IS "true"><IMG SRC="#application.RELATIVE_PATH#/images/common/spacer.gif" BORDER=0 WIDTH=1 HEIGHT=#spaceheight#><BR></CFIF>
+</CFIF>	
+	<A
+	HREF="main.cfm?section=fi"
+	TITLE="Financing inquiries"
+	OnMouseOver="self.status='Financing Inquiry Form';return true"
+	OnMouseOut="self.status='';return true"><IMG
+		SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/<CFIF #g_Col# IS "true">Col_</cfif>nav_fi<CFIF #section# IS "fi" AND #onoff# IS "true">_dn</CFIF>_nav.gif"
+		BORDER=0
+		<CFIF #section# IS "fi" AND #onoff# IS "true">
+			WIDTH=#fiwd#
+			HEIGHT=#fihd#
+		<CFELSE>
+			WIDTH=#fiw#
+			HEIGHT=#fih#
+		</CFIF>
+		ALT="Financing Inquiries"></A><BR><CFIF thespace IS "true"><IMG SRC="#application.RELATIVE_PATH#/images/common/spacer.gif" BORDER=0 WIDTH=1 HEIGHT=#spaceheight#><BR></CFIF>
+	<A
+	HREF="main.cfm?section=le"
+	TITLE="Lease vs. Buy"
+	OnMouseOver="self.status='Lease vs. Buy';return true"
+	OnMouseOut="self.status='';return true"><IMG
+		SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/<CFIF #g_Col# IS "true">Col_</cfif>nav_le<CFIF #section# IS "le" AND #onoff# IS "true">_dn</CFIF>_nav.gif"
+		BORDER=0
+		<CFIF #section# IS "le" AND #onoff# IS "true">
+			WIDTH=#lewd#
+			HEIGHT=#lehd#
+		<CFELSE>
+			WIDTH=#lew#
+			HEIGHT=#leh#
+		</CFIF>
+		ALT="Lease vs. Buy"></A><BR><CFIF thespace IS "true"><IMG SRC="#application.RELATIVE_PATH#/images/common/spacer.gif" BORDER=0 WIDTH=1 HEIGHT=#spaceheight#><BR></CFIF>
+	<A
+	HREF="main.cfm?section=adv"
+	TITLE="Manufacturer's Advantage"
+	OnMouseOver="self.status='Manufacturer\'s Advantage';return true"
+	OnMouseOut="self.status='';return true"><IMG
+		SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/<CFIF #g_Col# IS "true">Col_</cfif>nav_adv<CFIF #section# IS "adv" AND #onoff# IS "true">_dn</CFIF>_nav.gif"
+		BORDER=0
+		<CFIF #section# IS "adv" AND #onoff# IS "true">
+			WIDTH=#advwd#
+			HEIGHT=#advhd#
+		<CFELSE>
+			WIDTH=#advw#
+			HEIGHT=#advh#
+		</CFIF>
+		ALT="Manufacturer's Advantage"></A><BR><CFIF thespace IS "true"><IMG SRC="#application.RELATIVE_PATH#/images/common/spacer.gif" BORDER=0 WIDTH=1 HEIGHT=#spaceheight#><BR></CFIF>
+<!--- if Collection, show Dealer Locator --->
+<CFIF #g_Col# IS "true">
+	<A
+	HREF="main.cfm?section=dl"
+	TITLE="Locate Dealerships Within #dealerinfo.dealershipname# Collection"
+	OnMouseOver="self.status='Locate Dealerships Within #Replace(dealerinfo.dealershipname, "'", "\'")# Collection';return true"
+	OnMouseOut="self.status='';return true"><IMG
+		SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/Col_nav_dl<CFIF #section# IS "dl" AND #onoff# IS "true">_dn</CFIF>_nav.gif"
+		BORDER=0
+		<CFIF #section# IS "dl" AND #onoff# IS "true">
+			WIDTH=#dlwd#
+			HEIGHT=#dlhd#
+		<CFELSE>
+			WIDTH=#dlw#
+			HEIGHT=#dlh#
+		</CFIF>
+		ALT="Locate Dealerships Within #dealerinfo.dealershipname# Collection"></A><BR><CFIF thespace IS "true"><IMG SRC="#application.RELATIVE_PATH#/images/common/spacer.gif" BORDER=0 WIDTH=1 HEIGHT=#spaceheight#><BR></CFIF>
+<CFELSE>
+<!--- Else Dealer, show Service & Parts, Dealer Profile, Map, and Coupons --->
+	<A
+	HREF="main.cfm?section=se"
+	TITLE="Send a Service or Parts Request"
+	OnMouseOver="self.status='Request a Part or Service Appointment Online';return true"
+	OnMouseOut="self.status='';return true"><IMG
+		SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/nav_se<CFIF #section# IS "se" AND #onoff# IS "true">_dn</CFIF>_nav.gif"
+		BORDER=0
+		<CFIF #section# IS "se" AND #onoff# IS "true">
+			WIDTH=#sewd#
+			HEIGHT=#sehd#
+		<CFELSE>
+			WIDTH=#sew#
+			HEIGHT=#seh#
+		</CFIF>
+		ALT="Send a Service or Parts Request"></A><BR><CFIF thespace IS "true"><IMG SRC="#application.RELATIVE_PATH#/images/common/spacer.gif" BORDER=0 WIDTH=1 HEIGHT=#spaceheight#><BR></CFIF>
+	<A
+	HREF="main.cfm?section=de"
+	TITLE="About #dealerinfo.dealershipname#"
+	OnMouseOver="self.status='Everything You Always Wanted to Know About #Replace(dealerinfo.dealershipname, "'", "\'")#';return true"
+	OnMouseOut="self.status='';return true"><IMG
+		SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/nav_de<CFIF #section# IS "de" AND #onoff# IS "true">_dn</CFIF>_nav.gif"
+		BORDER=0
+		<CFIF #section# IS "de" AND #onoff# IS "true">
+			WIDTH=#dewd#
+			HEIGHT=#dehd#
+		<CFELSE>
+			WIDTH=#dew#
+			HEIGHT=#deh#
+		</CFIF>
+		ALT="About #dealerinfo.dealershipname#"></A><BR><CFIF thespace IS "true"><IMG SRC="#application.RELATIVE_PATH#/images/common/spacer.gif" BORDER=0 WIDTH=1 HEIGHT=#spaceheight#><BR></CFIF>
+	<A
+	HREF="main.cfm?section=ma"
+	TITLE="Maps to #dealerinfo.dealershipname#"
+	OnMouseOver="self.status='Maps to Help You Find #Replace(dealerinfo.dealershipname, "'", "\'")#';return true"
+	OnMouseOut="self.status='';return true"><IMG
+		SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/nav_ma<CFIF #section# IS "ma" AND #onoff# IS "true">_dn</CFIF>_nav.gif"
+		BORDER=0
+		<CFIF #section# IS "ma" AND #onoff# IS "true">
+			WIDTH=#mawd#
+			HEIGHT=#mahd#
+		<CFELSE>
+			WIDTH=#maw#
+			HEIGHT=#mah#
+		</CFIF>
+		ALT="Maps to #dealerinfo.dealershipname#"></A><BR><CFIF thespace IS "true"><IMG SRC="#application.RELATIVE_PATH#/images/common/spacer.gif" BORDER=0 WIDTH=1 HEIGHT=#spaceheight#><BR></CFIF>
+	<A
+	HREF="main.cfm?section=co"
+	TITLE="Printable Coupons"
+	OnMouseOver="self.status='Printable Coupons Redeemable at #Replace(dealerinfo.dealershipname, "'", "\'")#';return true"
+	OnMouseOut="self.status='';return true"><IMG
+		SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/nav_co<CFIF #section# IS "co" AND #onoff# IS "true">_dn</CFIF>_nav.gif"
+		BORDER=0
+		<CFIF #section# IS "co" AND #onoff# IS "true">
+			WIDTH=#cowd#
+			HEIGHT=#cohd#
+		<CFELSE>
+			WIDTH=#cow#
+			HEIGHT=#coh#
+		</CFIF>
+		ALT="Printable Coupons"></A><BR><CFIF thespace IS "true"><IMG SRC="#application.RELATIVE_PATH#/images/common/spacer.gif" BORDER=0 WIDTH=1 HEIGHT=#spaceheight#><BR></CFIF>
+</CFIF>
+<CFIF arttempid.CalculatorYesNo IS 'Y'>
+	<A
+	HREF="main.cfm?section=ca"
+	TITLE="Payment Calculator"
+	OnMouseOver="self.status='Calculate a Payment';return true"
+	OnMouseOut="self.status='';return true"><IMG
+		SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/<CFIF #g_Col# IS "true">Col_</cfif>nav_ca<CFIF #section# IS "ca" AND #onoff# IS "true">_dn</CFIF>_nav.gif"
+		BORDER=0
+		<CFIF #section# IS "ca" AND #onoff# IS "true">
+			WIDTH=#cawd#
+			HEIGHT=#cahd#
+		<CFELSE>
+			WIDTH=#caw#
+			HEIGHT=#cah#
+		</CFIF>
+		ALT="Payment Calculator"></A><BR><CFIF thespace IS "true"><IMG SRC="#application.RELATIVE_PATH#/images/common/spacer.gif" BORDER=0 WIDTH=1 HEIGHT=#spaceheight#><BR></CFIF>
+<CFELSE>
+	<IMG
+	SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/<CFIF #g_Col# IS "true">Col_</cfif>nav_noca_nav.gif"
+	BORDER=0
+	WIDTH=#nocaw#
+	HEIGHT=#nocah#
+	ALT=""><BR><CFIF thespace IS "true"><IMG SRC="#application.RELATIVE_PATH#/images/common/spacer.gif" BORDER=0 WIDTH=1 HEIGHT=#spaceheight#><BR></CFIF>
+</CFIF>
+
+<!--- 8/19/99: why is this commented out?  8/23/99: See below: it's the background to the manuf logos now.
+<CFIF #leftnavbase# IS "true"><IMG
+	SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/<CFIF #g_Col# IS "true">Col_</cfif>nav_base_nav.gif"
+	BORDER=0
+	WIDTH=#bsw#
+	HEIGHT=#bsh#
+	ALT=""><BR><CFIF thespace IS "true"><IMG SRC="#application.RELATIVE_PATH#/images/common/spacer.gif" BORDER=0 WIDTH=1 HEIGHT=#spaceheight#><BR></CFIF>
+</cfif> --->
+
+<!--- Display manuf logos --->
+<cfif getmakelogo.makelogoYN eq "Y">
+<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 align="center" <CFIF #leftnavbase# IS "true">WIDTH=#bsw# HEIGHT=#bsh# background="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/<CFIF #g_Col# IS "true">Col_</cfif>nav_base_nav.gif"</CFIF>>
+<tr>
+	<TD valign="top" align="center">
+		<CFIF #g_Col# IS "true">
+			<cfquery name="getDlrMakes"	 datasource="#gDSN#">
+				SELECT DISTINCT 
+						Makes.MakeNumber,
+						Makes.MakeName,
+						Makes.Webaddr
+				FROM	(CollectionDealers 
+						INNER JOIN DealerFranchise ON CollectionDealers.DealerCode = DealerFranchise.Dealercode) 
+						INNER JOIN Makes ON DealerFranchise.MakeNumber = Makes.MakeNumber
+				WHERE 	CollectionDealers.Coll_DealerCode = '#dealerinfo.dealercode#'
+			</cfquery>
+
+			<CFIF getDlrMakes.RecordCount>		
+	<!------ This decides whether to make the logos link to their manufacturer added 6/14 bbickel --->
+				<CFIF getmakelogo.MakeLogoLinkYN EQ "Y">
+					<CFLOOP query="getDlrMakes">
+							<A HREF="http://#WebAddr#"
+							TITLE="Go to #MakeName#'s Home Page"
+							OnMouseOver="self.status='Go to #MakeName#\'s Home Page';return true"
+							OnMouseOut="self.status='';return true" TARGET="_blank"><IMG
+							SRC="#application.RELATIVE_PATH#/images/make_logo/#MakeNumber#<cfif #make_logo_blk# IS "y">_blk</cfif>.gif" BORDER=0 ALT="#MakeName#"></a>
+							<br>
+					</cfloop>
+				<cfelse>
+					<CFLOOP query="getDlrMakes">
+						<IMG SRC="#application.RELATIVE_PATH#/images/make_logo/#MakeNumber#<cfif #make_logo_blk# IS "y">_blk</cfif>.gif" BORDER=0 ALT="#MakeName#"></a>
+						<br>
+					</cfloop>	
+				</cfif>
+			<CFELSE>
+				&nbsp;
+			</cfif>
+			
+			<!--- Linda, 5/7/99: kludge to satisfy Suburban Collection: show non-WD dealerships' manuf logos --->
+			
+			<CFIF #Left(dealerinfo.dealercode, 4)# EQ "0004">
+				<CFLOOP index="manuf" list="Saturn,Infiniti,Volvo">
+					<CFQUERY name="getNonWDMakes" datasource="#gDSN#">
+						SELECT 	MakeName, 
+								MakeNumber, 
+								WebAddr
+						FROM	Makes
+						WHERE 	MakeName = '#manuf#'
+					</cfquery>
+		<!--- This decides whether to make the logos link to their manufacturer added 6/14 bbickel --->
+				<CFIF getmakelogo.MakeLogoLinkYN EQ "Y">	
+					<CFLOOP query="getNonWDMakes">
+						<A HREF="http://#WebAddr#"
+						TITLE="Go to #MakeName#'s Home Page"
+						OnMouseOver="self.status='Go to #MakeName#\'s Home Page';return true"
+						OnMouseOut="self.status='';return true" TARGET="_blank"><IMG
+						SRC="#application.RELATIVE_PATH#/images/make_logo/#MakeNumber#<cfif #make_logo_blk# IS "y">_blk</cfif>.gif" BORDER="0" ALT="#MakeName#"></a>
+						<BR>
+					</cfloop>
+				<cfelse>
+					<CFLOOP query="getNonWDMakes">
+						<IMG SRC="#application.RELATIVE_PATH#/images/make_logo/#MakeNumber#<cfif #make_logo_blk# IS "y">_blk</cfif>.gif" BORDER="0" ALT="#MakeName#"></a>
+						<BR>
+					</cfloop>
+				</cfif>	
+			</CFLOOP><!--- so there's more of a border at the bottom --->
+			<CFELSE>
+				&nbsp;
+			</cfif>
+		<CFELSE>
+			<!--- Dealerships: get their Manuf logos --->
+			<CFQUERY name=getDlrMakes DATASOURCE="#gDSN#">
+				SELECT 	Makes.MakeName, 
+						Makes.MakeNumber, 
+						Makes.WebAddr
+				FROM 	Makes INNER JOIN DealerFranchise ON Makes.MakeNumber = DealerFranchise.MakeNumber
+				WHERE 	DealerFranchise.dealercode = '#dealerinfo.dealercode#'
+			<!--- 		ORDER BY Makes.MakeName	 Linda, 3/11/99: The order is the same as it's added in DealerFranchise table, 
+			which should match the order in the dealerhsip name, ie. buick pontiac gmc, not buick gmc pontiac. --->
+			</cfquery>
+	
+	<!------ This decides whether to make the logos link to their manufacturer added 6/14 bbickel --->
+			<CFIF getmakelogo.MakeLogoLinkYN EQ "Y">
+				<CFLOOP query="getDlrMakes">
+					<!--- have to have the <BR>s before, because of the bar at the top --->
+					<BR><BR>
+										
+					<A
+					HREF="http://#WebAddr#"
+					TITLE="Go to #MakeName#'s Home Page"
+					OnMouseOver="self.status='Go to #MakeName#\'s Home Page';return true"
+					OnMouseOut="self.status='';return true" TARGET="_blank"><IMG
+					SRC="#application.RELATIVE_PATH#/images/make_logo/#MakeNumber#<cfif #make_logo_blk# IS "y">_blk</cfif>.gif" BORDER="0" ALT="#MakeName#"></a>
+				</cfloop>
+			<cfelse>
+				<CFLOOP query="getDlrMakes">
+						<!--- have to have the <BR>s before, because of the bar at the top --->
+						<BR><BR>
+						<IMG SRC="#application.RELATIVE_PATH#/images/make_logo/#MakeNumber#<cfif #make_logo_blk# IS "y">_blk</cfif>.gif" BORDER="0" ALT="#MakeName#"></a>
+				</cfloop>
+			</cfif>			
+		
+		
+		</CFIF>
+	</td>
+</tr>
+<!--- 8/19/99: if dealer is member of a collection, link to parent Collection --->
+<CFIF #Mid(dealerinfo.dealercode, 6, 4)# IS NOT '0000'>
+	<CFQUERY name="getCollection" datasource="#gDSN#">
+		SELECT 	DealershipName, 
+				DealerCode,
+				URL
+		FROM	Dealers
+	</cfquery>
+	
+	<CFLOOP query="getCollection">
+		<CFIF (#Left(DealerCode, 4)# EQ #Left(dealerinfo.dealercode, 4)#) 
+			AND (#Mid(DealerCode, 6, 4)# EQ "0000")>
+			<tr>
+				<td>
+					<font size="2" face="Arial,Helvetica">
+					<A HREF=<CFIF #URL# NEQ "">"http://<cfif #Left(#URL#, 6)# eq "wddemo">#URL#<cfelse>www.#URL#</cfif>"<CFELSE>"index.cfm?dealercode=#DealerCode#"</cfif>
+					TITLE="Go to #dealershipname#'s Home Page"
+					OnMouseOver="self.status='Go to #Replace(dealershipname, "'", "\'")#\'s Home Page';return true"
+					OnMouseOut="self.status='';return true">
+					<BR><BR>Go to #DealershipName#'s Home Page<br><br></A>
+					</font>
+				</td>
+			</tr>
+			<CFBREAK>
+		</CFIF>
+	</CFLOOP>
+</CFIF>
+</table>
+</cfif>
+</CFOUTPUT>

@@ -1,0 +1,132 @@
+<!---
+Created by Sigma6, Inc.
+Copyright (c) 1998 Sigma6, Inc.
+All Rights Reserved.  Used By Permission.
+
+Sigma6, interactive media, Detroit/NYC
+conceive : construct : connect
+www.sigma6.com   webmaster@sigma6.com   info@sigma6.com
+
+Last updated: <February 25, 1999>
+
+Linda Swanson for sigma6, interactive media, Detroit
+lswanson@sigma6.com   www.sigma6.com    www.s6313.com
+conceive : construct : connect
+
+Sigma6, s6, and the Sigma6 logos are registered trademarks.
+All other trademarks and servicemarks are the property of
+their respective owners.
+--->
+
+<CFIF NOT IsDefined("sub")>
+	<CFSET sub = "main">
+</CFIF>
+
+
+<CFIF sub IS "main">
+
+	<!--- if collection, send it to ManufList to get all its dealership's list of manuf --->
+	<CFIF #g_Col# IS "true">
+		<CFLOCATION URL="main.cfm?section=le&sub=manuflist">
+	<CFELSE>
+		<!--- Dealerships --->
+		<CFQUERY name="getDealerMake" datasource="#gDSN#">
+			SELECT  MakeNumber
+			FROM	DealerFranchise
+			WHERE	DealerFranchise.dealercode = '#dealerinfo.dealercode#'
+		</cfquery>
+		
+		<!--- if it's a single dealership, go directly to the manuf's adv page --->
+		<CFIF #getDealerMake.recordcount# EQ 1>
+			<CFLOCATION URL="main.cfm?section=le&sub=leasevsbuy&make=#getDealerMake.MakeNumber#">
+		<CFELSE>
+			<!--- if there are multiple manuf, sent it to ManufList to get the list of manuf --->
+			<CFLOCATION URL="main.cfm?section=le&sub=manuflist">
+		</cfif>
+	</CFIF>
+	
+<CFELSEIF sub IS "manuflist">
+	<CFOUTPUT>
+	<FORM METHOD="POST" ACTION="main.cfm?section=le&sub=manuflist" NAME="advform">
+	<TABLE BORDER=0>
+		<TR>
+			<TD Colspan="2">
+				<FONT SIZE=2 FACE="arial,helvetica">
+				<div align="center">Select a manufacturer from the drop-down list, then click the <b>submit</b> button to view that manufacturer's advantages.</div>
+				<BR>
+			</TD>
+		</TR>
+
+		<TR>
+			<TD align="center">
+				<CFIF #g_Col# IS "true">
+					<cfquery name="getDlrMakes" datasource="#gDSN#">
+						SELECT DISTINCT 
+								Makes.MakeNumber, 
+								Makes.MakeName
+						FROM	(CollectionDealers 
+								INNER JOIN DealerFranchise ON CollectionDealers.DealerCode = DealerFranchise.Dealercode)
+								INNER JOIN Makes ON DealerFranchise.MakeNumber = Makes.MakeNumber
+						WHERE	CollectionDealers.Coll_DealerCode = '#dealerinfo.dealercode#'
+						ORDER BY Makes.MakeName
+					</cfquery>
+				<CFELSE>
+					<!--- dealerships with multiple makes --->
+					<cfquery name="getDlrMakes" datasource="#gDSN#">
+						SELECT	Makes.MakeNumber,
+								Makes.MakeName
+						FROM	Makes INNER JOIN DealerFranchise ON Makes.MakeNumber = DealerFranchise.MakeNumber
+						WHERE	DealerFranchise.dealercode = '#dealerinfo.dealercode#'
+					</cfquery>
+				</CFIF>
+
+				<SELECT name="Makes">
+				<CFLOOP query="getDlrMakes">				
+					<OPTION VALUE="main.cfm?section=le&sub=leasevsbuy&Make=#MakeNumber#">#MakeName#
+				</cfloop>
+				</select>
+				
+				&nbsp;&nbsp;
+        		<A HREF="JavaScript: go();"
+   					OnMouseOver="self.status='Select a manufacturer';return true"
+					OnMouseOut="self.status='';return true"><img src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_submit_nav.gif" Align="absmiddle" border=0 alt="Manufacturer's Advantage"></A></FORM>
+				<SCRIPT LANGUAGE="JavaScript">
+					function go(){
+					page= document.advform.Makes.options[document.advform.Makes.selectedIndex].value;
+					if (document.advform.Makes.options[document.advform.Makes.selectedIndex].value != "")
+						location= page;
+					}
+				</SCRIPT>
+			</td>
+		</tr>
+	</TABLE>
+	</FORM>
+	</CFOUTPUT>
+
+
+<!--- display Manufacturer's Advantages for selected manufacturer --->
+<CFELSEIF sub IS "LeasevsBuy">
+
+	 <cfquery name="getLeasevsBuy" datasource="#gDSN#">
+		SELECT	MakeName,
+				LeasevsBuy
+		FROM 	Makes
+		WHERE 	MakeNumber = #URL.Make#
+	</cfquery>
+	
+	<TABLE BORDER=0>
+		<TR>
+			<TD>
+				<CFOUTPUT QUERY="getLeasevsBuy">
+					<FONT SIZE=4 FACE="arial,helvetica" color="#thecolor#">
+					<B>#MakeName#</B>
+					</FONT>
+					<P>
+					<FONT SIZE=2 FACE="arial,helvetica">
+ 					#ParagraphFormat(LeasevsBuy)#
+					</FONT>
+				</CFOUTPUT>
+			</TD>
+		</TR>
+	</TABLE>
+</CFIF>

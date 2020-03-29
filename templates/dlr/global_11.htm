@@ -1,0 +1,128 @@
+<!---
+Created by Sigma6, Inc.
+Copyright (c) 1999 Sigma6, Inc.
+All Rights Reserved.  Used By Permission.
+
+Sigma6, interactive media, Detroit/NYC
+conceive : construct : connect
+www.sigma6.com   webmaster@sigma6.com   info@sigma6.com
+
+Last updated: <September 2, 1999>
+
+Linda Swanson for sigma6, interactive media, Detroit
+lswanson@sigma6.com   www.sigma6.com    www.s6313.com
+conceive : construct : connect
+
+Sigma6, s6, and the Sigma6 logos are registered trademarks.
+All other trademarks and servicemarks are the property of
+their respective owners.
+--->
+<!--- $Id: global_11.htm,v 1.6 2000/05/25 18:15:51 bbickel Exp $ --->
+<!--- Illustrative Globals --->
+
+
+<!------- NAVIGATION VARIABLES------------------------------------------------->
+<CFSET onoff = "false">  <!--- whether there's a separate leftnav image (up / down image) for section you're in --->
+<CFSET thespace = "false">	<!--- whether to insert blank spaces between LeftNav buttons --->
+<CFSET thefooter = "false">		<!--- Back to Top footer --->
+<CFSET leftnavbase = "false">  <!--- whether it has the nav_base_nav.gif at the bottom of the leftnav --->
+
+<!--------------leftnav width and height----------------->
+<CFOUTPUT>
+<!--- Collections --->
+<CFIF Mid(#dealerinfo.dealercode#, 6, 4) IS '0000'>
+	<CFSET shw = 151><!---SH--->
+	<CFSET shh = 40>
+	<CFSET prw = 151><!---PR--->
+	<CFSET prh = 38>
+	<CFSET vew = 151><!---VE--->
+	<CFSET veh = 39>
+	<CFSET fiw = 151><!---FI--->
+	<CFSET fih = 37>
+	<CFSET lew = 151><!---LE--->
+	<CFSET leh = 34>
+	<CFSET advw = 151><!---ADV--->
+	<CFSET advh = 38>
+	<CFSET dlw = 151><!---DL--->
+	<CFSET dlh = 38>
+	<CFSET caw = 151><!---CA--->
+	<CFSET cah = 41>
+	<CFSET nocaw = 151><!---No CA--->
+	<CFSET nocah = 41>
+	<CFSET bsw = 151><!---BASE--->
+	<CFSET bsh = 0>
+<CFELSE>
+	<!--- Dealerships --->
+	<CFSET shw = 151><!---SH--->
+	<CFSET shh = 40>
+	<CFSET prw = 151><!---PR--->
+	<CFSET prh = 37>
+	<CFSET quw = 151><!---QU--->
+	<CFSET quh = 40>
+	<CFSET fiw = 151><!---FI--->
+	<CFSET fih = 36>
+	<CFSET lew = 151><!---LE--->
+	<CFSET leh = 34>
+	<CFSET advw = 151><!---ADV--->
+	<CFSET advh = 40>
+	<CFSET sew = 151><!---SE--->
+	<CFSET seh = 38>
+	<CFSET dew = 151><!---DE--->
+	<CFSET deh = 35>
+	<CFSET maw = 151><!---MA--->
+	<CFSET mah = 38>
+	<CFSET cow = 151><!---CO--->
+	<CFSET coh = 40>
+	<CFSET caw = 151><!---CA--->
+	<CFSET cah = 48>
+	<CFSET nocaw = 151><!---No CA--->
+	<CFSET nocah = 48>
+	<CFSET bsw = 151><!---BASE--->
+	<CFSET bsh = 0>
+</CFIF>
+</CFOUTPUT>
+
+<!--- other images width & height --->
+<CFSET seapptw = 120>		<!--- service appt --->
+<CFSET seappth = 74>
+<CFSET separtw = 124>		<!--- parts request --->
+<CFSET separth = 74>
+<CFSET whow = 71>			<!--- who we are ---><!--- this image needs to be created: tle_who_hea.gif --->
+<CFSET whoh = 95>
+<CFSET whyw = 67>			<!--- why we're different --->
+<CFSET whyh = 95>
+
+
+<!---COLORS FOR BGs AND FONTS-------------------------------------------------->
+<CFSET thecolor = "5588cc">	<!--- blue --->
+<CFSET theothercolor = "88cc00">	<!--- green --->
+<CFSET textcolor = "ffffff">
+<CFSET othertextcolor = "000000">
+<CFSET thirdcolor ="F4FBF7">
+
+<CFOUTPUT>
+
+<BODY	
+		<!--- linda, 10/22/99: whack!  2 different background colors used for collection & dealership comps --->
+		<CFIF section CONTAINS "sp">
+			<cfif mid(#dealerinfo.dealercode#, 6, 4) is '0000'>
+				BGCOLOR="fffbff"
+			<cfelse>
+				BGCOLOR="ffffff"
+			</cfif>
+		<!--- linda, 10/22/99: this gets overwritten by template_11.htm's css code anyway.
+		<CFELSE>
+			BACKGROUND="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/bg.jpg"
+			BGCOLOR="f7f7f7" --->
+		</CFIF>
+		TEXT="000000"
+		LINK="559900"	<!--- darker green --->
+		ALINK="559900"	<!--- darker green --->
+		VLINK="5588cc">	<!--- blue --->
+</cfoutput>
+
+<!---Is the why we are different formatted side to side or break line?-------->
+<CFSET whyweare = "nobreak">
+
+<!---This Sets whether the manufacturer logos are black or white-------->
+<CFSET make_logo_blk = "n">

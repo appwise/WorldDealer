@@ -1,0 +1,365 @@
+<!-- ----------------------------------------------------------- -->
+<!--                 Created by Sigma6, Inc.                     -->
+<!--             Copyright (c) 1998 Sigma6, Inc.                 -->
+<!--         All Rights Reserved.  Used By Permission.           -->
+<!-- ----------------------------------------------------------- -->
+<!-- ----------------------------------------------------------- -->
+<!--           Sigma6, interactive media, Detroit/NYC            -->
+<!--               conceive : construct : connect                -->
+<!--   www.sigma6.com   webmaster@sigma6.com   info@sigma6.com   -->
+<!--                                                             -->
+<!--   Last updated: <May 21, 1998>                              -->
+<!-- ----------------------------------------------------------- -->
+<!--   Daniel Fettinger for sigma6, interactive media, Detroit   -->
+<!--   dfettinger@sigma6.com   www.sigma6.com    www.s6313.com   -->
+<!--               conceive : construct : connect                -->
+<!-- ----------------------------------------------------------- -->
+<!-- ----------------------------------------------------------- -->
+<!-- Sigma6, s6, and the Sigma6 logos are registered trademarks. -->
+<!-- All other trademarks and servicemarks are the property of   -->
+<!-- their respective owners.                                    -->
+<!-- ----------------------------------------------------------- -->
+<!--- $Id: pr_search.htm,v 1.17 2000/06/06 22:50:59 lswanson Exp $ --->
+
+<CFOUTPUT>
+	<!--- 
+	This code is Copyright (c) 1996 Nick Heinle and Athenia Associates, 
+    all rights reserved. In order to receive the right to license this 
+    code for use on your site the original code must be copied from the
+    Web site webreference.com/javascript/. License is granted to user to 
+    reuse this code on their own Web site if and only if this entire copyright
+    notice is included. Code written by Nick Heinle of webreference.com.
+ 	---> 
+<!--- linda, 11/1/99: f(#*$& it.  javascript can't do queries.
+	<SCRIPT LANGUAGE="JavaScript">
+	<!--// Hide from non-JavaScript browsers
+
+    function changeMenu()
+	    {
+		selectedMake = document.search.make.options[document.search.make.selectedIndex].text;
+		
+        modelArray = new Array;
+		modelArray[0] = new Option("Any");
+		i = 1;
+		
+		<cfquery name="getMakeModels" datasource="#gDSN">
+		SELECT DISTINCT
+				ModelName
+		FROM	UsedVehicles
+		<CFIF #g_Col# IS "true">
+			INNER JOIN CollectionDealers ON UsedVehicles.DealerCode = CollectionDealers.DealerCode
+			WHERE CollectionDealers.Coll_DealerCode='#dealerinfo.dealercode#'
+		<cfelse>
+			WHERE UsedVehicles.dealercode='#dealerinfo.dealercode#'
+		</cfif>
+		AND		Make = #selectedMake#
+		ORDER BY ModelName
+		</cfquery>
+		
+		<cfloop query="getMakeModels">
+			modelArray[i] = new Option("#ModelName#");
+			i++;
+		</cfloop> 
+
+		tot = modelArray.length;
+		for (i = 0; i < tot; i++)
+            { document.search.modelname.options[i] = modelArray[i]; }
+	    }
+	//-->
+	</SCRIPT>
+ --->
+ 
+<!--- linda, 12/8/99: check to see if user's browser is javascript-compatible. --->
+<CFSET WHEREYOUAT=(#FIND("/", "#HTTP_USER_AGENT#")# +1)>
+<CFSET BVER=#MID(#HTTP_USER_AGENT#, #WHEREYOUAT#, 3)#>
+<CFIF #HTTP_USER_AGENT# CONTAINS "Mozilla" AND #BVER# GTE 3>
+	<CFSET #GOODBROWSER#="yes">
+<CFELSE>
+	<CFSET #GOODBROWSER#="no">
+</CFIF>
+
+<CFSET VEHICLEMATRIX=#ARRAYNEW(1)#>
+<CFSET #counter#=1>
+
+<CFLOOP INDEX="counter" FROM="1" TO="#getMakes.recordcount#">   
+	<CFSET RETURNVALUE = ARRAYSET(VEHICLEMATRIX, #counter#, #counter#, #getMakes.makenumber#)>
+</CFLOOP>
+
+<!--- this is where i had the javascript.  but moved it back to pr.htm, just like wdde had it. ---> 
+<!--- linda, 12/14/99: tried it back here again, but it takes almost twice as long to load here.  So, leave it in pr.htm. --->
+ 
+<FORM NAME="search" METHOD="post" ACTION="main.cfm?section=pr&search=yes">
+<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=3>
+<TR>
+	<TD>
+	<FONT FACE="arial,helvetica" SIZE=2>
+		<B>Make:</B>
+	</FONT>
+	</TD>
+	<TD COLSPAN=2>
+	<FONT FACE="arial,helvetica" SIZE=2>
+		<!--- if they select a make, change the models that are shown in the models drop-down --->
+		<SELECT NAME="make" <CFIF #GOODBROWSER# IS "yes">onChange="onMakeChange()"</CFIF>>
+			<OPTION VALUE=0>Any</OPTION>
+			<CFLOOP QUERY="getMakes">
+				<!--- linda, 12/30/99: need to urlencode, cuz javascript generates a URL param out of it.  i.e., 'AM General' failed before. --->
+				<!--- have to decode before using in a query: replace '%20' with ' ' --->
+				<option value="#makenumber#" 
+				<cfif IsDefined("URL.make")>
+					<cfif (URL.make EQ makenumber)>
+						selected
+					</cfif>
+				</cfif>
+				>#makename#</option>
+			</CFLOOP>
+		</SELECT>
+	</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT FACE="arial,helvetica" SIZE=2>
+			<B>Model:</B>
+		</FONT>
+	</TD>
+	<TD COLSPAN=2>
+	<FONT FACE="arial,helvetica" SIZE=2>
+		<SELECT NAME="model">
+			<OPTION VALUE=0>Any
+			<cfif IsDefined("URL.make")>
+				<CFLOOP QUERY="getModels">
+					<OPTION VALUE="#ModelNumber#">#ModelName#
+				</CFLOOP>
+			</cfif>
+		</SELECT>
+	</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+	<FONT FACE="arial,helvetica" SIZE=2>
+		<B>Year Manufactured:</B>
+	</FONT>
+	</TD>
+	<TD>
+	<FONT FACE="arial,helvetica" SIZE=2>
+		Earliest:
+		<BR>
+		<!--- <SELECT NAME="caryear1">
+			<OPTION VALUE="0">Any
+			<OPTION VALUE="0">1986 or before
+			<OPTION VALUE="1987">1987
+			<OPTION VALUE="1988">1988
+			<OPTION VALUE="1989">1989									
+			<OPTION VALUE="1990">1990
+			<OPTION VALUE="1991">1991
+			<OPTION VALUE="1992">1992
+			<OPTION VALUE="1993">1993
+			<OPTION VALUE="1994">1994
+			<OPTION VALUE="1995">1995																	
+			<OPTION VALUE="1996">1996
+			<OPTION VALUE="1997">1997																	
+			<OPTION VALUE="1998">1998
+			<OPTION VALUE="1999">1999
+			<OPTION VALUE="2000">2000
+			<OPTION VALUE="2001">2001
+		</SELECT> --->
+<!--- Chris Wacker 11/10/2000 __Model_Year_Drop_Down_Menu__ --->
+<!--- 
+This CF code checks the current date and evaluates the year and month
+to create a drop down menu for the year form selection
+Sets the initial loop counter to 6 as this is the common range in years for previously owned cars 
+Capture today's date 
+Get the Current year returnd as 'yyyy'
+Check to see if its later than October 
+If it IS then add 1 to the current year (all new models for next year should be released) --->
+	<cfset bing = 12>
+	<cfset todayDate = Now()>
+	<cfset CurrYear = Year(DateFormat(todayDate))>
+		<cfif Month(DateFormat(todayDate)) GTE 10>
+			<cfset CurrYear = CurrYear + 1>
+		</cfif>
+<!--- Otherwise keep the year current 
+This sets the value for the oldest year available --->
+	<cfset OldYear = CurrYear - bing>
+<!--- Build the drop down <cfoutput> --->
+			
+<!--- Loop over the result set to create the drop down --->
+				<select name="caryear1">
+				<cfloop index="bong" from="#OldYear#" to="#CurrYear#">
+						<cfif "#bong#" EQ "#OldYear#">
+<!--- Build the current model year selection --->
+							<option value="#bong#" SELECTED>#bong#
+						<cfelse>
+							<option value="#bong#">#bong#
+						</cfif>
+				</cfloop>
+				</select>
+			<!--- </cfoutput> --->
+	</FONT>
+	</TD>
+	<TD>
+	<FONT FACE="arial,helvetica" SIZE=2>
+		Latest:
+		<BR>
+		<!--- <SELECT NAME="caryear2">
+			<OPTION VALUE="0">Any
+			<OPTION VALUE="1986">1986 or before
+			<OPTION VALUE="1987">1987
+			<OPTION VALUE="1988">1988
+			<OPTION VALUE="1989">1989									
+			<OPTION VALUE="1990">1990
+			<OPTION VALUE="1991">1991
+			<OPTION VALUE="1992">1992
+			<OPTION VALUE="1993">1993
+			<OPTION VALUE="1994">1994
+			<OPTION VALUE="1995">1995																	
+			<OPTION VALUE="1996">1996
+			<OPTION VALUE="1997">1997																	
+			<OPTION VALUE="1998">1998
+			<OPTION VALUE="1999">1999
+			<OPTION VALUE="2000">2000
+			<OPTION VALUE="2001">2001
+		</SELECT> --->
+		<!--- Chris Wacker 11/10/2000 __Model_Year_Drop_Down_Menu__ --->
+<!--- 
+This CF code checks the current date and evaluates the year and month
+to create a drop down menu for the year form selection
+ --->
+
+<!--- Sets the initial loop counter to 6 as this is the common range in years for previously owned cars --->
+	<cfset bing = 12>
+<!--- Capture today's date --->
+	<CFSET todayDate = Now()>
+<!--- Get the Current year returnd as 'yyyy' --->
+	<cfset CurrYear = Year(DateFormat(todayDate))>
+<!--- Check to see if its later than October --->
+		<cfif Month(DateFormat(todayDate)) GTE 10>
+<!--- If it IS then add 1 to the current year (all new models for next year should be released) --->
+			<cfset CurrYear = CurrYear + 1>
+		</cfif>
+<!--- Otherwise keep the year current --->
+<!--- This sets the value for the oldest year available --->
+	<cfset OldYear = CurrYear - bing>
+<!--- Build the drop down <cfoutput> --->
+			
+<!--- Loop over the result set to create the drop down --->
+				<select name="caryear2">
+				<cfloop index="bong" from="#OldYear#" to="#CurrYear#">
+						<cfif "#bong#" EQ "#CurrYear#">
+<!--- Build the current model year selection --->
+							<option value="#bong#" SELECTED>#bong#
+						<cfelse>
+							<option value="#bong#">#bong#
+						</cfif>
+				</cfloop>
+				</select>
+			<!--- </cfoutput> --->
+	</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+	<FONT FACE="arial,helvetica" SIZE=2>
+		<B>Price:</B>
+	</FONT>
+	</TD>
+	<TD>
+	<FONT FACE="arial,helvetica" SIZE=2>
+		Least:
+		<BR>
+		<SELECT NAME="price1">
+			<OPTION VALUE="0">Any
+			<OPTION VALUE="0">$1,000 or less
+			<OPTION VALUE="2000">$2,000
+			<OPTION VALUE="3000">$3,000
+			<OPTION VALUE="4000">$4,000
+			<OPTION VALUE="5000">$5,000
+			<OPTION VALUE="8000">$8,000
+			<OPTION VALUE="10000">$10,000
+			<OPTION VALUE="15000">$15,000
+			<OPTION VALUE="20000">$20,000
+			<OPTION VALUE="25000">$25,000
+			<OPTION VALUE="30000">$30,000
+		</SELECT>
+	</FONT>
+	</TD>
+	<TD>
+	<FONT FACE="arial,helvetica" SIZE=2>
+		Most:
+		<BR>
+		<SELECT NAME="price2">
+			<OPTION VALUE="0">Any
+			<OPTION VALUE="1000">$1,000 or less
+			<OPTION VALUE="2000">$2,000
+			<OPTION VALUE="3000">$3,000
+			<OPTION VALUE="4000">$4,000
+			<OPTION VALUE="5000">$5,000
+			<OPTION VALUE="8000">$8,000
+			<OPTION VALUE="10000">$10,000
+			<OPTION VALUE="15000">$15,000
+			<OPTION VALUE="20000">$20,000
+			<OPTION VALUE="25000">$25,000
+			<OPTION VALUE="30000">$30,000
+		</SELECT>
+	</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+	<FONT FACE="arial,helvetica" SIZE=2>
+		<B>Mileage:</B>
+	</FONT>
+	</TD>
+	<TD>
+	<FONT FACE="arial,helvetica" SIZE=2>
+		Least:
+		<BR>
+		<SELECT NAME="mileage1">
+			<OPTION VALUE="0">Any
+			<OPTION VALUE="0">10,000 miles or fewer
+			<OPTION VALUE="30000">30,000 miles
+			<OPTION VALUE="60000">60,000 miles
+			<OPTION VALUE="90000">90,000 miles
+		</SELECT>
+	</FONT>
+	</TD>
+	<TD>
+	<FONT FACE="arial,helvetica" SIZE=2>
+		Most:
+		<BR>
+		<SELECT NAME="mileage2">
+			<OPTION VALUE="0">Any
+			<OPTION VALUE="10000">10,000 miles or fewer
+			<OPTION VALUE="30000">30,000 miles
+			<OPTION VALUE="60000">60,000 miles
+			<OPTION VALUE="90000">90,000 miles
+		</SELECT>
+	</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+	<FONT FACE="arial,helvetica" SIZE=2>
+		<B>Transmission:</B>
+	</FONT>
+	</TD>
+	<TD COLSPAN=2>
+	<FONT FACE="arial,helvetica" SIZE=2>
+	<SELECT NAME="transmission">
+		<OPTION VALUE="Any">Please select a transmission type
+		<OPTION VALUE="auto">Automatic
+		<OPTION VALUE="manual">Manual
+	</SELECT>
+	</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=3 ALIGN=CENTER>
+		<BR>
+		<INPUT TYPE="image" SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_search_nav.gif" BORDER=0>
+	</TD>
+</TR>
+</FORM>
+</TABLE>
+</CFOUTPUT>

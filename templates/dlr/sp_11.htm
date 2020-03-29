@@ -1,0 +1,430 @@
+<!-- ----------------------------------------------------------- -->
+<!--                 Created by Sigma6, Inc.                     -->
+<!--             Copyright (c) 1997, 1998, 1999 Sigma6, Inc.     -->
+<!-- All Rights Reserved.  Copyright Does Not Imply Publication. -->
+<!-- ----------------------------------------------------------- -->
+<!-- ----------------------------------------------------------- -->
+<!--           Sigma6, interactive media, Detroit/NYC            -->
+<!--               conceive : construct : connect                -->
+<!--   www.sigma6.com   webmaster@sigma6.com   info@sigma6.com   -->
+<!--                                                             -->
+<!--   Last updated: <September 2, 1999>                         -->
+<!-- ----------------------------------------------------------- -->
+<!--     Linda Swanson for sigma6, interactive media, Detroit    -->
+<!--   lswanson@sigma6.com   www.sigma6.com    www.s6313.com     -->
+<!--               conceive : construct : connect                -->
+<!-- ----------------------------------------------------------- -->
+<!-- ----------------------------------------------------------- -->
+<!-- Sigma6, s6, and the Sigma6 logos are registered trademarks. -->
+<!-- All other trademarks and servicemarks are the property of   -->
+<!-- their respective owners.                                    -->
+<!-- ----------------------------------------------------------- -->
+<!--- Illustrative Splash Page --->
+
+<!--- Linda: this takes the underline off of the text links & makes the colors match the template --->
+
+<style type="text/css">
+   <!--
+	a
+	{
+		text-decoration: none;
+	}
+	a:link { color: #559900 }   <!--- darker green --->
+	a:visited { color: #5588cc }	<!--- blue --->
+	 }
+	-->
+</style>
+
+<div align="center">
+<!--- Collections --->
+<cfif mid(#dealerinfo.dealercode#, 6, 4) is '0000'>
+	<cfoutput>
+ 	<table border="0" cellpadding="0" cellspacing="0" width="624">
+	<tr>
+		<td colspan="3">
+			<img src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/col_sp_head_1.gif" 
+				width="624" 
+				height="81" 
+				border="0"></td>
+	</tr>
+	<tr>
+		<td valign="TOP">
+			<a href="main.cfm?section=sh" 
+				title="Browse our Showroom" 
+				onmouseover="self.status='Browse our Showroom of New Vehicles';return true" 
+				onmouseout="self.status='';return true"><img 
+				src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/col_sp_sh_nav.gif" 
+				width="102" 
+				height="46" 
+				border="0" 
+				alt="Showroom"></a><br>
+			<a href="main.cfm?section=ve" 
+				title="Vehicle Inquiry Form" 
+				onmouseover="self.status='Vehicle Inquiry Form';return true" 
+				onmouseout="self.status='';return true"><img 
+				src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/col_sp_ve_nav.gif" 
+				width="102" 
+				height="63" 
+				border="0" 
+				alt="Vehicle Inquiry"></a><br>
+			<a href="main.cfm?section=fi" 
+				title="Financing Inquiries" 
+				onmouseover="self.status='Financing Inquiry Form';return true" 
+				onmouseout="self.status='';return true"><img 
+				src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/col_sp_fi_nav.gif" 
+				width="102" 
+				height="60" 
+				border="0" 
+				alt="Financing"></a><br>
+			<a href="main.cfm?section=le" 
+				title="Lease vs. Buy" 
+				onmouseover="self.status='Lease vs. Buy';return true" 
+				onmouseout="self.status='';return true"><img 
+				src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/col_sp_le_nav.gif" 
+				width="102" 
+				height="49" 
+				border="0" 
+				alt="Lease vs. Buy"></a></td>
+		<td valign="TOP">
+			<img src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/col_sp_head_2.gif" 
+				width="428" 
+				height="218" 
+				border="0"></td>
+		<td valign="TOP">
+			<a href="main.cfm?section=adv" 
+				title="Manufacturer's Advantage" 
+				onmouseover="self.status='Manufacturer\'s Advantage';return true" 
+				onmouseout="self.status='';return true"><img 
+				src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/col_sp_adv_nav.gif" 
+				width="94" 
+				height="86" 
+				border="0" 
+				alt="Manufacturer's Advantage"></a><br>
+			<a href="main.cfm?section=dl" 
+				title="Dealer Locator" 
+				onmouseover="self.status='Dealer Locator';return true" 
+				onmouseout="self.status='';return true"><img 
+				src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/col_sp_dl_nav.gif" 
+				width="94" 
+				height="58" 
+				border="0" 
+				alt="Dealer Locator"></a><br>
+			<a href="main.cfm?section=pr" 
+				title="Our Pre-Owned Inventory" 
+				onmouseover="self.status='Browse our Inventory of Pre-Owned Vehicles';return true" 
+				onmouseout="self.status='';return true"><img 
+				src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/col_sp_pr_nav.gif" 
+				width="94" 
+				height="74" 
+				border="0" 
+				alt="Our Pre-Owned Inventory"></a></td>
+	</tr>
+	<tr>
+		<td colspan="3">
+			<img src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/col_sp_head_3.gif" 
+				width="624" 
+				height="89" 
+				border="0"></td>
+	</tr>
+	<tr>
+		<td colspan="3">
+			<img src="#application.RELATIVE_PATH#/images/sp_logo/col_sp_#dealerinfo.dealercode#_#arttempid.arttempid#_hea.gif" 
+				width="624" 
+				height="65" 
+				border="0"
+				alt="#dealerinfo.dealershipname#"></td>
+	</tr>
+	</table>
+	</cfoutput>
+	
+ 	<table border="0" cellpadding="0" cellspacing="0" width="600">
+	<tr>
+		<td align="center">
+			<!--- dealerships in collection --->
+			<table border="0" cellpadding="0" cellspacing="0" width="600">
+			<cfoutput>
+			<tr>
+				<td align="center">
+					<font face="arial,helvetica" size="2" color="5588cc">
+					<b>Members of #dealerinfo.dealershipname#:</b><br><br>
+					</font>
+				</td>
+			</tr>
+			</cfoutput>			
+			<tr>
+				<!--- List of Dealerships within the Collection --->			
+    			<td align="center">
+					<cfquery name="getCollDlrs" datasource="#gDSN#">
+						SELECT 	DealershipName, 
+								DealerCode,
+								URL
+						FROM	Dealers
+						ORDER BY DealershipName ASC
+					</cfquery>
+					<cfoutput query="getCollDlrs">
+						<cfif (#left(dealercode, 4)# eq #left(dealerinfo.dealercode, 4)#) 
+							and (#mid(dealercode, 6, 4)# neq "0000")>
+		  					<font size="-1" face="arial,helvetica">
+							<a href=<cfif #url# neq "">"http://<cfif #Left(#URL#, 6)# eq "wddemo">#URL#<cfelse>www.#URL#</cfif>"<cfelse>"index.cfm?dealercode=#DealerCode#"</cfif>
+							TITLE="Go to #dealershipname#'s Home Page"
+							OnMouseOver="self.status='Go to #Replace(dealershipname, "'", "\'")#\'s Home Page';return true"
+							OnMouseOut="self.status='';return true">
+							#DealershipName#</a><br>
+							</font>
+						</cfif>
+					</cfoutput>
+					<!--- linda 3/7/99: show all members of collection that aren't using WorldDealer --->
+					<cfquery name="getDealersNonWD" datasource="#gDSN#">
+						SELECT 	DealershipName,
+								URL
+						FROM 	DealersNonWD
+						WHERE 	GroupDealerCode='#dealerinfo.dealercode#'
+						ORDER BY DealershipName ASC
+					</cfquery>
+					<cfoutput query="getDealersNonWD">		
+				  		<font size="-1" face="arial,helvetica">
+						<cfif #url# neq "">
+							<a href="http://#URL#"
+							title="Go to #dealershipname#'s Home Page"
+							onmouseover="self.status='Go to #Replace(dealershipname, "'", "\'")#\'s Home Page';return true"
+							onmouseout="self.status='';return true">
+							#DealershipName#</a>						
+						<cfelse>
+							#DealershipName#
+						</cfif>
+						<br>
+						</font>
+					</cfoutput>
+				</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+<cfelse>
+	<!--- Dealerships --->
+	<cfoutput>
+	<table border="0" cellpadding="0" cellspacing="0" width="639">
+	<tr>
+		<td>
+			<img src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/sp_head_1.gif" 
+			width="125" 
+			height="66" 
+			border="0"></td>
+		<td rowspan="6">
+			<img src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/sp_head_2.gif" 
+			width="385" 
+			height="340" 
+			border="0"></td>
+		<td>
+			<img src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/sp_head_3.gif" 
+			width="129" 
+			height="66" 
+			border="0"></td>
+	</tr>
+	<tr>
+		<td align="right">
+			<a href="main.cfm?section=sh"
+				title="Browse our Showroom"
+				onmouseover="self.status='Browse our Showroom of New Vehicles';return true"
+				onmouseout="self.status='';return true"><img 
+				src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/sp_sh_nav.gif" 
+				width="125"
+				height="50" 
+				border="0"
+				alt="Showroom"></a></td>
+		<td><a
+			href="main.cfm?section=adv"
+				title="Manufacturer's Advantage"
+				onmouseover="self.status='Manufacturer\'s Advantage';return true"
+				onmouseout="self.status='';return true"><img 
+				src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/sp_adv_nav.gif" 
+				width="129" 
+				height="50" 
+				border="0"
+				alt="Manufacturer's Advantage"></a></td>
+	</tr>
+	<tr>
+		<td><a
+			href="main.cfm?section=pr"
+				title="Our Pre-Owned Inventory"
+				onmouseover="self.status='Browse our Inventory of Pre-Owned Vehicles';return true"
+				onmouseout="self.status='';return true"><img
+				src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/sp_pr_nav.gif" 
+				width="125"
+				height="55"
+				border="0"
+				alt="Our Pre-Owned Inventory"></a></td>
+		<td><a
+			href="main.cfm?section=se"
+				title="Send a Service or Parts request"
+				onmouseover="self.status='Request a Part or Service Appointment Online';return true"
+				onmouseout="self.status='';return true"><img 
+				src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/sp_se_nav.gif" 
+				width="129" 
+				height="55" 
+				border="0"
+				alt="Send a Service or Parts Request"></a></td>
+	</tr>
+	<tr>
+		<td><a
+			href="main.cfm?section=qu"
+				title="Request a Quote"
+				onmouseover="self.status='Request a Quote';return true"
+				onmouseout="self.status='';return true"><img 
+				src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/sp_qu_nav.gif" 
+				width="125" 
+				height="57" 
+				border="0"
+				alt="Request a Quote"></a></td>
+		<td><a
+			href="main.cfm?section=de"
+				title="About #dealerinfo.dealershipname#"
+				onmouseover="self.status='Everything You Always Wanted to Know About #Replace(dealerinfo.dealershipname, "'", "\'")#';return true"
+				onmouseout="self.status='';return true"><img 
+				src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/sp_de_nav.gif" 
+				width="129" 
+				height="57" 
+				border="0"
+				alt="About #dealerinfo.dealershipname#"></a></td>
+	</tr>
+	<tr>
+		<td><a
+			href="main.cfm?section=fi"
+				title="Financing Inquiries"
+				onmouseover="self.status='Financing Inquiry Form';return true"
+				onmouseout="self.status='';return true"><img 
+				src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/sp_fi_nav.gif" 
+				width="125" 
+				height="58" 
+				border="0"
+				alt="Financing"></a></td>
+		<td><a
+			href="main.cfm?section=ma"
+				title="Maps to #dealerinfo.dealershipname#"
+				onmouseover="self.status='Maps to Help You Find #Replace(dealerinfo.dealershipname, "'", "\'")#';return true"
+				onmouseout="self.status='';return true"><img 
+				src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/sp_ma_nav.gif" 
+				width="129" 
+				height="58" 
+				border="0"
+				alt="Maps to #dealerinfo.dealershipname#"></a></td>
+	</tr>
+	<tr>
+		<td><a
+			href="main.cfm?section=le"
+				title="Lease vs. Buy"
+				onmouseover="self.status='Lease vs. Buy';return true"
+				onmouseout="self.status='';return true"><img 
+				src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/sp_le_nav.gif" 
+				width="125" 
+				height="54" 
+				border="0"
+				alt="Lease vs. Buy"></a></td>
+		<td><a
+			href="main.cfm?section=co"
+				title="Printable Coupons"
+				onmouseover="self.status='Printable Coupons Redeemable at #Replace(dealerinfo.dealershipname, "'", "\'")#';return true"
+				onmouseout="self.status='';return true"><img 
+				src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/sp_co_nav.gif" 
+				width="129" 
+				height="54" 
+				border="0"
+				alt="Printable Coupons"></a></td>
+	</tr>
+	<tr>
+			<td colspan="3">
+			<img src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/sp_head_4.gif" 
+			width="639" 
+			height="68" 
+			border="0"></td>
+	</tr>
+	<tr>
+		<td colspan="3">
+			<img src="#application.RELATIVE_PATH#/images/sp_logo/sp_#dealerinfo.dealercode#_#arttempid.arttempid#_hea.gif"
+			width="639"
+			height="67"
+			border="0"
+			alt="#dealerinfo.dealershipname#"></td>
+	</tr>
+	</cfoutput>
+	<tr>
+		<td align="center" colspan="3">
+ 			<cfif #left(dealerinfo.dealercode, 4)# is '0000'>
+				<!--- not part of a collection --->
+				&nbsp;
+			<cfelse>
+				<!--- Parent Collection Name --->
+				<cfquery name="getCollection" datasource="#gDSN#">
+					SELECT 	DealershipName, 
+							DealerCode,
+							URL
+					FROM	Dealers
+				</cfquery>
+				<cfoutput query="getCollection">
+					<cfif (#left(dealercode, 4)# eq #left(dealerinfo.dealercode, 4)#) 
+						and (#mid(dealercode, 6, 4)# eq "0000")>
+						<font size="2" face="arial,helvetica">
+						<a href=<cfif #url# neq "">"http://<cfif #Left(#URL#, 6)# eq "wddemo">#URL#<cfelse>www.#URL#</cfif>"<cfelse>"index.cfm?dealercode=#DealerCode#"</cfif>
+						TITLE="Go to #dealershipname#'s Home Page"
+						OnMouseOver="self.status='Go to #Replace(dealershipname, "'", "\'")#\'s Home Page';return true"
+						OnMouseOut="self.status='';return true">
+						Members of #DealershipName#:</a><br><br>
+						</font>
+					</cfif>
+				</cfoutput>
+			</cfif>
+			<cfif #left(dealerinfo.dealercode, 4)# is '0000'>
+				<!--- not part of a collection --->
+				&nbsp;
+			<cfelse>
+				<!--- List of Dealerships within the Collection --->
+				<cfquery name="getCollDlrs" datasource="#gDSN#">
+					SELECT 	DealershipName, 
+							DealerCode,
+							URL
+					FROM	Dealers
+					ORDER BY DealershipName ASC
+				</cfquery>
+				<cfoutput query="getCollDlrs">
+					<cfif (#left(dealercode, 4)# eq #left(dealerinfo.dealercode, 4)#) 
+						and (#mid(dealercode, 6, 4)# neq "0000")>
+			  			<font size="-1" face="arial,helvetica">
+						<a href=<cfif #url# neq "">"http://<cfif #Left(#URL#, 6)# eq "wddemo">#URL#<cfelse>www.#URL#</cfif>"<cfelse>"index.cfm?dealercode=#DealerCode#"</cfif>
+						TITLE="Go to #dealershipname#'s Home Page"
+						OnMouseOver="self.status='Go to #Replace(dealershipname, "'", "\'")#\'s Home Page';return true"
+						OnMouseOut="self.status='';return true">
+						#DealershipName#</a><br>
+						</font>
+					</cfif>
+				</cfoutput>
+				<!--- linda 3/7/99: show all members of collection that aren't using WorldDealer --->
+				<cfquery name="getDealersNonWD" datasource="#gDSN#">
+					SELECT 	GroupDealerCode,
+							DealershipName,
+							URL
+					FROM 	DealersNonWD
+					ORDER BY DealershipName ASC
+				</cfquery>
+				<cfoutput query="getDealersNonWD">
+					<cfif (#left(groupdealercode, 4)# eq #left(dealerinfo.dealercode, 4)#)>
+						<font size="-1" face="arial,helvetica">
+						<cfif #url# neq "">
+							<a href="http://#URL#"
+							title="Go to #dealershipname#'s Home Page"
+							onmouseover="self.status='Go to #Replace(dealershipname, "'", "\'")#\'s Home Page';return true"
+							onmouseout="self.status='';return true">
+							#DealershipName#</a>						
+						<cfelse>
+							#DealershipName#
+						</cfif>
+						<br>
+						</font>
+					</cfif>
+				</cfoutput>
+			</cfif>
+		</td>
+	</tr>
+	</table>
+</cfif>
+</div>

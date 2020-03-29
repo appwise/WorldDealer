@@ -1,0 +1,25 @@
+<!--- $Id: admin.css,v 1.5 1999/12/29 16:52:27 lswanson Exp $ --->
+<!--- so the background doesn't repeat --->
+<!--- <STYLE TYPE="text/css">
+	BODY { background: #000000 url(<CFOUTPUT>#application.RELATIVE_PATH#</CFOUTPUT>/images/admin/bg.gif) no-repeat top left }
+</STYLE>
+ --->
+
+body
+{
+	background: #000000 url(../../../images/admin/bg.gif) no-repeat top left;
+	font-family: "Arial", "Helvetica", "Sans-Serif";
+	color: #ffffff;
+}
+
+tr
+{
+	font-family: "Arial", "Helvetica", "Sans-Serif";
+	color: #000000;
+}
+
+td
+{
+	font-family: "Arial", "Helvetica", "Sans-Serif";
+	color: #000000;
+}

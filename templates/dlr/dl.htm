@@ -1,0 +1,158 @@
+<!---
+Created by Sigma6, Inc.
+Copyright (c) 1998 Sigma6, Inc.
+All Rights Reserved.  Used By Permission.
+
+Sigma6, interactive media, Detroit/NYC
+conceive : construct : connect
+www.sigma6.com   webmaster@sigma6.com   info@sigma6.com
+
+Last updated: <January 22, 1999>
+
+Linda Swanson for sigma6, interactive media, Detroit
+lswanson@sigma6.com   www.sigma6.com    www.s6313.com
+conceive : construct : connect
+
+Sigma6, s6, and the Sigma6 logos are registered trademarks.
+All other trademarks and servicemarks are the property of
+their respective owners.
+--->
+
+
+<CFQUERY NAME="getDealers" DATASOURCE="#gDSN#">
+	SELECT  DealershipName,
+			DealerCode,
+			City,
+			StateAbbr,
+			URL
+	FROM	Dealers
+	ORDER BY DealershipName
+</cfquery>
+
+<!--- linda 5/7/99: show all members of collection that aren't using WorldDealer --->
+<CFQUERY name="getDealersNonWD" datasource="#gDSN#">
+	SELECT 	DealershipName,
+			URL,
+			City,
+			StateAbbr
+	FROM 	DealersNonWD
+	WHERE 	GroupDealerCode='#dealerinfo.dealercode#'
+	ORDER BY DealershipName ASC
+</cfquery>
+
+<CFQUERY NAME="getblurb" DATASOURCE="#gDSN#">
+	SELECT	DealerProfileMainText as q_DlrProfileTxt_unformat,
+			BodyShopYesNo
+	FROM	DealerWebs
+	WHERE	dealercode = '#dealerinfo.dealercode#';
+</CFQUERY>
+	
+<!--- Format Who We Are text --->
+<cfif #trim(getblurb.q_DlrProfileTxt_unformat)# neq ''>
+	<CFSET temp = #getblurb.q_DlrProfileTxt_unformat#>
+	<CFSET start_pos = 1>
+	<CFLOOP from=1 to=3 index="count">
+			<CFSET #start_pos# = #Find("~~",temp,start_pos)#>
+		<CFIF #start_pos#>  <!--- IS NOT 0 --->
+			<CFSET #temp# = #RemoveChars(temp,start_pos,4)#>
+			<CFSET #start_pos# = #start_pos# + 4>
+		<CFELSE>
+			<CFBREAK>
+		</CFIF>
+	</CFLOOP>
+	<CFSET #q_DealerProfileMainText# = #temp#>
+</cfif>
+
+<CFOUTPUT>
+<TABLE BORDER=0 cellpadding="0" cellspacing="0" width="100%">
+<!--- Dealership Name, Tagline --->
+<TR>
+	<TD align="center">
+		<BR>
+		<FONT SIZE=3 FACE="arial,helvetica">
+			<B>#dealerinfo.dealershipname#</B>
+		</FONT>
+		<BR>
+		<FONT SIZE=2 FACE="arial,helvetica" COLOR=#thecolor#>
+			<I>#dealerinfo.tagline#</I>
+		</font>
+		<BR><br>
+	</TD>
+</tr>
+<!--- Who We Are --->
+<cfif #trim(getblurb.q_DlrProfileTxt_unformat)# neq ''>
+	<tr>
+		<td>
+			<TABLE BORDER=0 CELLSPACING=7 CELLPADDING=0>
+			<TR>
+				<TD valign="top">
+					<IMG SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/tle_whoweare_hea.gif"
+						BORDER=0
+						WIDTH=#whow#
+						HEIGHT=#whoh#
+						ALT="Who We Are">
+					<!---why we are different (& who we are) is formatted with a break line (vs. side-to-side) -------->							
+					<CFIF whyweare IS "break">
+						<BR><BR>
+					<CFELSE>
+						</TD>
+						<TD>
+					</CFIF>
+					<FONT SIZE=2 FACE="arial,helvetica">
+					#q_DealerProfileMainText#
+					</font>
+					<BR><BR>
+				</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+</cfif>
+<!--- Select a dealer --->
+<TR>
+ 	<TD align = "center">
+		<FONT SIZE=2 FACE="arial,helvetica">
+		Find the #dealerinfo.dealershipname# dealership nearest you!
+		<br>
+		Then click the <b>submit</b> button to go to the dealership's web site.
+		<br><br>
+		</FONT>
+	</td>
+</tr>
+<tr>
+	<td align = "center">
+		<FORM NAME="locator">
+	   	<SELECT NAME="dealers">
+		<OPTION VALUE="">Please select a dealer
+		<CFLOOP query="getDealers">
+			<CFIF #Left(DealerCode, 4)# EQ #Left(dealerinfo.dealercode, 4)# 
+				AND #Mid(DealerCode, 6, 4)# NEQ '0000'>
+				<OPTION VALUE=<CFIF #URL# NEQ "">"http://<cfif #Left(#URL#, 6)# eq "wddemo">#URL#<cfelse>www.#URL#</cfif>"<CFELSE>"index.cfm?dealercode=#DealerCode#"</cfif>>#dealershipname# in #city#, #stateabbr#
+			</CFIF>
+		</cfloop>
+		
+		<!--- linda 5/7/99: show all members of collection that aren't using WorldDealer --->
+		<CFLOOP query="getDealersNonWD">		
+			<CFIF #URL# NEQ "">
+				<OPTION VALUE="http://#URL#">#dealershipname# in #city#, #stateabbr#
+			</cfif>
+		</CFLOOP>
+		</SELECT>		
+		<br><br>
+      	<A HREF="JavaScript: go();"
+			OnMouseOver="self.status='Select a dealership';return true"
+			OnMouseOut="self.status='';return true"><img 
+			src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_submit_nav.gif" 
+			Align="absmiddle" border=0 alt="Go to Dealership's Web Site"></A>
+		</Form>			
+		<SCRIPT LANGUAGE="JavaScript">
+			function go(){
+			page= document.locator.dealers.options[document.locator.dealers.selectedIndex].value;
+			if (document.locator.dealers.options[document.locator.dealers.selectedIndex].value != "")
+				location= page;
+			}
+		</SCRIPT>
+	</td>
+</TR>
+</TABLE>
+</cfoutput>

@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!---
+Created by Sigma6, Inc.
+Copyright (c) 1998 Sigma6, Inc.
+All Rights Reserved.  Used By Permission.
+
+Sigma6, interactive media, Detroit/NYC
+conceive : construct : connect
+www.sigma6.com   webmaster@sigma6.com   info@sigma6.com
+
+Last updated: <May 27, 1998>
+
+Daniel Fettinger for sigma6, interactive media, Detroit
+dfettinger@sigma6.com   www.sigma6.com    www.s6313.com
+conceive : construct : connect
+
+Sigma6, s6, and the Sigma6 logos are registered trademarks.
+All other trademarks and servicemarks are the property of
+their respective owners.
+--->
+
+<HTML>
+	<!--- $Id: template_2.htm,v 1.9 1999/11/29 20:09:42 lswanson Exp $ --->
+
+<HEAD>
+
+	<TITLE><CFOUTPUT>#dealerinfo.dealershipname#</CFOUTPUT></TITLE>
+
+</HEAD>
+
+<CFINCLUDE TEMPLATE="global_2.htm">
+
+<!--- BEGIN BODY --->
+<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0>
+<TR>
+	<TD VALIGN=TOP WIDTH=153>
+<!---------------------------------------------------------------------------------LEFT COLUMN------------------------------------>
+<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0>
+<TR>
+	<CFOUTPUT>
+	<TD WIDTH=153 HEIGHT=100 VALIGN="BOTTOM">
+		<A HREF="index.cfm?dealercode=#dealerinfo.dealercode#"
+			TITLE="Return to #dealerinfo.dealershipname#'s Home Page"
+			OnMouseOver="self.status='Return to #Replace(dealerinfo.dealershipname, "'", "\'")#\'s Home Page';return true"
+			OnMouseOut="self.status='';return true"><IMG
+				SRC="#application.RELATIVE_PATH#/images/logo/#dealerinfo.dealercode#_2_logo_hea.gif"
+				WIDTH=150
+				HEIGHT=100
+				BORDER=0
+				ALT="#dealerinfo.dealershipname#"></A></TD>
+	</CFOUTPUT>
+</TR>
+<TR><TD ALIGN=CENTER><CFINCLUDE TEMPLATE="leftnav.htm"></TD></TR>
+</TABLE>
+<!-----------------------------------------------------------------------------------END LEFT COLUMN---------------------------------->
+</TD>
+<TD ALIGN=CENTER VALIGN=TOP WIDTH=447> 
+<!------------------------------------------------------------------------------------MAIN COLUMN--------------------------------------->
+<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 WIDTH=447>
+<!---------------------------------------------------------BANNER/TITLE/SERVICE------------------------------->
+<TR>
+	<TD ALIGN="right"><CFINCLUDE TEMPLATE="banner.htm"></TD>
+</TR>
+<TR>
+	<TD VALIGN=TOP ALIGN="right"><IMG
+						SRC="<CFOUTPUT>#application.RELATIVE_PATH#</CFOUTPUT>/images/2/tle_<CFOUTPUT>#section#</CFOUTPUT>_hea.gif"
+						BORDER=0
+						WIDTH=116
+						HEIGHT=53
+						ALT="">
+	</TD>
+</TR>
+<!---------------------------------------------------------SPACER---------------------------------->
+<TR>
+	<TD HEIGHT=15>
+		<IMG SRC="<CFOUTPUT>#application.RELATIVE_PATH#</CFOUTPUT>/images/common/spacer.gif"
+			BORDER=0
+			WIDTH=1
+			HEIGHT=5
+			ALT="">
+	</TD>
+</TR>
+<!--- MAIN BODY --->
+<TR>
+	<TD VALIGN=TOP ALIGN=CENTER>
+	<TABLE BORDER=0 WIDTH=400>
+	<TR>
+		<TD>
+			<CFIF IsDefined("subsection")>
+				<CFSET themain = "#section#_#subsection#">
+			<CFELSE>				
+				<CFSET themain = "#section#">
+			</CFIF>
+			<CFINCLUDE TEMPLATE="#themain#.htm">
+		</TD>
+	</TR>
+	</TABLE>
+	</TD>
+</TR>
+</TABLE>
+<!--------------------------------------------------------------------------------END MAIN COLUMN--------------------------------------->
+	</TD>
+	<TD WIDTH=40>
+<!-----------------------------------------------------------------------------------SPACER2 COLUMN------------------------------------->
+		<IMG SRC="<CFOUTPUT>#application.RELATIVE_PATH#</CFOUTPUT>/images/common/spacer.gif"
+			WIDTH=40
+			HEIGHT=1
+			BORDER=0
+			ALT="">
+<!------------------------------------------------------------------------------------END SPACER2 COLUMN--------------------------------->
+	</TD>
+</TR>
+<TR>
+	<TD></TD>
+	<!--- FOOTER --->
+	<TD ALIGN=CENTER>
+		<BR><BR>
+		<CFINCLUDE TEMPLATE="footer.htm">
+	</TD>
+	<TD></TD>
+</TR>
+</TABLE>
+<!---------------------------------------------------------------------------------END BODY---------------------------------------------------------->

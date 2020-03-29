@@ -1,0 +1,504 @@
+<!---
+Created by Sigma6, Inc.
+Copyright (c) 1998 Sigma6, Inc.
+All Rights Reserved.  Used By Permission.
+
+Sigma6, interactive media, Detroit/NYC
+conceive : construct : connect
+www.sigma6.com   webmaster@sigma6.com   info@sigma6.com
+
+Last updated: <May 27, 1998>
+
+Daniel Fettinger for sigma6, interactive media, Detroit
+dfettinger@sigma6.com   www.sigma6.com    www.s6313.com
+conceive : construct : connect
+
+Sigma6, s6, and the Sigma6 logos are registered trademarks.
+All other trademarks and servicemarks are the property of
+their respective owners.
+--->
+
+<CFIF NOT IsDefined("sub")>
+	<CFSET sub = "main">
+</CFIF>
+
+<!--- there are 3 subs: main, vehicle, & disclaimer --->
+<!--- MAIN: for collections, list of dealerships.   --->
+<!--- 		for dealerships, list of vehicles.	 	--->
+<!--- VEHICLE: detail of vehicle, picture, offer	--->
+<!--- DISCLAIMER: vehicle offer disclaimer 			--->
+
+<CFIF sub IS "main">
+<!--------------------------------------------------------MAIN------------------------------------->
+	
+	<!----get the why we're different text--->
+	<CFQUERY NAME="setapart" DATASOURCE="#gDSN#">
+		SELECT OffersSetApartText
+		FROM DealerWebs
+		WHERE dealercode = '#RTrim(dealerinfo.dealercode)#';
+	</CFQUERY>
+
+	<!----why we're different------------------------------->
+	<CFIF #RTrim(setapart.OffersSetApartText)# IS NOT "">
+		<TABLE BORDER=0 CELLSPACING=7 CELLPADDING=0>
+		<TR>
+			<TD valign="top">
+				<IMG SRC="<CFOUTPUT>#application.RELATIVE_PATH#</CFOUTPUT>/images/<CFOUTPUT>#arttempid.arttempid#</CFOUTPUT>/tle_why_hea.gif"
+					BORDER=0
+					WIDTH="<CFOUTPUT>#whyw#</CFOUTPUT>"
+					HEIGHT="<CFOUTPUT>#whyh#</CFOUTPUT>"
+					ALT="Why We Are Different">
+				<!---why we are different is formatted with a break line (vs. side-to-side) -------->									
+				<CFIF whyweare IS "break">
+					<BR><BR>
+				<CFELSE>
+					</TD>
+					<TD>
+				</CFIF>
+			<FONT SIZE=-1 FACE="arial,helvetica">
+			<CFOUTPUT>#setapart.OffersSetApartText#</CFOUTPUT>
+			</FONT>
+			</TD>
+		</TR>
+		</TABLE>
+	</CFIF>
+
+	<P>
+	<div align="center">
+	<TABLE BORDER=0>
+	
+	<!--- Collections: show list of dealerships in drop-down --->	
+	<CFIF #g_Col# IS "true" and Not #ParameterExists(URL.DlrSel)#>
+		<TR>
+			<TD Colspan="2">
+				<FONT SIZE=-1 FACE="arial,helvetica">
+				<div align="center">Select a dealership from the drop-down list then click the <b>submit</b> button to view the dealership's Showroom page.</div>
+				<BR>
+				</FONT>
+			</TD>
+		</TR>
+	
+		<TR>
+			<CFQUERY NAME="getDealers" DATASOURCE="#gDSN#">
+				SELECT  DealershipName,
+						DealerCode
+				FROM	Dealers
+				ORDER BY DealershipName
+			</cfquery>
+			
+			<td align="center">
+				<FORM NAME="showroom">
+		    	<SELECT NAME="dealers">
+				<CFLOOP query="getDealers">
+ 					<CFIF #Left(DealerCode, 4)# EQ #Left(dealerinfo.dealercode, 4)# 
+						AND #Mid(DealerCode, 6, 4)# NEQ '0000'>
+						<CFOUTPUT>
+	    				<OPTION VALUE="main.cfm?section=sh&shdealer=#DealerCode#&DlrSel=yes">#dealershipname#
+						</cfoutput>	
+					</CFIF>
+				</cfloop>
+				</Select>
+				&nbsp;&nbsp;
+				<CFOUTPUT>
+	        	<A HREF="JavaScript: go();"
+	   				OnMouseOver="self.status='Select a dealership';return true"
+					OnMouseOut="self.status='';return true"><img src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_submit_nav.gif" border=0 alt="View Selection"></A></FORM>
+				</cfoutput>
+				</Form>
+				<SCRIPT LANGUAGE="JavaScript">
+					function go(){
+					page= document.showroom.dealers.options[document.showroom.dealers.selectedIndex].value;
+					if (document.showroom.dealers.options[document.showroom.dealers.selectedIndex].value != "")
+						location= page;
+					}
+				</SCRIPT>
+			</td>
+		</tr>
+	<CFELSE>
+		<!--- Dealerships: Show list of vehicles by manufacturer in drop-down --->	
+		<!--- Linda: get Makes for dealership --->
+		<CFQUERY NAME="getDlrMakes" DATASOURCE="#gDSN#">
+			SELECT 	Makes.MakeNumber,
+					MakeName
+			FROM 	Makes INNER JOIN DealerFranchise ON Makes.MakeNumber = DealerFranchise.MakeNumber
+			WHERE	DealerFranchise.dealercode = 
+					<CFIF #ParameterExists(URL.shdealer)#>
+						'#URL.shdealer#'
+					<CFELSE>
+						'#dealerinfo.dealercode#'
+					</cfif>	
+		</cfquery>
+	   
+	   <!--- Find out if the Dealer has any new models.  If so, show the 'View New Inventory Button --->
+	   <CFQUERY NAME="CountNewVeh" DATASOURCE="#gDSN#">
+		<!--- SELECT	NewVehicleID --->
+			SELECT DISTINCT VIN
+			FROM	UsedVehicles
+			WHERE UsedVehicles.dealercode='#dealerinfo.dealercode#' AND UsedVehicles.newused = 'Y'
+	   </CFQUERY>
+	   
+	   
+		<cfif getDlrMakes.RecordCount>
+			<cfif #CountNewVeh.RecordCount# GT 0>
+				<TR>
+					<TD Colspan="2">
+						<FONT SIZE=-1 FACE="arial,helvetica">
+						<div align="center">
+						<cfoutput>
+						<a href="main.cfm?section=nv"><img src="../../images/#arttempid.arttempid#/nav_pr_nav_low.gif" border=0 alt="View New Inventory">
+						</a>
+						</cfoutput>
+						</div>
+						</FONT><br>
+					</TD>
+				</TR>
+			</cfif>
+			<TR>
+				<TD Colspan="2">
+					<FONT SIZE=-1 FACE="arial,helvetica">
+					<div align="center">Select a vehicle from the drop-down list, then click the <b>submit</b> button to view a picture and description</div>
+					</FONT><br>
+				</TD>
+			</TR>
+			
+			
+			<!--- For each make found, start a new drop-down box --->
+			<CFSET MakesCount = 0>
+			<CFLOOP query="getDlrMakes">
+		        <TR>
+					<td align="right" valign="top">
+						<CFOUTPUT>
+						<CFSET #MakesCount# = #MakesCount# + 1>
+						<CFSET theFormName = "showroom" & #MakesCount#>
+						<CFSET theSelectName = "vehicles" & #MakesCount#>
+						
+						<FORM NAME="#theFormName#">
+					
+						<!--- Drop-down box of MakeName & all models under that make --->
+						<SELECT NAME="#theSelectName#">
+						<OPTION VALUE="">
+							<cfif (#Left(#MakeName#,1)# EQ "A") OR (#Left(#MakeName#,1)# EQ "E") OR (#Left(#MakeName#,1)# EQ "I") OR (#Left(#MakeName#,1)# EQ "O") OR (#Left(#MakeName#,1)# EQ "U")>
+								Select an
+							<cfelse>
+								Select a
+							</cfif>
+								#MakeName#
+								
+						<CFQUERY NAME="getvehiclelist" DATASOURCE="#gDSN#">
+							SELECT	description,
+		        					VehicleType,
+									modelid,
+									make
+							FROM	models
+							Where   Make = #MakeNumber#
+							ORDER BY VehicleType, description ASC
+						</CFQUERY>
+	
+						<CFSET prevcartype=" ">
+	
+						<!--- get all vehicles for the make we're on --->
+						<CFLOOP QUERY="getvehiclelist">
+							<!--- If new vehicle type, do white space, vehicle type, underline --->
+							<CFIF #prevcartype# IS NOT #VehicleType#>
+			    				<CFSET prevcartype=#VehicleType#>
+								<OPTION VALUE="">
+								<cfswitch expression="#VehicleType#">
+									<cfcase value="c"><OPTION VALUE="">Cars</cfcase>
+									<cfcase value="s"><OPTION VALUE="">Sport Utility Vehicles</cfcase>									
+									<cfcase value="t"><OPTION VALUE="">Trucks</cfcase>									
+									<cfcase value="v"><OPTION VALUE="">Vans</cfcase>									
+								</cfswitch>
+		    					<OPTION VALUE="">--------------------
+	      			    	</cfif>
+		     				<OPTION VALUE="main.cfm?section=sh&sub=vehicle&modelid=#modelid#&carMake=#Make#<CFIF #ParameterExists(URL.shdealer)#>&shdealer=#URL.shdealer#</cfif>">#description#
+						</CFLOOP>
+						</SELECT>
+					</td>
+					<td align="left" valign="bottom">
+						&nbsp;&nbsp;
+						<CFSET theFunction = "go" & #MakesCount#>
+						<A HREF="JavaScript: #theFunction#();"
+							OnMouseOver="self.status='Select a vehicle';return true"
+							OnMouseOut="self.status='';return true"><img src="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_submit_nav.gif" border=0 alt="View Selection"></A>
+						</FORM>
+						
+						<SCRIPT LANGUAGE="JavaScript">
+						<!--
+							function #theFunction#(){
+							page= document.#theFormName#.#theSelectName#.options[document.#theFormName#.#theSelectName#.selectedIndex].value;
+							if (document.#theFormName#.#theSelectName#.options[document.#theFormName#.#theSelectName#.selectedIndex].value != "")
+								location= page;
+							}
+						//-->
+						</SCRIPT>
+						</cfoutput>
+					</td>
+				</TR>
+			</cfloop>
+		<cfelse>
+			<tr>
+				<td>
+					<FONT SIZE=-1 FACE="arial,helvetica">
+					<cfoutput>
+					Please check back with #dealerinfo.dealershipname# for future showroom vehicle listings.
+					</cfoutput>
+					</font>
+				</td>
+			</tr>
+		</cfif>
+
+		<!--- get hours of operation info for showroom added by bbickel --->
+		<CFQUERY NAME="getDLRHours" DATASOURCE="#gDSN#">
+		    SELECT	DayOfWeek,
+					SalesOpen,
+					SalesClose
+			FROM	HoursOfOperation
+			WHERE	DealerCode = '#dealerinfo.dealercode#'
+			ORDER BY DayOfWeek
+		</CFQUERY>
+		
+		<!--- Showroom Hours of operation Table --->
+		<cfif getDLRHours.recordcount>
+			<tr align="center">
+				<TD Colspan="2">
+					<br>
+					<TABLE CELLPADDING=3 CELLSPACING=1 BORDER=1>
+					<CFOUTPUT>
+					<TR>
+						<TD BGCOLOR=#thecolor#>
+							&nbsp;
+						</TD>
+						<TD BGCOLOR=#thecolor#>
+							<FONT size=-1 FACE="arial,helvetica" COLOR=#textcolor#>
+							<B>Showroom Hours of Operation</B>
+							</FONT>
+						</TD>
+					</TR>
+					</CFOUTPUT>
+					<CFOUTPUT QUERY="getDLRHours" GROUP="DayOfWeek">
+					<TR>
+						<TD BGCOLOR=#theothercolor#>
+							<FONT size=-1 FACE="arial,helvetica" COLOR=#othertextcolor#>
+								<CFIF DayOfWeek EQ '1'><B>Mon</B>
+								<CFELSEIF DayOfWeek EQ '2'><B>Tue</B>
+								<CFELSEIF DayOfWeek EQ '3'><B>Wed</B>
+								<CFELSEIF DayOfWeek EQ '4'><B>Thu</B>
+								<CFELSEIF DayOfWeek EQ '5'><B>Fri</B>
+								<CFELSEIF DayOfWeek EQ '6'><B>Sat</B>
+								<CFELSEIF DayOfWeek EQ '7'><B>Sun</B>
+								</CFIF>
+							</FONT>
+						</TD>
+						<CFIF SalesOpen CONTAINS "Closed">
+							<TD ALIGN=CENTER>
+								<FONT SIZE=1 FACE="arial,helvetica">
+								Closed
+								</FONT>
+							</TD>
+						<CFELSE>
+							<TD align="center">
+								<FONT SIZE=1 FACE="arial,helvetica">
+								#SalesOpen# to #SalesClose#
+								</FONT>
+							</TD>
+						</CFIF>
+						</CFOUTPUT>
+					</tr>
+					</table>
+				</td>
+			</tr>
+		</cfif>
+	</cfif>	
+	</TABLE>
+	</div>
+
+<!-------------------------------------------------/MAIN------------------------------------->
+<CFELSEIF sub IS "vehicle">
+<!-----------------------------------------VEHICLE------------------------------------------->
+
+	<CFIF NOT IsDefined("URL.modelid")>
+		<CFLOCATION URL="main.cfm?section=sh&sub=main">
+	</CFIF>
+	
+	<CFQUERY NAME="getvehicles" DATASOURCE="#gDSN#">
+		SELECT 	Makes.MakeName,
+				Models.Description,
+				Models.GlamourCopy,
+				Models.Features,
+				Models.Make
+		FROM 	Models INNER JOIN Makes ON Models.Make = Makes.MakeNumber
+		WHERE	models.modelid=#URL.modelid#
+	</CFQUERY>
+
+	<!--- used in footer.htm, to determine whether showroom page is up & vehicle has been selected --->	
+	<CFSET sh_vehicle="true">
+	
+	<!--- LINDA. 2-18-99: for some reason, offers don't show up if viewed from collection showroom --->
+	<CFQUERY NAME="getvehicleoffers" DATASOURCE="#gDSN#">
+		SELECT	Offers.name,
+				Offers.description,
+				Offers.expirationdate,
+				Offers.carCutID,
+				Offers.DisclaimerID
+		FROM 	Offers INNER JOIN DealerOffers ON Offers.OfferID = DealerOffers.OfferID
+		WHERE	offers.modelid=#URL.modelid#
+			AND DealerOffers.DealerWebID=#ArtTempID.DealerWebID#
+			AND expirationdate >= #CreateODBCDate(DateFormat(Now(),"mm/dd/yyyy"))#
+		ORDER BY expirationdate ASC;
+	</CFQUERY>
+
+	<TABLE BORDER=1>
+	<TR>
+		<TD>
+		<FONT SIZE=-1 FACE="arial,helvetica">
+			<CFOUTPUT QUERY="getvehicles">
+				<B>#MakeName# #description#</B>
+				<P>
+				#ParagraphFormat(glamourcopy)#
+			</CFOUTPUT>
+		</FONT>
+		</TD>
+	</TR>
+	</TABLE>
+	<BR>
+	
+	<div align="center">
+		<cfoutput>
+			<A HREF="main.cfm?section=<CFIF #g_Col# EQ "true">ve<cfelse>qu</cfif><CFIF IsDefined("sh_vehicle")>&modelid=#URL.modelid#<CFIF #ParameterExists(URL.shdealer)#>&shdealer=#URL.shdealer#</cfif><CFELSEIF IsDefined("pr_vehicle")>&id=#URL.id#</CFIF>"
+				TITLE="Request a Quote"
+				OnMouseOver="self.status='Request a Quote';return true"
+				OnMouseOut="self.status='';return true"><IMG
+					SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/nav_getquote_nav.gif"
+					BORDER=0
+					ALT="Request a Quote"></A></cfoutput>
+				</div><BR>
+			
+	<div align="center">
+
+	<CFIF #GetVehicleOffers.name# IS "">
+	<!--- Use default car cut --->
+		<CFOUTPUT>
+			<!--- linda, 10/18/99: theothercolor on thecolor can be hideous and illegible: witness template 10, racing.  changed to textcolor on thecolor.
+			<FONT COLOR="#theothercolor#"> --->
+			<FONT COLOR="#textcolor#">
+			<IMG SRC="#application.RELATIVE_PATH#/images/vehicles/#URL.carMake#/#URL.modelid#_1.jpg"
+				BORDER="2"
+				ALT="#getvehicles.description#">
+			</FONT>
+		</CFOUTPUT>
+	<CFELSE>
+		<CFLOOP query="getvehicleoffers">
+			<CFOUTPUT>
+				<FONT COLOR="#textcolor#">
+				<IMG SRC="#application.RELATIVE_PATH#/images/vehicles/#URL.carMake#/#URL.modelid#_#carcutID#.jpg"
+					BORDER="2"
+					ALT="#getvehicles.description#">
+				</FONT>
+				<TABLE BORDER=1 CELLPADDING=0 CELLSPACING=0>
+				<TR>
+					<TD BGCOLOR=#thecolor#>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+					<TD BGCOLOR=#thecolor# ALIGN=CENTER>
+						<FONT SIZE=3 FACE="arial,helvetica" COLOR=#textcolor#>
+							<B>#Name#</B><BR>
+							#Description#<BR>
+							Offer expires: #DateFormat(expirationdate,'mmmm d, yyyy')#
+						</FONT>
+					</TD>
+					<TD BGCOLOR=#thecolor#>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+				</TR>
+				</TABLE>
+				<FONT SIZE=1 FACE="arial,helvetica" COLOR=ffffff>
+					<A HREF="main.cfm?section=sh&sub=disclaimer&id=#disclaimerid#"
+							TITLE="Disclaimer"
+							OnMouseOver="self.status='Disclaimer';return true"
+							OnMouseOut="self.status='';return true">Disclaimer</A>
+				</FONT>
+			</CFOUTPUT>
+			<P>
+		</CFLOOP>
+	</CFIF>
+	</div>
+
+	<BR>
+	<TABLE BORDER=0>
+	<TR>
+		<TD>
+			<FONT SIZE=1 FACE="arial,helvetica">
+			<CFOUTPUT QUERY="getvehicles">
+				#ParagraphFormat(features)#
+			</CFOUTPUT>
+			</FONT>
+		</TD>
+	</TR>
+	</TABLE>
+
+	<BR>
+	
+	<!--- if you're viewing dealership's showroom via collection showroom, --->
+	<!--- show option to return to either dealership or collection's showroom page --->
+	<CFIF #g_Col# IS "true" AND NOT #ParameterExists(URL.DlrSel)#>
+		<CFQUERY NAME="dealername" DATASOURCE="#gDSN#">
+			SELECT	dealershipname,
+					dealercode,
+					URL
+			FROM	Dealers
+			WHERE	dealercode='#shdealer#';
+		</CFQUERY>	
+				
+ 		<div align="center">
+			<FONT SIZE=-1 FACE="arial,helvetica">
+				<CFOUTPUT query = "dealername">
+				This vehicle available at
+				<A HREF=<CFIF #URL# NEQ "">"http://<cfif #Left(#URL#, 6)# eq "wddemo">#URL#<cfelse>www.#URL#</cfif>"<CFELSE>"index.cfm?dealercode=#DealerCode#"</cfif>
+					TITLE="Go to #dealershipname#'s Home Page"
+					OnMouseOver="self.status='Go to #Replace(dealershipname, "'", "\'")#\'s Home Page';return true"
+					OnMouseOut="self.status='';return true">#dealershipname#</A>.
+				</cfoutput>
+			</FONT>
+		</div>
+		<BR>
+		<div align="center">
+			<FONT SIZE=-1 FACE="arial,helvetica">
+				<A HREF='Javascript:history.back();'
+					TITLE="Return to <CFOUTPUT>#dealername.dealershipname#</cfoutput>'s Showroom Page."
+					OnMouseOver="self.status='Return to <CFOUTPUT>#dealername.dealershipname#</cfoutput>\'s Showroom Page.';return true"
+					OnMouseOut="self.status='';return true">Return to <CFOUTPUT>#dealername.dealershipname#</cfoutput>'s Showroom Page.</A>
+			</FONT>
+		</div>
+		<BR>
+		<div align="center">
+			<FONT SIZE=-1 FACE="arial,helvetica">
+				<A	HREF="main.cfm?section=sh"
+					TITLE="Return to <CFOUTPUT>#dealerinfo.dealershipname#</cfoutput>'s Showroom Page."
+					OnMouseOver="self.status='Return to <CFOUTPUT>#Replace(dealerinfo.dealershipname, "'", "\'")#</cfoutput>\'s Showroom Page.';return true"
+					OnMouseOut="self.status='';return true">Return to <CFOUTPUT>#Replace(dealerinfo.dealershipname, "'", "\'")#</cfoutput>'s Showroom Page.</A>
+			</FONT>
+		</div>
+	<CFELSE>
+		<div align="center">
+			<FONT SIZE=-1 FACE="arial,helvetica">
+				<A HREF='Javascript:history.back();'
+					TITLE="Return to the Showroom Page."
+					OnMouseOver="self.status='Return to the Showroom Page.';return true"
+					OnMouseOut="self.status='';return true">Return To Showroom Page</A>
+			</FONT>
+		</div>
+	</CFIF>	
+<!--------------------------------------------------------/VEHICLE--------------------------------->
+<CFELSEIF sub IS "disclaimer">
+<!----------------------------------------DISCLAIMER----------------------------------------->
+	<CFQUERY NAME="getdisclaimertemplate" DATASOURCE="#gDSN#">
+		SELECT templateID
+		FROM OfferDisclaimers
+		WHERE DisclaimerID = #URL.ID#;
+	</CFQUERY>
+
+	<FONT SIZE=-1 FACE="arial,helvetica">
+		<CFINCLUDE template="../../includes/disclaimers/#getdisclaimertemplate.templateID#.cfm">
+		<BR><BR>
+		<div align="center">
+		<A HREF='Javascript:history.back();'>Return to the Showroom Page</A>
+		</div>
+	</FONT>
+<!----------------------------------------/DISCLAIMER---------------------------------------->
+</CFIF>

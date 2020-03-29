@@ -1,0 +1,185 @@
+<!--- $Id: domain-template.htm,v 1.13 2000/06/20 17:13:16 lswanson Exp $ --->
+<!---- DOMAIN-TEMPLATE.HTM --->
+<CFOUTPUT>
+<CFIF #domainname# IS NOT "" AND #domainname2# IS NOT "">
+	<CFSET URL = "#UCase(domainname)# and #UCase(domainname2)#">
+<CFELSE>
+	<CFIF #domainname# IS NOT "">
+		<CFSET URL = "#UCase(domainname)#">
+	<CFELSEIF #domainname2# IS NOT "">
+		<CFSET URL = "#UCase(domainname2)#">
+	</cfif>
+</CFIF>
+</CFOUTPUT>
+
+<!--- linda, 10/28/99: ali & alan don't want to be cced on all these emails for now.
+	CC="domain_admin@sigma6.com" --->
+	
+<!--- linda, 11/29/99: CFMAIL doesn't like to have logic wrapped around the cfmail tag.  it thinks the </cfmail> is extraneous. --->
+<!--- if colo --->
+<!--- <cfif #CGI.SERVER_NAME# EQ "montana.sigma6.net"> --->
+<!--- <cfelse> --->
+	<!--- Linda, 9/30/99: for testing --->
+<!--- </cfif> --->
+
+<cfloop index="domCount" from="1" to="2" step="1">
+	<cfif (domCount EQ 1)>
+		<cfset domName = "#domainname#">
+		<cfif IsDefined ("domainXfer")>
+			<cfset domXfr = #domainXfer#>
+		<cfelse>
+			<cfset domXfr = 0>
+		</cfif>
+	<cfelse>
+		<cfset domName = "#domainname2#">
+		<cfif IsDefined ("domain2Xfer")>
+			<cfset dom2Xfr = #domain2Xfer#>
+		<cfelse>
+			<cfset dom2Xfr = 0>
+		</cfif>
+	</cfif>
+	
+	<cfif (domName IS NOT "") AND (domXfr IS "0")>
+
+	<CFMAIL 
+		TO="hostmaster@networksolutions.com"
+		FROM="jweitz@worlddealer.net"
+		SUBJECT="new auto dealership domain (#UCase(domName)#)">
+
+<!--- JOEL: 01/31/00: new version as of 02/015/00 --->
+
+*********************************************************************
+Please DO NOT REMOVE Version Number or any of the information
+below when submitting this template to Network Solutions
+*********************************************************************
+
+Domain Version Number: 6.0
+
+*********************************************************************
+IMPORTANT: Business Account Program Members and Premier Partners
+should email completed NEW domain requests to the mailto address
+you have been provided with. MODIFY and DELETE requests should be
+emailed to hostmaster@networksolutions.com
+*********************************************************************
+
+AGREEMENT TO BE BOUND. By applying for a Network Solutions' service(s)
+through our online application process or by applying for and
+registering a domain name as part of our e-mail template application
+process or by using the service(s) provided by Network Solutions under
+the Service Agreement, Version 5.0, you acknowledge that you have read
+and agree to be bound by all terms and conditions of this Agreement
+and any pertinent rules or policies that are or may be published by
+Network Solutions.
+
+Please find the Network Solutions Service Agreement, Version 5.0
+located at the URL:
+
+http://www.networksolutions.com/legal/service-agreement.html
+
+Explanation of Fields New to Template Version 6.0:
+
+Sections 9 and 10 are for New Registrations only.
+
+If the Registration Period is left blank, the default registration
+will be for 2 years.
+
+The information you supply on this form may be shared unless you
+opt out of the bulk Whois database as indicated in section 9b below.
+If you have any questions, please see the section entitled "With
+Whom We May Share Information" in our Privacy Policy available at
+http://www.networksolutions.com/legal/privacy-policy.html
+
+[ URL ftp://www.networksolutions.com ] [1/2000]
+
+Authorization
+0a.  (N)ew (M)odify (D)elete......: N
+0b.  Auth Scheme..................:
+0c.  Auth Info....................:
+
+1.   Comments.....................:
+
+2.   Complete Domain Name.........: #domName#
+
+Organization Using Domain Name
+3a.  Organization Name..........: #getDealerInfo2.DealershipName#
+3b.  Street Address.............: #getDealerInfo2.AddressLine1#, #getDealerInfo2.AddressLine2#
+3c.  City.......................: #getDealerInfo2.city#
+3d.  State......................: #getDealerInfo2.StateAbbr#
+3e.  Postal Code................: #getDealerInfo2.Zip#
+3f.  Country....................: US
+
+Administrative Contact
+4a.  NIC Handle (if known)........: DA4124
+4b.  (I)ndividual (R)ole..........:
+4c.  Name (Last, First)...........:
+4d.  Organization Name............:
+4e.  Street Address...............:
+4f.  City.........................:
+4g.  State........................:
+4h.  Postal Code..................:
+4i.  Country......................:
+4j.  Phone Number.................:
+4k.  Fax Number...................:
+4l.  E-Mailbox....................:
+
+Technical Contact
+5a.  NIC Handle (if known)........: DA4124
+5b.  (I)ndividual (R)ole..........:
+5c.  Name (Last, First)...........:
+5d.  Organization Name............:
+5e.  Street Address...............:
+5f.  City.........................:
+5g.  State........................:
+5h.  Postal Code..................:
+5i.  Country......................:
+5j.  Phone Number.................:
+5k.  Fax Number...................:
+5l.  E-Mailbox....................:
+
+Billing Contact
+6a.  NIC Handle (if known)........:
+6b.  (I)ndividual (R)ole..........:
+6c.  Name (Last, First)...........:
+6d.  Organization Name............:
+6e.  Street Address...............:
+6f.  City.........................:
+6g.  State........................:
+6h.  Postal Code..................:
+6i.  Country......................:
+6j.  Phone Number.................:
+6k.  Fax Number...................:
+6l.  E-Mailbox....................:
+
+Primary Name Server
+7a.  Primary Server Hostname......: NS1.SIGMA6.NET
+7b.  Primary Server Netaddress....: 204.157.203.66
+
+Secondary Name Server(s)
+8a.  Secondary Server Hostname....: NS2.SIGMA6.COM
+8b.  Secondary Server Netaddress..: 204.176.48.66
+
+Product/Service Options (For New Registrations Only)
+9a.  Registration Period (1-10yrs):
+9b.  Bulk Whois Optout (Y/N)......:
+
+Channel Payment/Identifier Options
+10a. Channel Identifier...........:
+
+</CFMAIL>
+	<cfelseif (domName IS NOT "") AND (domXfr IS NOT "0")>
+	
+	<CFMAIL 
+		TO="jweitz@worlddealer.net"
+		FROM="jweitz@worlddealer.net"
+		SUBJECT="auto dealership domain transfer (#UCase(domName)#)">
+Please transfer the following url:
+#domName#
+
+For the following dealership:
+#getDealerInfo2.DealershipName#
+#getDealerInfo2.AddressLine1#, #getDealerInfo2.AddressLine2#
+#getDealerInfo2.city#, #getDealerInfo2.StateAbbr#  #getDealerInfo2.Zip#
+</CFMAIL>
+
+	</cfif>
+</cfloop>

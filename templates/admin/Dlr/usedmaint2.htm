@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<HTML>
+
+    <!-- ----------------------------------------------------------- -->
+    <!--   Created by sigma6, Detroit           -->
+    <!--      Copyright (c) 1997, 1998, 1999 sigma6.                 -->
+    <!-- All Rights Reserved.  Copyright Does Not Imply Publication. -->
+    <!--               conceive : construct : connect                -->
+    <!-- ----------------------------------------------------------- -->
+    <!-- ----------------------------------------------------------- -->
+    <!--     John Turner for sigma6, interactive media, Detroit      -->
+    <!--    jturner@sigma6.com   www.sigma6.com    www.s6313.com     -->
+    <!--               conceive : construct : connect                -->
+    <!-- ----------------------------------------------------------- -->
+    <!-- ----------------------------------------------------------- -->
+    <!-- Updated by Alan Warchuck Sigma6, interactive media, Detroit -->
+    <!--  awarchuck@sigma6.com   www.sigma6.com    www.s6313.com     -->
+    <!--               conceive : construct : connect                -->
+    <!-- ----------------------------------------------------------- -->
+	<!--- $Id: usedmaint2.htm,v 1.4 1999/11/29 15:59:34 lswanson Exp $ --->
+
+<HEAD>
+
+        <TITLE>WorldDealer | Used Vehicle Maintenance</TITLE>
+
+    <CFIF ParameterExists(Form.btnSave)>
+            <CFIF ParameterExists(Form.SaveFlag)>
+                    <CFQUERY NAME="addVehicle" datasource="#gDSN#">
+                            INSERT INTO UsedVehicles (DealerCode, VIN, ModelName, CarYear, Features)
+                                     VALUES ('#Form.DealerCode#', '#Form.VIN#', '#Form.ModelName#', '#Form.CarYear#', '#Form.Features#')
+                        </CFQUERY>
+                </CFIF>
+                <CFIF ParameterExists(Form.EditFlag>
+                    <CFQUERY NAME="updVehicle" datasource="#gDSN#">
+                            UPDATE UsedVehicles
+                                   SET VIN = '#Form.VIN#',
+                                       ModelName = '#Form.ModelName#',
+                                           CarYear = 'Form.CarYear#',
+                                           Features = '#Form.Features#'
+                                 WHERE UsedVehicles.UsedVehicleID = #Form.UsedVehicleID#
+                        </CFQUERY>
+                </CFIF>
+    </CFIF>
+    <CFIF ParameterExists(Form.AddVehicle)>
+        <CFSET g_DealerCode = #Form.DealerCode#>
+            <CFSET AddMode = TRUE>
+                <CFSET EditMode = FALSE>
+                <CFSET DeleteMode = FALSE>
+        </CFIF>
+
+    <CFIF ParameterExists(Form.EditVehicle)>
+        <CFSET g_DealerCode = #Form.DealerCode#>
+            <CFSET AddMode = FALSE>
+                <CFSET EditMode = TRUE>
+                <CFSET DeleteMode = FALSE>
+        </CFIF>
+
+    <CFIF ParameterExists(Form.DeleteVehicle)>
+        <CFSET g_DealerCode = #Form.DealerCode#>
+            <CFSET AddMode = FALSE>
+                <CFSET EditMode = FALSE>
+                <CFSET DeleteMode = TRUE>
+        </CFIF>
+
+    <CFIF EditMode>
+            <CFQUERY NAME="getVehicles" datasource="#gDSN#">
+                    SELECT UsedVehiclID as q_UsedVehicleID,
+                               DealerCode as q_DealerCode,
+                                   VIN as q_VIN,
+                                   ModelName as q_ModelName,
+                                   CarYear as q_CarYear,
+                                   Features as q_Features
+                          FROM UsedVehicles
+                         WHERE UsedVehicles.DealerCode = '#g_DealerCode#' 
+                </CFQUERY>        
+        </CFIF>
+
+    <CFIF DeleteMode>
+            <CFQUERY NAME="getVehicles2" datasource="#gDSN#">
+                    SELECT UsedVehiclID as q_UsedVehicleID,
+                               DealerCode as q_DealerCode,
+                                   VIN as q_VIN,
+                                   ModelName as q_ModelName,
+                                   CarYear as q_CarYear,
+                                   Features as q_Features
+                          FROM UsedVehicles
+                         WHERE UsedVehicles.DealerCode = '#g_DealerCode#' 
+                </CFQUERY>        
+        </CFIF>
+
+	<!--- so the background doesn't repeat --->
+	<link rel=stylesheet href="admin.css" type="text/css">
+
+</HEAD>
+
+<body>
+<br><br><br><br><br>
+
+
+<div align="center">
+<TABLE CELLPADDING=0 CELLSPACING=0 BORDER=0 WIDTH=410 BGCOLOR="FFFFFF">
+        <TR ALIGN="center">
+                <TD ALIGN="middle"><h3>Dealer Administration - Used Vehicle Maintenance</h3></TD>
+        </TR>
+        <TR><TD>&nbsp;<p></TD></TR>
+        <TR ALIGN=center>
+           <TD>
+                  <FORM NAME="StepOne" ACTION="usedmaint2.cfm">
+                        <TABLE CELLPADDING=0 CELLSPACING=0 BORDER=0>
+                            <TR>
+                                   <TD ALIGN="right">Dealer Code:</TD>
+                   <TD>&nbsp;&nbsp;&nbsp;</TD>                             
+                                   <TD><INPUT TYPE="text" NAME="DealerCode" VALUE="" SIZE=6 MAXSIZE=6></TD>
+                                </TR>
+                                <TR><TD COLSPAN=3>&nbsp;<p></TD></TR>
+                            <TR>
+                                   <TD ALIGN="right">Add Used Vehicles</TD>
+                   <TD>&nbsp;&nbsp;&nbsp;</TD>                             
+                                   <TD><INPUT TYPE="Image" SRC="<CFOUTPUT>#application.RELATIVE_PATH#</CFOUTPUT>/images/admin/go_nav.jpg" Border="0" NAME="AddVehicle" VALUE="GO!"></TD>
+                                </TR>
+                                <TR><TD COLSPAN=3>&nbsp;<p></TD></TR>
+                            <TR>
+                                   <TD ALIGN="right">Edit Used Vehicles</TD>
+                   <TD>&nbsp;&nbsp;&nbsp;</TD>                             
+                                   <TD><INPUT TYPE="Image" SRC="<CFOUTPUT>#application.RELATIVE_PATH#</CFOUTPUT>/images/admin/go_nav.jpg" Border="0" NAME="EditVehicle" VALUE="GO!"></TD>
+                                </TR>
+                                <TR><TD COLSPAN=3>&nbsp;<p></TD></TR>
+                            <TR>
+                                   <TD ALIGN="right">Delete Used Vehicles</TD>
+                   <TD>&nbsp;&nbsp;&nbsp;</TD>                             
+                                   <TD><INPUT TYPE="Image" SRC="<CFOUTPUT>#application.RELATIVE_PATH#</CFOUTPUT>/images/admin/go_nav.jpg" Border="0" NAME="DeleteVehicles" VALUE="GO!"></TD>
+                                </TR>
+                                <TR><TD COLSPAN=3>&nbsp;<p></TD></TR>
+           </td>
+        </tr>
+        </FORM>
+        <TR ALIGN="center">
+            <TD COLSPAN=3>
+                    <FORM NAME="f_Back" ACTION="redirect.cfm" METHOD="post">
+                            <INPUT TYPE="Image" SRC="<CFOUTPUT>#application.RELATIVE_PATH#</CFOUTPUT>/images/admin/backtomain_nav.jpg" Border="0" NAME="BackToMain" VALUE="Back To Main Menu"></FORM></TD>
+        </TR>
+</TABLE>
+</div>
+
+
+
+</BODY>
+
+</HTML>
+
+ 
+
+</BODY>
+</HTML>
+

@@ -1,0 +1,175 @@
+<cfmodule template="/util/DumpDebug.cfm" text="begin $RCSfile: application.cfm,v $">
+                         <!--- Created by AppNet, Inc., Detroit 
+                                      www.appnet.com
+                            Copyright (c) 1999, 2000 AppNet, Inc. 
+                  All other trademarks and servicemarks are the property of   
+      their respective owners.  All Rights Reserved.  Copyright Does Not Imply Publication.
+                           Appnet, Inc. logos are registered trademarks.  
+                                 Created: <January 11, 2000>
+                          webmaster@sigma6.com and info@sigma6.com --->
+            <!---$Id: application.cfm,v 1.38 2000/06/16 13:49:29 jkrauss Exp $--->
+
+<!--- Admin application file --->
+
+<!--- THIS is what defines the scoping for this application, allows us to store client and session variables .
+2/10/2000: No longer using CF's session management.  Using home-grown Java Session Management tools. --->
+<cfapplication	name="DLRADMIN" 
+				clientmanagement="yes" 
+				setclientcookies="yes">
+
+<!--- global DataSource Name --->
+<cfset gdsn="WorldDlr">
+
+<!--- Path from the web root directory to Worlddealer root, if they're not the same --->
+<!--- Linda, 10/4/00: since we don't have a wwwroot anymore, 
+or because the CF settings are different, this extra /worlddealer subdir is redundant now. 
+with /worlddealer, the images weren't coming in correctly; they were looking in an extra subdir of worlddealer.--->
+<!--- <cfset application.relative_path = "/worlddealer"> --->
+<cfset application.relative_path = "">
+
+<cfif #cgi.server_name# eq "olympus.sigma6.com">
+	<!--- if Olympus --->
+	<cfset g_host = "olympus.sigma6.com"> <!--- Host name of the Web server --->
+	<cfset g_host_ip = "olympus.sigma6.com"> <!--- On the Production Site this needs to be an IP address due to DNS problems --->
+	
+	<!--- exception: if developer on Olympus in own CVS repository, override application.RELATIVE_PATH & show unique g_RootDir --->
+	<cfif findnocase('bbickel', cgi.cf_template_path)>
+   		<cfset application.relative_path = "/bbickel/worlddealer">
+		<cfset g_rootdir = "f:\wwwroot\bbickel\worlddealer">
+    <cfelseif findnocase('jkrauss', cgi.cf_template_path)>
+   		<cfset application.relative_path = "/jkrauss/worlddealer">
+		<cfset g_rootdir = "f:\wwwroot\jkrauss\worlddealer">
+    <cfelseif findnocase('jweitz', cgi.cf_template_path)>
+   		<cfset application.relative_path = "/jweitz/worlddealer">
+		<cfset g_rootdir = "f:\wwwroot\jweitz\worlddealer">
+    <cfelseif findnocase('lswanson', cgi.cf_template_path)>
+   		<cfset application.relative_path = "/lswanson/worlddealer">
+		<cfset g_rootdir = "f:\wwwroot\lswanson\worlddealer">
+	<cfelse>
+		<cfset g_rootdir = "f:\wwwroot\worlddealer"> <!--- The Worlddealer Web Root directory path --->
+	</cfif>
+<cfelseif #cgi.server_name# eq "montana.sigma6.net">
+	<!--- if Montana at colo --->
+	<cfset g_host = "montana.sigma6.net"> <!--- Host name of the Web server --->
+	<cfset g_host_ip = "204.157.203.3"> <!--- On the Production Site this needs to be an IP address due to DNS problems --->
+	<cfset g_rootdir = "e:\worlddealer"> <!--- The Worlddealer Web Root directory path --->
+<!--- linda, 3/6/2000: it's not recognizing the server_name as karachi, so make it the default ELSE setting. --->
+<!--- <cfelseif #cgi.server_name# eq "karachi.sigma6.net"> --->
+<cfelse>
+	<!--- if Karachi at colo --->
+	<cfset g_host = "worlddealer.sigma6.net"> <!--- Host name of the Web server --->
+	<cfset g_host_ip = "204.157.203.7"> <!--- On the Production Site this needs to be an IP address due to DNS problems --->
+	<cfset g_rootdir = "e:\wwwroot\worlddealer"> <!--- The Worlddealer Web Root directory path --->
+<!--- 	
+<cfelse>
+	<!--- if laptop --->
+	<CFSET g_Host = "127.0.0.1"> <!--- Host name of the Web server --->
+	<CFSET g_host_ip = "127.0.0.1"> <!--- On the Production Site this needs to be an IP address due to DNS problems --->
+	<CFSET g_RootDir = "c:\InetPub\wwwroot\worlddealer"> <!--- The Worlddealer Web Root directory path ---> 
+--->
+</cfif>
+
+<!--- ImageGen & MapXSite path variables --->
+<cfset g_imagegen_root = "c:\worlddealer"> <!--- Path to ImageGenerator files --->
+
+<!--- linda, 3/6/2000: it's not recognizing the server_name as karachi, so make it the default ELSE setting. --->
+<!--- <cfif #cgi.server_name# eq "olympus.sigma6.com" or 
+	#cgi.server_name# eq "montana.sigma6.net" or
+	#cgi.server_name# eq "karachi.sigma6.net"> --->	
+	<!--- if Olympus or colo --->
+	<!--- <CFSET g_imagegen = "http://204.176.48.79:8080/servlet/imagegen"> URL of the ImageGenerator --->
+	<!--- <CFSET g_imagegen2 = '204.176.48.79'> Host name of the ImageGenerator --->
+	<CFSET g_imagegen = "http://204.176.48.79:8081/sigma6/servlet/ImageGenerator"> <!--- URL of the ImageGenerator --->
+	<CFSET g_imagegen2 = '204.176.48.79'> <!--- Host name of the ImageGenerator --->
+	<CFSET g_mapper = "http://204.176.48.79"> <!-------- Mapper location, which is Wddegen server ---->
+	<cfset g_webtrends = "http://204.157.203.103/webtrends/worlddealer">
+<!--- 	
+<cfelse>
+	<!--- if laptop --->
+	<cfset g_imagegen = "http://127.0.0.1:8080/InetPub/wwwroot/servlet/imagegen"> <!--- URL of the ImageGenerator --->
+	<cfset g_imagegen2 = '127.0.0.1'> <!--- Host name of the ImageGenerator --->
+	<cfset g_mapper = "http://127.0.0.1"> <!-------- Mapper location ---->
+</cfif>
+--->
+
+<!--- (fake) constants as application variables so they are accessible to CFMODULE templates --->
+<cfset application.root_dir = g_rootdir>
+<cfset application.relative_path = application.relative_path>
+<cfset application.imagegen_url = g_imagegen>
+<cfset application.imagegen_host = g_imagegen2>
+<cfset application.imagegen_root = g_imagegen_root>
+<cfset application.mapper_url = g_mapper>
+<cfset application.host = g_host>
+
+<!--- security access level constants --->
+<cfset application.dealer_access = 0>
+<cfset application.account_coordinator_access = 1>
+<cfset application.account_executive_access = 2>
+<cfset application.sysadmin_access = 3>
+
+<!--- Define DealerTypes constants --->
+<cfset TYPE_COLL = 1>
+<cfset TYPE_COLLDLR = 2>
+<cfset TYPE_INDEPDLR = 3>
+
+<!--- linda, 11/30/99: moved this below where application.relativepath is defined, so err_reqfields.cfm can use it. 
+But it *still* doesn't recognize the variable name.  pooh.--->
+<cferror type="VALIDATION" template="err_reqfields.cfm">
+
+<!--- linda, 2/7/2000: check to see if user's browser is javascript-compatible. --->
+<cfset whereyouat = (#find("/", "#HTTP_USER_AGENT#")# +1)>
+<cfset bver = #mid(#http_user_agent#, #whereyouat#, 3)#>
+<cfif #http_user_agent# contains "Mozilla" and #bver# gte 3>
+	<cfset goodbrowser = "yes">
+<cfelse>
+	<cfset goodbrowser = "no">
+</cfif>
+
+<!--- linda, 2/10/2000: java session management --->
+
+<cfinclude template="session.cfm">
+
+<!--- Java Session Management sets a userID variable --->
+<CFMODULE TEMPLATE="/util/DumpDebug.cfm" TEXT="application.cfm: before check for UserID">
+<cfif isdefined("userID")>
+	<CFMODULE TEMPLATE="/util/DumpDebug.cfm" TEXT="application.cfm: UserID found">
+	<cfquery name="getSecurity" datasource="WorldDlr">
+		SELECT	Accounts.PermissionLevel, 
+				AccountSecurity.ActionCode,
+				AccountSecurity.Dealercode
+		FROM 	Accounts 
+				INNER JOIN AccountSecurity ON Accounts.RowID = AccountSecurity.UserID
+		WHERE 	AccountSecurity.UserID = #getUserInfo.RowID#
+		ORDER BY AccountSecurity.SessionID DESC
+	</cfquery>
+
+	 <!--- Set the Security Accesslevel --->
+	<!--- 0=DE, 1=AC, 2=AE, 3=AA --->
+	<cfset accesslevel = #getSecurity.permissionlevel#>
+
+	<cfset g_dlr = false>
+	<cfset g_col = false>
+	<cfset g_iamcol = false>
+	
+	<!--- set global variables for collections --->
+	<cfif mid(getsecurity.actioncode, 6, 4) eq '0000'>
+		<cfset g_collectioncode = #getSecurity.actioncode#>
+		<cfset g_iamcol = true>
+	</cfif>
+
+	<cfif #trim(getSecurity.Dealercode)# neq "">
+		<!--- set the global dealercode for dealers --->
+		<cfset g_dealercode = "#trim(getSecurity.Dealercode)#">
+
+		<!--- collection or not? --->
+		<cfif mid(g_dealercode, 6, 4) eq '0000'>
+			<cfset g_col = true>
+		<cfelse>
+			<cfset g_dlr = true>
+		</cfif>
+	</cfif>
+<cfelse>
+	<CFMODULE TEMPLATE="/util/DumpDebug.cfm" TEXT="application.cfm: UserID NOT found">
+</cfif>
+
+<cfmodule template="/util/DumpDebug.cfm" text="end   $RCSfile: application.cfm,v $">

@@ -1,0 +1,219 @@
+<!---
+Created by Sigma6, Inc.
+Copyright (c) 1998 Sigma6, Inc.
+All Rights Reserved.  Used By Permission.
+
+Sigma6, interactive media, Detroit/NYC
+conceive : construct : connect
+www.sigma6.com   webmaster@sigma6.com   info@sigma6.com
+
+Last updated: <May 27, 1998>
+
+Daniel Fettinger for sigma6, interactive media, Detroit
+dfettinger@sigma6.com   www.sigma6.com    www.s6313.com
+conceive : construct : connect
+
+Sigma6, s6, and the Sigma6 logos are registered trademarks.
+All other trademarks and servicemarks are the property of
+their respective owners.
+--->
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+	function paymentEvent(){
+		if (isNaN(document.calculatorform.desired_monthly_payment.value) || (document.calculatorform.desired_monthly_payment.value==''))
+			document.calculatorform.desired_monthly_payment.value="Enter a number";
+		else
+			document.calculatorform.desired_monthly_payment_results.value=document.calculatorform.desired_monthly_payment.value;
+		if (isNaN(document.calculatorform.loan_rate.value))
+			document.calculatorform.loan_rate.value="Enter a number";
+		if (document.calculatorform.loan_rate.value=='')
+			document.calculatorform.loan_rate.value='6';
+		if (isNaN(document.calculatorform.sales_tax.value))
+			document.calculatorform.sales_tax.value="Enter a number";
+		if (document.calculatorform.sales_tax.value=='')
+			document.calculatorform.sales_tax.value='6';
+		if (isNaN(document.calculatorform.desired_term_length.value) || (document.calculatorform.desired_term_length.value==''))
+			document.calculatorform.desired_term_length.value="Enter a number";
+		else
+			document.calculatorform.desired_term_length_results.value=document.calculatorform.desired_term_length.value;
+		
+var yint = document.calculatorform.loan_rate.value;
+var mint = yint / 100 / 12;
+var pmt = document.calculatorform.desired_monthly_payment.value;
+var n = document.calculatorform.desired_term_length.value;
+var tax = document.calculatorform.sales_tax.value;
+var pv = ((pmt) / (mint / (1 - (1 / Math.pow(1 + mint, n))))) - (pmt * (.01 * tax));
+strpv = new String(pv);
+strpv = strpv.substring(0, (strpv.indexOf(".") + 3)); 
+
+document.calculatorform.desired_finance_results.value=strpv;
+		if (isNaN(document.calculatorform.desired_finance_results.value))
+			document.calculatorform.desired_finance_results.value="Invalid Calculation";
+		}
+//-->
+</SCRIPT>
+
+<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0>
+<FORM NAME="calculatorform" METHOD="POST" ACTION="JavaScript:paymentEvent()">
+<TR>
+	<TD COLSPAN=3>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			To make calculating your monthly payment easy, we've developed a Payment Calculator
+			that will do the math for you.  Simply fill in the first four fields, 
+			then click <b>Calculate</b> to have the site run the calculation.
+			You will need to complete all of the first four fields to receive the most accurate estimate.<BR>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>&nbsp;</TD>
+</TR>
+
+<!--- User entry fields --->
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Desired Monthly Payment
+		</FONT>
+	</TD>
+	<TD align="right">
+		<FONT SIZE=2 FACE="arial,helvetica">
+			$<INPUT TYPE="text" NAME="desired_monthly_payment" SIZE=10>
+		</FONT>
+	</TD>
+	<TD></td>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Interest Rate
+		</FONT>
+	</TD>
+	<TD align="right">
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="loan_rate" SIZE=10>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">	
+			%
+		</FONT>
+	</td>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Sales Tax
+		</FONT>
+	</TD>
+	<TD align="right">
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="sales_tax" SIZE=10>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">	
+			%
+		</FONT>
+	</td>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Desired Term Length
+		</FONT>
+	</TD>
+	<TD align="right">
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="desired_term_length" SIZE=10>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">	
+			months
+		</FONT>
+	</td>
+</TR>
+
+<!--- Calculate Button --->
+<TR>
+	<TD colspan="3" align="center">
+		<BR>
+		<CFOUTPUT>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="image" SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_calculate_nav.gif" BORDER=0>
+		</FONT>
+		</CFOUTPUT>
+	</TD>
+</TR>
+
+<!--- RESULTS --->
+<TR>
+	<TD COLSPAN=3>
+	<BR>
+		<CFOUTPUT>
+			<FONT SIZE=2 FACE="arial,helvetica" COLOR=#thecolor#>
+				<B>RESULTS</B>
+			</FONT>
+		</CFOUTPUT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			With a
+		</FONT>
+	</TD>
+	<TD align="right">
+		<FONT SIZE=2 FACE="arial,helvetica">
+			$<INPUT TYPE="text" NAME="desired_monthly_payment_results" SIZE=10>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">	
+			per month payment
+		</FONT>
+	</td>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			for
+		</FONT>
+	</TD>
+	<TD align="right">
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="desired_term_length_results" SIZE=10>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">	
+			months,
+		</FONT>
+	</td>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			you can finance
+		</FONT>
+	</TD>
+	<TD align="right">
+		<FONT SIZE=2 FACE="arial,helvetica">
+			$<INPUT TYPE="text" NAME="desired_finance_results" SIZE=10>
+		</FONT>
+	</TD>
+	<TD></td>
+</TR>
+<TR>
+	<TD COLSPAN=3>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<BR>
+			<I>Please note that these calculations are based solely on information provided by you.
+			The dealer is not responsible for pricing and payments derived from this calculator.
+			See dealer for specific pricing and payments.</I>
+		</FONT>
+	</TD>
+</TR>		
+</FORM> 
+</TABLE>

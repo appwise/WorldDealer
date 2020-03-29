@@ -1,0 +1,35 @@
+/*
+style sheet for DumpQuery.cfm
+
+Copyright (c) 1998, 1999, 2000 Sigma6 Inc.  All rights reserved.
+$Id: debug.css,v 1.4 2000/05/17 22:20:58 lswanson Exp $
+*/
+
+/* 
+Linda, 5/17/00: The /util/ dir is locked down on production servers.
+Files in /util/ can be called using cfmodule or cfinclude, but cannot be linked to, as in linking in the .css file.
+So, I've copied this code over into DumpQuery.cfm.  Could probably be Atticed unless anything else is still using it.
+*/
+
+
+/* debug output */
+div.debug td, div.debug th {
+	font-size: smaller;
+	padding: 0em;
+	margin: 0em;
+}
+
+div.debug th {
+	font-weight: normal;
+	color: #ffffff;
+	background-color: #000077;
+}
+
+div.debug td {
+	color: #000000;
+	background-color: #cccccc;
+}
+
+div.debug td.numeric {
+	text-align: right;
+}

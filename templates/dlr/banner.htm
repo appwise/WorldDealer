@@ -1,0 +1,69 @@
+<!---
+Created by Sigma6, Inc.
+Copyright (c) 1998 Sigma6, Inc.
+All Rights Reserved.  Used By Permission.
+
+Sigma6, interactive media, Detroit/NYC
+conceive : construct : connect
+www.sigma6.com   webmaster@sigma6.com   info@sigma6.com
+
+Last updated: <April 1, 1999>
+
+Linda Swanson for sigma6, interactive media, Detroit
+lswanson@sigma6.com   www.sigma6.com    www.s6313.com
+conceive : construct : connect
+
+Sigma6, s6, and the Sigma6 logos are registered trademarks.
+All other trademarks and servicemarks are the property of
+their respective owners.
+--->
+<!--- $Id: banner.htm,v 1.6 1999/12/22 18:32:34 bbickel Exp $ --->
+
+<!--- if a special offer has already been selected, show the corresponding banner --->
+<CFIF section IS "so"><CFOUTPUT><IMG
+	SRC="#application.RELATIVE_PATH#/images/banner/#dealerinfo.dealercode#_#URL.specpromoid#_adbanner_hea.gif"
+	BORDER=0
+	WIDTH=400
+	HEIGHT=48
+	ALT="Special Offer!"></CFOUTPUT><CFELSE>
+<!--- otherwise, loop through banners randomly --->
+	<CFQUERY NAME="allImages" DATASOURCE="#gDSN#">
+		SELECT	*
+		FROM	Banners,DealerBanners,SpecialPromotions
+		WHERE	status = '1'
+		AND		DealerWebID=#arttempid.dealerwebid#
+		AND		DealerBanners.bannerid=Banners.bannerid
+		AND		SpecialPromotions.SpecPromoID=Banners.specpromoid
+		AND		SpecialPromotions.ExpirationDate  >= #CreateODBCDate(DateFormat(Now(),"mm/dd/yyyy"))#
+	</CFQUERY>
+	<CFIF #allImages.recordcount# IS NOT '0'>
+		<CFSET imgArray = ArrayNew(2)>
+		<CFLOOP QUERY="allImages">
+			<CFSET imgArray[CurrentRow][1] = allImages.filelocation[CurrentRow]>
+			<CFSET imgArray[CurrentRow][2] = allImages.Description[CurrentRow]>
+			<CFSET imgArray[CurrentRow][3] = allImages.SpecPromoID[CurrentRow]>
+			<CFSET imgArray[CurrentRow][4] = allImages.LinkYesNo[CurrentRow]>
+		</CFLOOP>
+		<CFSET imgArraySize = allImages.RecordCount>
+		<CFSET imgNumber = RandRange(1, #imgArraySize# )>
+		<CFSET bannerid = imgArray[#imgNumber#][1]>
+		<CFSET Description = imgArray[#imgNumber#][2]>
+		<CFSET SpecPromoID = imgArray[#imgNumber#][3]>
+		<CFSET LinkYesNo = imgArray[#imgNumber#][4]>
+		<CFOUTPUT>
+		<CFIF LinkYesNo IS "Y"><A
+			HREF="main.cfm?section=so&specpromoid=#specpromoid#"
+			OnMouseOver="self.status='Special Offer!';return true"
+			OnMouseOut="self.status='';return true"></CFIF><IMG
+			SRC="#application.RELATIVE_PATH#/images/banner/#dealerinfo.dealercode#_#specpromoid#_adbanner_hea.gif"
+			BORDER=0
+			WIDTH=400
+			HEIGHT=48
+			ALT="Special Offer!"><CFIF LinkYesNo IS "Y"></A></CFIF></CFOUTPUT><CFELSE>
+	<!--- else, show default banner --->
+		<CFOUTPUT><IMG
+		SRC="#application.RELATIVE_PATH#/images/banner/#DealerInfo.DealerCode#_default_adbanner_hea.gif"
+		BORDER="0"
+		WIDTH="400"
+		HEIGHT="48"
+		ALT="#dealerinfo.DealershipName#"></CFOUTPUT></CFIF></CFIF>

@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!---
+Created by Sigma6, Inc.
+Copyright (c) 1998 Sigma6, Inc.
+All Rights Reserved.  Used By Permission.
+
+Sigma6, interactive media, Detroit/NYC
+conceive : construct : connect
+www.sigma6.com   webmaster@sigma6.com   info@sigma6.com
+
+Last updated: <May 27, 1998>
+
+Daniel Fettinger for sigma6, interactive media, Detroit
+dfettinger@sigma6.com   www.sigma6.com    www.s6313.com
+conceive : construct : connect
+
+Sigma6, s6, and the Sigma6 logos are registered trademarks.
+All other trademarks and servicemarks are the property of
+their respective owners.
+--->
+
+<HTML>
+	<!--- $Id: template_1.htm,v 1.10 1999/11/29 20:09:41 lswanson Exp $ --->
+
+<HEAD>
+
+	<TITLE><CFOUTPUT>#dealerinfo.dealershipname#</CFOUTPUT></TITLE>
+
+</HEAD>
+
+<CFINCLUDE TEMPLATE="global_1.htm">
+
+<!--- BEGIN BODY --->
+<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0>
+<TR>
+	<TD ALIGN=CENTER VALIGN=TOP WIDTH=104>
+<!---------------------------------------------------------------------------------LEFT COLUMN------------------------------------>
+<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 ALIGN=LEFT>
+<TR>
+	<TD WIDTH=104 ALIGN=RIGHT VALIGN="Top">
+	<CFOUTPUT>
+		<A HREF="index.cfm?dealercode=#DealerCode#"
+    		TITLE="Return to #dealerinfo.dealershipname#'s Home Page"
+			OnMouseOver="self.status='Return to #Replace(dealerinfo.dealershipname, "'", "\'")#\'s Home Page';return true"
+			OnMouseOut="self.status='';return true"><IMG
+				SRC="#application.RELATIVE_PATH#/images/1/nav_logo_nav.gif"
+				WIDTH=124
+				HEIGHT=63
+				BORDER=0
+				ALIGN="top"
+				ALT="#dealerinfo.dealershipname#"></A><BR> 
+		<A HREF="index.cfm?dealercode=#DealerCode#" 
+			TITLE="Return to #dealerinfo.dealershipname#'s Home Page" 
+			OnMouseOver="self.status='Return to #Replace(dealerinfo.dealershipname, "'", "\'")#\'s Home Page';return true" 
+			OnMouseOut="self.status='';return true"><IMG 
+				SRC="#application.RELATIVE_PATH#/images/logo/#dealerinfo.dealercode#_1_logo_hea.gif" 
+				BORDER=0 
+				ALIGN="top" 
+				ALT="#dealerinfo.dealershipname#"></A>
+	</CFOUTPUT>
+	<CFINCLUDE TEMPLATE="leftnav.htm"><BR>
+	</TD>
+</TR>
+</TABLE>
+<!-----------------------------------------------------------------------------------END LEFT COLUMN---------------------------------->
+	</TD>
+	<TD WIDTH=100>
+<!-----------------------------------------------------------------------------------SPACER1 COLUMN------------------------------------->
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<!------------------------------------------------------------------------------------END SPACER1 COLUMN--------------------------------->
+	</TD>
+	<TD ALIGN=CENTER VALIGN=TOP WIDTH=400>
+<!------------------------------------------------------------------------------------MAIN COLUMN--------------------------------------->
+<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0>
+<!---------------------------------------------------------BANNER------------------------------->
+<TR><TD
+	WIDTH=400
+	HEIGHT=50><CFINCLUDE TEMPLATE="banner.htm"></TD></TR>
+<!-----------------------------------------------------------TITLE/SERVICE REQUEST-------------->
+<TR>
+	<TD WIDTH=400 HEIGHT=30 VALIGN=TOP>
+		
+			<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 WIDTH=400 HEIGHT=30><TR><TD COLSPAN=2><IMG
+				SRC="<CFOUTPUT>#application.RELATIVE_PATH#</CFOUTPUT>/images/1/tle_<CFOUTPUT>#section#</CFOUTPUT>_hea.gif"
+				BORDER=0
+				ALT=""></TD></TR><TR><TD HEIGHT=10 COLSPAN=2>&nbsp;</TD></TR></TABLE>
+	</TD>
+</TR>
+<!--- MAIN BODY --->
+<TR>
+	<TD WIDTH=400 VALIGN=TOP>
+		<CFIF IsDefined("subsection")>
+			<CFSET themain = "#section#_#subsection#">
+		<CFELSE>				
+			<CFSET themain = "#section#">
+		</CFIF>
+		<CFINCLUDE TEMPLATE="#themain#.htm">
+	</TD>
+</TR>
+</TABLE>
+<!--------------------------------------------------------------------------------END MAIN COLUMN--------------------------------------->
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2></TD>
+	<!--- FOOTER --->
+	<TD WIDTH=400 ALIGN=CENTER>
+		<BR><BR>
+		<CFINCLUDE TEMPLATE="footer.htm">
+	</TD>
+	<TD></TD>
+</TR>
+</TABLE>
+<!---------------------------------------------------------------------------------END BODY---------------------------------------------------------->
+
+</BODY>
+</HTML>

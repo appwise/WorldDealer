@@ -1,0 +1,607 @@
+Acura	CL	97	98															
+Acura	Integra	86	87	88	89	90	91	92	93	94	95	96	97	98	99			
+Acura	Legend	86	87	88	89	90	91	92	93	94	95							
+Acura	NSX	91	92	93	94	95	96	97	98	99								
+Acura	RL	96	97	98	99													
+Acura	SLX	96	97	98	99													
+Acura	TL	95	96	97	98	99												
+Acura	Vigor	92	93	94														
+Alfa Romeo	164	91	92	93	94	95												
+Alfa Romeo	GTV-6	81	82	83	84	85	86											
+Alfa Romeo	Milano	87	88	89														
+Alfa Romeo	Spider	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94
+Alfa Romeo	Sprint	78	79															
+AM General	Hummer	93	94	95	96	97	98	99										
+AMC	Alliance	83	84	85	86	87												
+AMC	AMX	78	79	80														
+AMC	Concord	78	79	80	81	82	83				
+AMC	Eagle	80	81	82	83	84	85	86	87	88	
+AMC	Encore	84	85	86							
+AMC	Gremlin	78									
+AMC	GTA	87									
+AMC	Matador	78									
+AMC	Pacer	78	79	80							
+AMC	Spirit	79	80	81	82	83					
+Audi	80	88	89	90	91	92					
+Audi	90	88	89	90	91	93	94	95			
+Audi	100	89	90	91	92	93	94				
+Audi	200	89	90	91							
+Audi	4000	80	81	82	83	84	85	86	87		
+Audi	5000	78	79	80	81	83	84	85	86	87	88
+Audi	A4	96	97	98	99						
+Audi	A6	95	96	97	98	99					
+Audi	A8	97	98	99										
+Audi	Cabriolet	94	95	96	97	98	99							
+Audi	Fox	78	79											
+Audi	GT	84	85	86	87									
+Audi	Quattro	83	84	90	91	92	93	94						
+Audi	S4	92	93	94										
+Audi	S6	95												
+Bertone	Bertone	84	85	86										
+Bertone	X1/9	87	88											
+BMW	318	84	85	91	92	93	94	95	96	97	98	99		
+BMW	325	84	85	86	87	88	89	90	91	92	93	94	95	
+BMW	328	96	97	98	99									
+BMW	524	85	86											
+BMW	525	89	90	91	92	93	94	95						
+BMW	528	79	80	81	82	83	84	85	86	87	88	97	98	99
+BMW	530	78	94	95										
+BMW	533	83	84	85	86	87	88	89	90	91	92	93	
+BMW	535	87	88										
+BMW	540	94	95	97	98	99							
+BMW	735	85	86	87	88	89	90	91	92				
+BMW	320i	78	79	80	81	82	83						
+BMW	323i	98	99										
+BMW	633CSi	78	79	80	81	82	83	84					
+BMW	635CSi	85	86	87	88	89							
+BMW	733i	78	79	80	81	82	83	84					
+BMW	740i	93	94	95	97	98	99						
+BMW	750iL	88	89	90	91	92	93	94	95	96	97	98	99
+BMW	840Ci	94	95	96	97								
+BMW	850Ci	93	94	95	96	97							
+BMW	850CSi	94	95										
+BMW	850i	91	92										
+BMW	L6	87											
+BMW	L7	86	87																				
+BMW	M3	88	89	90	91	95	96	97	98	99													
+BMW	M5	88	91	92	93																		
+BMW	M6	87	88																				
+BMW	Z3	96	97	98	99																		
+Buick	Century	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Buick	Electra	78	79	80	81	82	83	84	85	86	87	88	89	90									
+Buick	Estate	90																					
+Buick	LeSabre	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Buick	Park Avenue	91	92	93	94	95	96	97	98	99													
+Buick	Reatta	88	89	90	91																		
+Buick	Regal	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Buick	Riviera	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	95	96	97	98	99	
+Buick	Roadmaster	91	92	93	94	95	96																
+Buick	Skyhawk	78	79	80	82	83	84	85	86	87	88	89											
+Buick	Skylark	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Buick	Somerset	86	87																				
+Buick	Somerset Regal	85																					
+Cadillac	Allante'	87	88	89	90	91	92	93															
+Cadillac	Brougham	87	88	89	90	91	92																
+Cadillac	Catera	97	98	99																			
+Cadillac	Cimarron	82	83	84	85	86	87	88															
+Cadillac	DeVille	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Cadillac	Eldorado	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Cadillac	Fleetwood	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96				
+Cadillac	Fleetwood Brhm	78	79	80	81	82	83	84															
+Cadillac	Fleetwood Brougham	85	86																				
+Cadillac	Seventy-Five	78																					
+Cadillac	Seville	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Cadillac	Sixty Special	93																					
+Chevrolet	APV	90	91	92	93																		
+Chevrolet	Astro	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99							
+Chevrolet	Beretta	87	88	89	90	91	92	93	94	95	96												
+Chevrolet	Blazer	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Chevrolet	Camaro	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Chevrolet	Caprice	86	87	88	89	90	91	92															
+Chevrolet	Caprice Classic	78	79	80	81	82	83	84	85	93	94	95	96										
+Chevrolet	Cavalier	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99				
+Chevrolet	Celebrity	82	83	84	85	86	87	88	89	90													
+Chevrolet	Chevette	78	79	80	81	82	83	84	85	86	87												
+Chevrolet	Citation	80	81	82	83																		
+Chevrolet	Citation II	84	85																				
+Chevrolet	Corsica	87	88	89	90	91	92	93	94	95	96												
+Chevrolet	Corvette	78	79	80	81	82	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99	
+Chevrolet	El Camino	78	79	80	81	82	83	84	85	86	87												
+Chevrolet	Express Van	96	97	98	99																		
+Chevrolet	G-Series Van	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Chevrolet	Impala	78	79	80	81	82	83	84	85														
+Chevrolet	Impala SS	94	95	96																			
+Chevrolet	Lumina	90	91	92	93	94	95	96	97	98	99												
+Chevrolet	Lumina APV	90	91	92	93																		
+Chevrolet	Malibu	78	79	80	81	82	83	97	98	99													
+Chevrolet	Monte Carlo	78	79	80	81	82	83	84	85	86	87	88	95	96	97	98	99						
+Chevrolet	Monza	78	79	80																			
+Chevrolet	Nova	78	79	85	86	87	88																
+Chevrolet	S10 Blazer	83	84	85	86	87	88	89	90	91	92	93	94										
+Chevrolet	Spectrum	85	86	87	88	89																	
+Chevrolet	Sportvan	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96			
+Chevrolet	Sprint	85	86	87	88																		
+Chevrolet	Suburban	78	79	80	81	87	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Chevrolet	Tahoe	95	96	97	98	99																	
+Chevrolet	Tracker	89	90	91	92	93	94	95	96	97	98	99											
+Chevrolet	Venture	97	98	99																			
+Chrysler	Cirrus	95	96	97	98																		
+Chrysler	Concorde	93	94	95	96	97	98	99												
+Chrysler	Conquest	87	88	89																
+Chrysler	Cordoba	78	79	80	81	82	83													
+Chrysler	E Class	83	84																	
+Chrysler	Executive	84	85																	
+Chrysler	Fifth Ave	83	84	85	86	87	88	89	90	91	92	93								
+Chrysler	Imperial	81	82	83	90	91	92	93												
+Chrysler	Laser	84	85	86																
+Chrysler	LeBaron	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	
+Chrysler	LHS	94	95	96	97															
+Chrysler	New Yorker	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96
+Chrysler	Newport	78	79	80	81															
+Chrysler	Sebring	95	96	97	98	99														
+Chrysler	TC	89	90	91																
+Chrysler	Town & Country	90	91	92	93	94	95	96	97	98	99									
+Daihatsu	Charade	88	89	90	91	92														
+Daihatsu	Rocky	90	91	92														
+Dodge	400	82	83															
+Dodge	600	83	84	85	86	87	88											
+Dodge	024	82																
+Dodge	Aries	81	82	83	84	85	86	87										
+Dodge	Aries America	88	89															
+Dodge	Aspen	78	79	80														
+Dodge	Avenger	95	96	97	98	99												
+Dodge	Caravan	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99	
+Dodge	Challenger	78	79	80	81	82	83											
+Dodge	Charger	83	84	85	86	87												
+Dodge	Colt	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94
+Dodge	Colt Vista	84	85	86	87	88	89	90	91									
+Dodge	Conquest	84	85	86														
+Dodge	Daytona	84	85	86	87	88	89	90	91	92	93							
+Dodge	Diplomat	78	79	80	81	82	83	84	85	86	87	88	89					
+Dodge	Durango	98	99																	
+Dodge	Dynasty	88	89	90	91	92	93													
+Dodge	Grand Caravan	87	88	89	90	91	92	93	94	95	96	97	98	99						
+Dodge	Intrepid	93	94	95	96	97	98	99												
+Dodge	Lancer	85	86	87	88	89														
+Dodge	Magnum XE	78	79																	
+Dodge	Mini Ram Van	84	85	86	87	88														
+Dodge	Mirada	80	81	82	83															
+Dodge	Monaco	78	90	91	92															
+Dodge	Neon	95	96	97	98	99														
+Dodge	Omni	78	79	80	81	82	83	84	85	86										
+Dodge	Omni America	87	88	89	90															
+Dodge	Raider	87	88	89																
+Dodge	Ram	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Dodge	Ramcharger	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93			
+Dodge	Shadow	87	88	89	90	91	92	93	94											
+Dodge	Spirit	89	90	91	92	93	94	95			
+Dodge	Sportsman	78	79	80							
+Dodge	St Regis	79	80	81							
+Dodge	Stealth	91	92	93	94	95	96				
+Dodge	Stratus	95	96	97	98	99					
+Dodge	Tradesman	78									
+Dodge	Viper	92	93	94	95	96	97	98	99		
+Eagle	Medallion	88	89								
+Eagle	Premier	88	89	90	91	92					
+Eagle	Summit	89	90	91	92	93	94	95	96		
+Eagle	Talon	90	91	92	93	94	95	96	97	98	99
+Eagle	Vision	93	94	95	96	97					
+Fiat	124	78									
+Fiat	128	78	79								
+Fiat	131	78									
+Fiat	Brava	78	79	80	81						
+Fiat	Spider 2000	79	80	81	82																		
+Fiat	Strada	79	80	81																			
+Fiat	X1/9	80	81	82																			
+Ford	Aerostar	86	87	88	89	90	91	92	93	94	95	96	97										
+Ford	Aspire	94	95	96	97																		
+Ford	Bronco	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96			
+Ford	Bronco II	84	85	86	87	88	89	90															
+Ford	Club Wagon	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Ford	Contour	95	96	97	98	99																	
+Ford	Country Squire	80	81	82	83	84	85	86	87	88	89	90	91										
+Ford	Crown Victoria	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99		
+Ford	Econoline	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Ford	Escort	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99			
+Ford	EXP	82	83	84	85	86	87	88															
+Ford	Expedition	97	98	99																			
+Ford	Explorer	91	92	93	94	95	96	97	98	99													
+Ford	Fairmont	78	79	80	81	82	83															
+Ford	Festiva	88	89	90	91	92	93															
+Ford	Fiesta	78	79	80																		
+Ford	Granada	78	79	80	81	82																
+Ford	LTD	78	79	80	81	82	83	84	85	86												
+Ford	LTD II	78	79																			
+Ford	Mustang	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Ford	Mustang II	78																				
+Ford	Pinto	78	79	80																		
+Ford	Probe	89	90	91	92	93	94	95	96	97												
+Ford	Ranchero	78	79																			
+Ford	Taurus	86	87	88	89	90	91	92	93	94	95	96	97	98	99							
+Ford	Tempo	84	85	86	87	88	89	90	91	92	93	94										
+Ford	Thunderbird	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	
+Ford	Windstar	95	96	97	98	99																
+Geo	Metro	89	90	91	92	93	94	95	96	97	98	99										
+Geo	Prizm	89	90	91	92	93	94	95	96	97	98	99											
+Geo	Spectrum	85	86	87	88	89																	
+Geo	Storm	90	91	92	93																		
+Geo	Tracker	89	90	91	92	93	94	95	96	97	98	99											
+GMC	Caballero	78	79	80	81	82	83	84	85	86	87												
+GMC	Envoy	98	99																				
+GMC	Jimmy	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+GMC	Rally	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96			
+GMC	S15 Jimmy	83	84	85	86	87	88	89	90	91													
+GMC	Safari	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99							
+GMC	Savana Van	96	97	98	99																		
+GMC	Suburban	78	79	80	81	87	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+GMC	Vandura	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96			
+GMC	Yukon	92	93	94	95	96	97	98	99														
+Honda	Accord	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Honda	Civic	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Honda	CR-V	97	98	99																		
+Honda	del Sol	93	94	95	96	97																
+Honda	Odyssey	95	96	97	98	99																
+Honda	Passport	94	95	96	97	98	99															
+Honda	Prelude	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Hyundai	Accent	95	96	97	98	99																
+Hyundai	Elantra	92	93	94	95	96	97	98	99													
+Hyundai	Excel	86	87	88	89	90	91	92	93	94												
+Hyundai	Scoupe	91	92	93	94	95																
+Hyundai	Sonata	89	90	91	92	93	94	95	96	97	98	99										
+Hyundai	Tiburon	97	98	99																		
+Infiniti	G20	91	92	93	94	95	96															
+Infiniti	I30	96	97	98	99																	
+Infiniti	J30	93	94	95	96	97																
+Infiniti	M30	90	91	92																		
+Infiniti	Q45	90	91	92	93	94	95	96	97	98	99											
+Infiniti	QX4	97	98	99																
+International	Scout	78	79	80																
+Isuzu	Amigo	89	90	91	92	93	94	98	99											
+Isuzu	Hombre	96	97	98	99															
+Isuzu	I-Mark	81	82	83	84	85	86	87	88	89										
+Isuzu	Impulse	83	84	85	86	87	88	89	90	91	92									
+Isuzu	Oasis	96	97	98	99															
+Isuzu	Rodeo	91	92	93	94	95	96	97	98	99										
+Isuzu	Stylus	91	92	93																
+Isuzu	Trooper	91	92	93	94	95	96	97	98	99										
+Isuzu	Trooper II	84	85	86	87	88	89	90												
+Jaguar	XJ12	78	79	93	94	95	96													
+Jaguar	XJ6	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97
+Jaguar	XJ6L	78	79																	
+Jaguar	XJ8	98	99																	
+Jaguar	XJR	95	96	97	98	99														
+Jaguar	XJR-S	93																					
+Jaguar	XJS	78	79	80	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96				
+Jaguar	XK8	97	98	99																			
+Jeep	Cherokee	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Jeep	CJ	81	82	83	84	85	86																
+Jeep	CJ5	78	79	80																			
+Jeep	CJ7	78	79	80																			
+Jeep	Comanche	87																					
+Jeep	Grand Cherokee	93	94	95	96	97	98	99															
+Jeep	Grand Wagoneer	84	85	86	87	88	89	90	91														
+Jeep	Wagoneer	78	79	80	81	82	83	84	85	86	87	88	89	90									
+Jeep	Wrangler	87	88	89	90	91	92	93	94	95	97	98	99										
+Kia	Sephia	94	95	96	97	98	99																
+Kia	Sportage	95	96	97	98	99																	
+Land Rover	Defender	93	94	95	97																		
+Land Rover	Discovery	94	95	96	97	98																	
+Land Rover	Range Rover	87	88	89	90	91	92	93	94	95	96	97	98	99								
+Lexus	ES 250	90	91																			
+Lexus	ES 300	92	93	94	95	96	97	98	99													
+Lexus	GS 300	93	94	95	96	97	98	99														
+Lexus	GS 400	98	99																			
+Lexus	LS 400	90	91	92	93	94	95	96	97	98	99											
+Lexus	LX 450	96	97																			
+Lexus	LX 470	98	99																			
+Lexus	RX 300	99																				
+Lexus	SC 300	92	93	94	95	96	97	98	99													
+Lexus	SC 400	92	93	94	95	96	97	98	99													
+Lincoln	Continental	78	79	80	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Lincoln	Mark V	78	79																			
+Lincoln	Mark VI	80	81	82	83																	
+Lincoln	Mark VII	84	85	86	87	88	89	90	91	92												
+Lincoln	Mark VIII	93	94	95	96	97	98	99														
+Lincoln	Navigator	98	99																			
+Lincoln	Town Car	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99		
+Lincoln	Versailles	78	79	80																		
+Mazda	323	86	87	88	89	90	91	92	93	94												
+Mazda	626	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Mazda	929	88	89	90	91	92	93	94	95													
+Mazda	B1800	78																				
+Mazda	B2000	79	80	81	82	83	84	86	87													
+Mazda	B2200	87	88	89	90	91	92	93														
+Mazda	B2300	94	95	96	97																	
+Mazda	B2500	98	99																			
+Mazda	B2600	87	88	89	90	91	92	93														
+Mazda	B3000	94	95	96	98	99																
+Mazda	B4000	94	95	96	97	98	99															
+Mazda	Cosmo	78																				
+Mazda	GLC	78	79	80	81	82	83	84	85	86												
+Mazda	Miata	90	91	92	93	94	95	96	97	99							
+Mazda	Millenia	95	96	97	98	99											
+Mazda	MPV	89	90	91	92	93	94	95	96	97	98	99					
+Mazda	MX-3	92	93	94	95												
+Mazda	MX-6	88	89	90	91	92	93	94	95	96	97						
+Mazda	Navajo	91	92	93	94												
+Mazda	Protege'	90	91	92	93	94	95	96	97	98	99						
+Mazda	RX4	78															
+Mazda	RX-7	79	80	81	82	83	84	85	86	87	88	89	90	91	93	94	95
+Mercedes-Benz	6.9	78	79														
+Mercedes-Benz	230	78															
+Mercedes-Benz	350	90	91														
+Mercedes-Benz	380	81	82	83	84	85											
+Mercedes-Benz	450	78	79	80													
+Mercedes-Benz	500	84	85	90	91	92	93										
+Mercedes-Benz	560	86	87	88	89	90	91										
+Mercedes-Benz	190D	84	85	86	87	88	89				
+Mercedes-Benz	190E	84	85	86	87	88	89	90	91	92	93
+Mercedes-Benz	190E-16	86	87								
+Mercedes-Benz	240D	78	79	80	81	82	83				
+Mercedes-Benz	260E	87	88	89							
+Mercedes-Benz	280CE	78	79	80	81						
+Mercedes-Benz	280E	78	79	80	81						
+Mercedes-Benz	280SE	78	79	80							
+Mercedes-Benz	300CD	78	79	80	81						
+Mercedes-Benz	300CD-T	82	83	84	85						
+Mercedes-Benz	300CE	88	89	90	91	92	93				
+Mercedes-Benz	300D	78	79	80	81	87	90	91	92	93	
+Mercedes-Benz	300D-T	82	83	84	85						
+Mercedes-Benz	300E	86	87	88	89	90	91	92	93		
+Mercedes-Benz	300SD	78	79	80	81	82	83	84	85	92	93
+Mercedes-Benz	300SDL	86	87								
+Mercedes-Benz	300SE	88	89	90	91	92	93
+Mercedes-Benz	300SEL	88	89	90	91		
+Mercedes-Benz	300SL	90	91	92	93		
+Mercedes-Benz	300TD	79	80	87			
+Mercedes-Benz	300TD-T	81	82	83	84	85	
+Mercedes-Benz	300TE	88	89	90	91	92	93
+Mercedes-Benz	400E	92	93				
+Mercedes-Benz	400SE	92					
+Mercedes-Benz	400SEL	93					
+Mercedes-Benz	420SEL	86	87	88	89	90	91
+Mercedes-Benz	600SEC	93					
+Mercedes-Benz	600SEL	92	93				
+Mercedes-Benz	600SL	93					
+Mercedes-Benz	C-Class	94	95	96	97	98	99
+Mercedes-Benz	CL-Class	98	99				
+Mercedes-Benz	CLK-Class	98	99				
+Mercedes-Benz	E Class	94	95	96	97	98	99														
+Mercedes-Benz	M-Class	98	99																		
+Mercedes-Benz	S-Class	94	95	96	97	98	99														
+Mercedes-Benz	SL-Class	94	95	96	97	98	99														
+Mercedes-Benz	SLK	98	99																		
+Mercury	Bobcat	78	79	80																	
+Mercury	Capri	79	80	81	82	83	84	85	86	91	92	93	94								
+Mercury	Cougar	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97
+Mercury	Grand Marquis	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99			
+Mercury	LN7	82	83																		
+Mercury	Lynx	81	82	83	84	85	86	87													
+Mercury	Marquis	78	79	80	81	82	83	84	85	86											
+Mercury	Monarch	78	79	80																	
+Mercury	Mountaineer	97	98	99																	
+Mercury	Mystique	95	96	97	98	99															
+Mercury	Sable	86	87	88	89	90	91	92	93	94	95	96	97	98	99						
+Mercury	Topaz	84	85	86	87	88	89	90	91	92	93	94						
+Mercury	Tracer	88	89	91	92	93	94	95	96	97	98	99						
+Mercury	Villager	93	94	95	96	97	98	99										
+Mercury	Zephyr	78	79	80	81	82	83											
+Merkur	Scorpio	88	89															
+Merkur	XR4Ti	85	86	87	88	89												
+MG	MGB	78	79	80														
+MG	Midget	78	79															
+Mitsubishi	3000GT	91	92	93	94	95	96	97	98	99								
+Mitsubishi	Cordia	83	84	85	86	87	88											
+Mitsubishi	Diamante	92	93	94	95	96	97	98	99									
+Mitsubishi	Eclipse	90	91	92	93	94	95	96	97	98	99							
+Mitsubishi	Expo	92	93	94	95													
+Mitsubishi	Galant	85	86	87	89	90	91	92	93	94	95	96	97	98	99			
+Mitsubishi	Mirage	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99		
+Mitsubishi	Montero	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Mitsubishi	Montero Sport	97	98	99													
+Mitsubishi	Precis	87	88	89	90	91	92	93	94								
+Mitsubishi	Sigma	88	89	90													
+Mitsubishi	Starion	83	84	85	86	87	88	89									
+Mitsubishi	Tredia	83	84	85	86	87	88										
+Nissan	210	78	79	80	81	82											
+Nissan	310	79	80	81	82												
+Nissan	510	78	79	80	81												
+Nissan	810	78	79	80	81												
+Nissan	200SX	78	79	80	81	82	83	84	85	86	87	88	95	96	97	98	99
+Nissan	240SX	89	90	91	92	93	94	95	96	97	98	99					
+Nissan	280Z	78															
+Nissan	280ZX	79	80	81	82	83											
+Nissan	300ZX	84	85	86	87	88	89	90	91	92	93	94	95	96			
+Nissan	Altima	93	94	95	96	97	98	99									
+Nissan	Axxess	90															
+Nissan	Datsun																			
+Nissan	F10	78																		
+Nissan	Frontier	98	99																	
+Nissan	Maxima	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Nissan	NX	91	92	93																
+Nissan	Pathfinder	87	88	89	90	91	92	93	94	95	96	97	98	99						
+Nissan	Pulsar	83	84	85	86															
+Nissan	Pulsar NX	87	88	89	90															
+Nissan	Quest	93	94	95	96	97	98	99												
+Nissan	Sentra	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99	
+Nissan	Stanza	82	83	84	85	86	87	88	89	90	91	92								
+Oldsmobile	88	89	90	91	92	93	94	95	96	97	98	99								
+Oldsmobile	98	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96
+Oldsmobile	Achieva	92	93	94	95	96	97	98	99											
+Oldsmobile	Aurora	95	96	97	98	99														
+Oldsmobile	Bravada	91	92	93	94	96	97	98	99											
+Oldsmobile	Calais	85	86	87	88	89	90	91								
+Oldsmobile	Ciera	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96
+Oldsmobile	Custom Cruiser	78	79	90	91	92										
+Oldsmobile	Cutlass	78	79	80	81	82	83	84	97	98	99					
+Oldsmobile	Cutlass Cruiser	93	94													
+Oldsmobile	Cutlass Supreme	85	86	87	88	89	90	91	92	93	94	95	96	97		
+Oldsmobile	Delta 88	78	79	80	81	82	83	84	85	86	87	88				
+Oldsmobile	Firenza	82	83	84	85	86	87	88								
+Oldsmobile	Intrigue	98	99													
+Oldsmobile	LSS	97	98	99												
+Oldsmobile	Omega	78	79	80	81	82	83	84								
+Oldsmobile	Regency	97	98													
+Oldsmobile	Silhouette	90	91	92	93	94	95	96	97	98	99					
+Oldsmobile	Starfire	78	79	80												
+Oldsmobile	Toronado	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92
+Peugeot	405	89	90	91												
+Peugeot	504	78	79	80	81	82	83						
+Peugeot	505	80	81	82	83	84	85	86	87	88	89	91	
+Peugeot	604	78	79	82	83	84							
+Peugeot	Liberte	87											
+Pininfarina	Pininfarina	84	85										
+Plymouth	Acclaim	89	90	91	92	93	94	95					
+Plymouth	Arrow	78	79	80									
+Plymouth	Breeze	96	97	98	99								
+Plymouth	Caravelle	85	86	87	88								
+Plymouth	Champ	79	80	81	82								
+Plymouth	Colt	83	84	85	86	87	88	89	90	91	92	93	94
+Plymouth	Colt Vista	84	85	86	87	88	89	90	91	92	93	94	
+Plymouth	Conquest	84	85	86									
+Plymouth	Fury	78											
+Plymouth	Gran Fury	80	81	82	83	84	85	86	87	88	89		
+Plymouth	Grand Voyager	87	88	89	90	91	92	93	94	95	96	97	98
+Plymouth	Horizon	78	79	80	81	82	83	84	85	86	87	88	89	90									
+Plymouth	Laser	90	91	92	93	94																	
+Plymouth	Neon	95	96	97	98	99																	
+Plymouth	Reliant	81	82	83	84	85	86	87															
+Plymouth	Reliant America	88	89																				
+Plymouth	Sapporo	78	79	80	81	82	83																
+Plymouth	Sundance	87	88	89	90	91	92	93	94														
+Plymouth	TC3	82																					
+Plymouth	Trailduster	78	79	80	81																		
+Plymouth	Turismo	83	84	85	86	87																	
+Plymouth	Volare	78	79	80																			
+Plymouth	Voyager	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Pontiac	1000	83	84	85	86	87																	
+Pontiac	2000	83	84																				
+Pontiac	6000	82	83	84	85	86	87	88	89	90	91												
+Pontiac	Bonneville	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Pontiac	Catalina	78	79	80	81																		
+Pontiac	Fiero	84	85	86	87	88																	
+Pontiac	Firebird	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Pontiac	Grand Am	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99							
+Pontiac	Grand Prix	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Pontiac	J2000	82																					
+Pontiac	LeMans	78	79	80	81	88	89	90	91	92	93												
+Pontiac	Parisienne	83	84	85	86																		
+Pontiac	Phoenix	78	79	80	81	82	83	84															
+Pontiac	Safari	78	79	87	88	89																	
+Pontiac	Sunbird	78	79	80	84	85	86	87	88	89	90	91	92	93	94								
+Pontiac	Sunfire	95	96	97	98	99																	
+Pontiac	T1000	81	82																				
+Pontiac	Trans Sport	90	91	92	93	94	95	96	97	98	99												
+Porsche	911	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99						
+Porsche	924	78	79	80	81	82	87	88															
+Porsche	928	78	79	80	81	82	83	87	88	89	90	91	93	94	95							
+Porsche	930	78	79																			
+Porsche	944	83	84	85	86	87	88	89	90	91												
+Porsche	968	92	93	94	95																	
+Porsche	Boxster	97	98																			
+Renault	18i	81	82	83																		
+Renault	Fuego	82	83	84	85																	
+Renault	LeCar	78	79	80	81	82	83															
+Renault	R17	78	79																			
+Renault	Sportwagon	84	85	86																		
+Saab	99	78	79	80																		
+Saab	900	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Saab	9000	86	87	88	89	90	91	92	93	94	95	96	97									
+Saab	9-3	98	99																			
+Saab	9-5	98	99																			
+Saturn	SC	91	92	93	94	95	96	97	98	99												
+Saturn	SL	91	92	93	94	95	96	97	98	99			
+Saturn	SW	93	94	95	96	97	98	99					
+Sterling	825	87	88										
+Sterling	827	89	90	91									
+Subaru	Brat	78	79	80	81	82	83	84	85	86	87		
+Subaru	DL	78	79	80	81	82	83	84	85	86	87	88	89
+Subaru	FE	78	79										
+Subaru	Forester	98	99										
+Subaru	GF	78	79										
+Subaru	GL	79	80	81	82	83	84	85	86	87	88	89	
+Subaru	GL-10	85	86	87	88	89							
+Subaru	GLF	80	81	82									
+Subaru	Impreza	93	94	95	96	97	98	99					
+Subaru	Justy	87	88	89	90	91	92	93	94				
+Subaru	Legacy	90	91	92	93	94	95	96	97	98	99		
+Subaru	Loyale	90	91	92	93	94							
+Subaru	RX	85	86	87	88	89																	
+Subaru	STD	78	79	80	81	82	83	84	85	86	87												
+Subaru	SVX	92	93	94	95	96	97																
+Subaru	XT	85	86	87	88	89	91																
+Suzuki	Esteem	95	96	97	98	99																	
+Suzuki	Samurai	86	87	88	89	90	91	92	93	94	95												
+Suzuki	Sidekick	89	90	91	92	93	94	95	96	97	98	99											
+Suzuki	Swift	89	90	91	92	93	94	95	96	97	98	99											
+Suzuki	X-90	96	97	98	99																		
+Toyota	4Runner	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99						
+Toyota	Avalon	95	96	97	98	99																	
+Toyota	Camry	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99					
+Toyota	Celica	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Toyota	Celica Supra	79	80	81	82	83	84	85															
+Toyota	Corolla	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Toyota	Corona	78	79	80	81	82																	
+Toyota	Cressida	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92							
+Toyota	Land Cruiser	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+Toyota	MR2	85	86	87	88	89	91	92	93	94	95												
+Toyota	Paseo	92	93	94	95	96	97																
+Toyota	Previa	91	92	93	94	95	96	97															
+Toyota	RAV4	96	97	98	99																		
+Toyota	Sienna	98	99																				
+Toyota	Starlet	81	82	83	84																		
+Toyota	Supra	86	87	88	89	90	91	92	93	94	95	96	97	98	99								
+Toyota	T100	93	94	95	96	97	98	99															
+Toyota	Tacoma	95	96	97	98	99																	
+Toyota	Tercel	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99			
+Triumph	Spitfire	78	79	80																			
+Triumph	TR7	78	79	80	81																		
+Triumph	TR8	79	80	81																			
+Volvo	240	86	87	88	89	90	91	92	93														
+Volvo	242	78	79						
+Volvo	244	78	79						
+Volvo	245	78	79						
+Volvo	740	85	86	87	88	89	90	91	92
+Volvo	760	83	84	85	86	87	88	89	90
+Volvo	780	87	88	89	90				
+Volvo	850	93	94	95	96	97			
+Volvo	940	91	92	93	94	95			
+Volvo	960	92	93	94	95	96	97		
+Volvo	264GL	78	79						
+Volvo	265GL	78	79						
+Volvo	Bertone	78	79	80	81				
+Volvo	C70	98	99						
+Volvo	Coupe	91							
+Volvo	DL	81	82	83	84	85			
+Volvo	GL	80	81	82	83	84	85		
+Volvo	GLE	80	81	82												
+Volvo	GLT	81	82	83	84											
+Volvo	GT	80														
+Volvo	S70	98	99													
+Volvo	S90	97	98	99												
+Volvo	Turbo	85														
+Volvo	V70	98	99													
+Volvo	V90	97	98	99												
+VW	Beetle	78	79	98	99											
+VW	Cabrio	95	96	97	98	99										
+VW	Cabriolet	85	86	87	88	89	90	91	92	93						
+VW	Corrado	90	91	92	93	94										
+VW	Dasher	78	79	80	81											
+VW	Eurovan	93														
+VW	Fox	87	88	89	90	91	92	93								
+VW	Golf	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+VW	GTI	85	86	87	88	89	90	91	92	95											
+VW	Jetta	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99
+VW	Jetta III	93	94	95																	
+VW	Passat	90	91	92	93	94	95	96	97	98	99										
+VW	Quantum	82	83	84	85	86	87	88													
+VW	Rabbit	78	79	80	81	82	83	84													
+VW	Rabbit	80	81	82	83																
+VW	Scirocco	78	79	80	81	82	83	84	85	86	87	88									
+VW	Transporter	78	79																		
+VW	Vanagon	80	81	82	83	84	85	86	87	88	89	90	91								
+Yugo	Cabrio	90	91																		
+Yugo	GV	87	88	89	90	91															
+Yugo	GVL	88	89																		
+Yugo	GVS	88																			
+Yugo	GVX	87	88																		

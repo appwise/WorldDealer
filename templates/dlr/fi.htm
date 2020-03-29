@@ -1,0 +1,883 @@
+<!---
+Created by Sigma6, Inc.
+Copyright (c) 1998 Sigma6, Inc.
+All Rights Reserved.  Used By Permission.
+
+Sigma6, interactive media, Detroit/NYC
+conceive : construct : connect
+www.sigma6.com   webmaster@sigma6.com   info@sigma6.com
+
+Last updated: <May 27, 1998>
+
+Daniel Fettinger for sigma6, interactive media, Detroit
+dfettinger@sigma6.com   www.sigma6.com    www.s6313.com
+conceive : construct : connect
+
+Sigma6, s6, and the Sigma6 logos are registered trademarks.
+All other trademarks and servicemarks are the property of
+their respective owners.
+--->
+
+<CFIF NOT IsDefined("sub")>
+	<CFSET sub = 1>
+</CFIF>
+
+<CFIF sub IS 1>
+
+<cfquery name="getFinText" datasource="#gDSN#">
+	SELECT	financetext
+	FROM	Dealerwebs
+	WHERE	Dealercode = '#dealerinfo.dealercode#'
+</cfquery>
+
+<!------------------------------------------------------------------------------------------------------------ONE----------------------------------------------------------->
+<TABLE BORDER=0>
+<FORM METHOD="POST" ACTION="main.cfm?section=fi&sub=2" NAME="financeform">
+<TR>
+	<TD COLSPAN=2>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<CFOUTPUT>#dealerinfo.dealershipname#</CFOUTPUT> makes owning a new or pre-owned vehicle easy!
+			With our quick and simple finance application, you can qualify for financing right over the Internet.
+			Just answer the following questions, and submit the form.  One of our dealership representatives
+			will be contacting you to go over financing, and to answer any other questions you may have.
+			<P>
+			<I>If married, you may apply for credit jointly or as an individual.</I>
+		</FONT>
+	</TD>
+</TR>
+
+<TR>
+	<TD>
+	<cfoutput>#getFinText.financetext#</cfoutput>
+	</TD>
+</TR>
+
+<tr>
+&nbsp;
+</tr>
+<TR>
+	<TD COLSPAN=2>
+	<CFOUTPUT>
+		<FONT COLOR=#thecolor# face="arial,helvetica" size=2><B>
+			COMPETITIVE FINANCING INQUIRY<BR>
+			-- STEP 1 OF 3
+		</B></FONT>
+	</CFOUTPUT>
+		<BR>
+	</TD>
+</TR>
+<TR>
+	<TD>&nbsp;</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<B>Type of Application</B>
+		<BR>
+			&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="radio" NAME="applicationtype" VALUE="personal" CHECKED> Personal Application
+		<BR>
+			&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="radio" NAME="applicationtype" VALUE="business"> Business Application
+		<BR><BR>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="radio" NAME="credittype" VALUE="Individual" CHECKED> <B>Individual Credit</B> - applying for credit in your own name
+			and relying solely on your own income or assets and not the income or assets of another person
+			as the basis for repayment of the credit requested.
+			<BR><BR>
+			<INPUT TYPE="radio" NAME="credittype" VALUE="Joint"> <B>Joint Credit</B> - applying for joint credit with another
+			person.  Relationship to joint applicant or other party, if any:
+			<BR>
+			<INPUT TYPE="text" NAME="jointcreditrelationship" SIZE=30 MAXLENGTH=35>
+			<BR><BR>
+			<INPUT TYPE="radio" NAME="credittype" VALUE="Individual"> <B>Individual Credit</B> - applying for credit in your
+			own name, but relying on income from alimony, child support, separate maintenance, or on the income or assets of
+			another person as a basis for repayment of the credit requested.
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2 ALIGN=CENTER>
+		<BR>
+	<CFOUTPUT>
+		<A HREF="JavaScript:document.financeform.reset();"
+			OnMouseOver="self.status='Blank Out Form';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_reset_nav.gif" BORDER=0></A>		
+		<INPUT TYPE="image" SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_next_nav.gif" BORDER=0>
+	</CFOUTPUT>
+	</TD>
+</TR>
+</FORM>
+</TABLE>
+<!------------------------------------------------------------------------------------------------------------/ONE---------------------------------------------------------->
+<CFELSEIF sub IS 2>
+<!-------------------------------------------------------------------------------------------------------------TWO---------------------------------------------------------->
+<CFQUERY NAME="getstates" DATASOURCE="#gDSN#">
+	SELECT * FROM states;
+</CFQUERY>
+
+<CFQUERY NAME="getFinText" DATASOURCE="#gDSN#">
+	SELECT FINANCETEXT
+	FROM dealerwebs
+</CFQUERY>
+
+<TABLE BORDER=0>
+<FORM METHOD="POST" ACTION="main.cfm?section=fi&sub=3" NAME="financeform">
+<TR>
+	<TD COLSPAN=2>
+	<CFOUTPUT>
+		<FONT COLOR=#thecolor# face="arial,helvetica" size=2><B>
+			COMPETITIVE FINANCING INQUIRY<BR>
+			-- STEP 2 OF 3
+		</B></FONT>
+	</CFOUTPUT>
+	</TD>
+</TR>
+<TR>
+	<TD>&nbsp;</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>
+	<CFOUTPUT>
+		<FONT SIZE=2 FACE="arial,helvetica" COLOR=#thecolor#>
+			<B>PERSONAL INFORMATION</B>
+		</FONT>
+	</CFOUTPUT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<b>First Name</b>, M.I.
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="f_name" SIZE=20 MAXLENGTH=18>
+			<INPUT TYPE="hidden" NAME="f_name_required" VALUE="<A HREF='Javascript:history.back();'>Please enter your first name in the entry field</A>">
+			<INPUT TYPE="text" NAME="m_name" SIZE=2 MAXLENGTH=1>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<b>Last Name</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="l_name" size=25 MAXLENGTH=30>
+			<INPUT TYPE="hidden" NAME="l_name_required" VALUE="<A HREF='Javascript:history.back();'>Please enter your surname in the entry field</A>">
+		</FONT>
+	</TD>
+</TR>
+<CFIF #form.applicationtype# IS "personal">
+	<INPUT TYPE="hidden" NAME="business_name" VALUE="N/A">
+<CFELSE>
+	<TR>
+		<TD>
+			<FONT SIZE=2 FACE="arial,helvetica">
+				<b>Business Name</b>
+			</FONT>
+		</TD>
+		<TD>
+			<FONT SIZE=2 FACE="arial,helvetica">
+				<INPUT TYPE="text" NAME="business_name" size=25 MAXLENGTH=35>
+				<INPUT TYPE="hidden" NAME="business_name_required" VALUE="<A HREF='Javascript:history.back();'>Please enter your business name in the entry field</A>">
+			</FONT>
+		</TD>
+	</TR>
+</CFIF>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+		<CFIF #form.applicationtype# IS "personal">
+			<b>S.S.N.</b>
+		<CFELSE>
+			<b>TaxID Number</b>
+		</CFIF>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="ssn" size=25 MAXLENGTH=11>
+			<INPUT TYPE="hidden" NAME="ssn_required" VALUE="<A HREF='Javascript:history.back();'>Please enter your <CFIF #form.applicationtype# IS "personal">Social Security Number<CFELSE>Federal ID Number</CFIF> in the entry field</A>">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<b>Date of Birth</b> (mm/dd/yyyy)
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="dob" size=25 MAXLENGTH=10>
+			<INPUT TYPE="hidden" NAME="dob_required" VALUE="<A HREF='Javascript:history.back();'>Please enter your date of birth in the entry field</A>">
+			<INPUT TYPE="hidden" NAME="dob_date" VALUE="<A HREF='Javascript:history.back();'>You must enter a valid date in the Date of Birth field</A>">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<b>Email Address</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="email" size=25 MAXLENGTH=50>
+			<INPUT TYPE="hidden" NAME="email_required" VALUE="<A HREF='Javascript:history.back();'>Please enter your email address in the entry field</A>">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<b>Home Phone</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="homephone1" SIZE=3 MAXLENGTH=3>
+			<INPUT TYPE="text" NAME="homephone2" SIZE=3 MAXLENGTH=3>
+			<INPUT TYPE="text" NAME="homephone3" SIZE=4 MAXLENGTH=4>
+			<INPUT TYPE="hidden" NAME="homephone1_required" VALUE="<A HREF='Javascript:history.back();'>Please enter the area code of your home phone number in the entry field</A>">
+			<INPUT TYPE="hidden" NAME="homephone2_required" VALUE="<A HREF='Javascript:history.back();'>Please enter your home phone number in the entry field</A>">
+			<INPUT TYPE="hidden" NAME="homephone3_required" VALUE="<A HREF='Javascript:history.back();'>Please enter your home phone number in the entry field</A>">	
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Fax
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="customerfax1" SIZE=3 MAXLENGTH=3>
+			<INPUT TYPE="text" NAME="customerfax2" SIZE=3 MAXLENGTH=3>
+			<INPUT TYPE="text" NAME="customerfax3" SIZE=4 MAXLENGTH=4>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<b>Current Address</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="address" size=25 MAXLENGTH=35>
+			<INPUT TYPE="hidden" NAME="address_required" VALUE="<A HREF='Javascript:history.back();'>Please enter your address in the entry field</A>">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Apartment#
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="apt" size=25 MAXLENGTH=12>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			PO Box
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="pobox" size=25 MAXLENGTH=18>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<b>City</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="city" size=25 <!--- VALUE="<CFOUTPUT>#dealerinfo.city#</CFOUTPUT>" ---> MAXLENGTH=35>
+			<INPUT TYPE="hidden" NAME="city_required" VALUE="<A HREF='Javascript:history.back();'>Please enter your city in the entry field</A>">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<b>State</b>, <b>Zip</b>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<SELECT NAME="state">
+				<CFOUTPUT QUERY="getstates">
+					<OPTION VALUE="#stateabbr#" <CFIF #stateabbr# IS "#dealerinfo.stateabbr#">SELECTED</CFIF>>#description#
+				</CFOUTPUT>
+			</SELECT>
+			<INPUT TYPE="text" NAME="zip" SIZE=10 <!--- VALUE="<CFOUTPUT>#dealerinfo.zip#</CFOUTPUT>" ---> MAXLENGTH=10>
+			<INPUT TYPE="hidden" NAME="zip_required" VALUE="<A HREF='Javascript:history.back();'>Please enter your zip code in the entry field</A>">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<B>Length of Residence</B>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<NOBR><INPUT TYPE="text" NAME="residence_years" SIZE=5 MAXLENGTH=2> years
+			<INPUT TYPE="text" NAME="residence_months" SIZE=5 MAXLENGTH=2> months
+			<INPUT TYPE="hidden" NAME="residence_months_required" VALUE="<A HREF='Javascript:history.back();'>Please enter the number of months at your current resisdence</A>">
+			<INPUT TYPE="hidden" NAME="residence_years_required" VALUE="<A HREF='Javascript:history.back();'>Please enter the number of years at your current resisdence</A>">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Landlord/Mortgage Holder
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="propertyowner" size=25 MAXLENGTH=35>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Monthly Payment
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<SELECT NAME="monthly_payment">
+				<OPTION VALUE="<$100">Less than $100
+				<OPTION VALUE="$101-$400">$101 to $400
+				<OPTION VALUE="$401-$700">$401 to $700
+				<OPTION VALUE="$701-$1000">$701 to $1000
+				<OPTION VALUE="$1001-$1300">$1001 to $1300
+				<OPTION VALUE="$1301-$1600">$1301 to $1600
+				<OPTION VALUE="$1601-$2000">$1601 to $2000
+				<OPTION VALUE=">$2000">More than $2000
+			</SELECT>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<B>Do you</B>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="radio" NAME="property_situation" VALUE="Own" CHECKED> Own
+			<INPUT TYPE="radio" NAME="property_situation" VALUE="Rent"> Rent
+			<INPUT TYPE="radio" NAME="property_situation" VALUE="Family"> Family
+			<INPUT TYPE="radio" NAME="property_situation" VALUE="Other"> Other
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<BR>Required fields are <b>bolded</b>.
+		</FONT>		
+	</td>
+</tr>
+
+<TR>
+	<TD COLSPAN=2 ALIGN=CENTER>
+	<CFOUTPUT>
+	<!--STEP 1-------------------------------------------------------------------------->
+		<INPUT TYPE="hidden" NAME="applicationtype" VALUE="#form.applicationtype#">
+		<INPUT TYPE="hidden" NAME="credittype" VALUE="#form.credittype#">
+		<INPUT TYPE="hidden" NAME="jointcreditrelationship" VALUE="#form.jointcreditrelationship#">
+	<!--END STEP 1---------------------------------------------------------------------->
+	</CFOUTPUT>
+		<BR>
+	<CFOUTPUT>
+		<A HREF="JavaScript:history.back();"
+			OnMouseOver="self.status='Back';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_back_nav.gif" BORDER=0></A>			
+		<A HREF="JavaScript:document.financeform.reset();"
+			OnMouseOver="self.status='Blank Out Form';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_reset_nav.gif" BORDER=0></A>		
+		<INPUT TYPE="image" SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_next_nav.gif" BORDER=0>
+	</CFOUTPUT>
+	</TD>
+</TR>
+</FORM>
+</TABLE>
+<!---------------------------------------------------------------------------------------------------------------------------------/TWO------------------------------------------>
+<CFELSEIF sub IS 3>
+<!--------------------------------------------------------------------------------------------------------------------------------THREE------------------------------------------>
+<CFSET homephone = '#Form.homephone1##Form.homephone2##Form.homephone3#'>
+<CFSET customerfax = '#Form.customerfax1##Form.customerfax2##Form.customerfax3#'>
+
+<CFQUERY NAME="getstates" DATASOURCE="#gDSN#">
+	SELECT * FROM states;
+</CFQUERY>
+
+<TABLE BORDER=0>
+<FORM METHOD="POST" ACTION="main.cfm?section=fi&sub=4" NAME="financeform">
+<TR>
+	<TD COLSPAN=2>
+	<CFOUTPUT>
+		<FONT COLOR=#thecolor# face="arial,helvetica" size=2><B>
+			COMPETITIVE FINANCING INQUIRY<BR>
+			-- STEP 3 OF 3
+		</B></FONT>
+	</CFOUTPUT>
+	</TD>
+</TR>
+<TR>
+	<TD>&nbsp;</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>
+	<CFOUTPUT>
+		<FONT SIZE=2 FACE="arial,helvetica" COLOR=#thecolor#><B>
+			EMPLOYMENT INFORMATION
+		</B></FONT>
+	</CFOUTPUT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<CFIF #form.applicationtype# IS "personal">
+				<B>Employed By</B>
+			<CFELSE>
+				<B>Type of Business</B>
+			</CFIF>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="employer" size=25 MAXLENGTH=35>
+			<INPUT TYPE="hidden" NAME="employer_required" VALUE="<A HREF='Javascript:history.back();'>Please enter the name of your employer or type of business</A>">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<B>Occupation</B>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="occupation" size=25 MAXLENGTH=50>
+			<INPUT TYPE="hidden" NAME="occupation_required" VALUE="<A HREF='Javascript:history.back();'>Please enter your occupation</A>">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<B>Work Phone</B>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="workphone1" SIZE=3 MAXLENGTH=3>
+			<INPUT TYPE="text" NAME="workphone2" SIZE=3 MAXLENGTH=3>
+			<INPUT TYPE="text" NAME="workphone3" SIZE=4 MAXLENGTH=4>
+			<INPUT TYPE="hidden" NAME="workphone1_required" VALUE="<A HREF='Javascript:history.back();'>Please enter the area code of your work phone number</A>">
+			<INPUT TYPE="hidden" NAME="workphone2_required" VALUE="<A HREF='Javascript:history.back();'>Please enter your complete work phone number</A>">
+			<INPUT TYPE="hidden" NAME="workphone3_required" VALUE="<A HREF='Javascript:history.back();'>Please enter your complete work phone number</A>">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<b>Gross Annual Income</b><BR><I>(all sources)</I>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			$<INPUT TYPE="text" NAME="grossincome" size=25 MAXLENGTH=11>
+			<INPUT TYPE="hidden" NAME="grossincome_required" VALUE="<A HREF='Javascript:history.back();'>Please enter your gross annual income in the entry field</A>">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<B>Length of Employment</B>
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<NOBR><INPUT TYPE="text" NAME="employment_years" SIZE=5 MAXLENGTH=2> years
+			<INPUT TYPE="text" NAME="employment_months" SIZE=5 MAXLENGTH=2> months
+			<INPUT TYPE="hidden" NAME="employment_months_required" VALUE="<A HREF='Javascript:history.back();'>Please enter the number of months at your current job</A>">
+			<INPUT TYPE="hidden" NAME="employment_years_required" VALUE="<A HREF='Javascript:history.back();'>Please enter the number of years at your current job</A>">
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			Address
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="workaddress" size=25 MAXLENGTH=35>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			City
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<INPUT TYPE="text" NAME="workcity" size=25 MAXLENGTH=35 <!--- VALUE="<CFOUTPUT>#dealerinfo.city#</CFOUTPUT>" --->>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			State, Zip
+		</FONT>
+	</TD>
+	<TD>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<SELECT NAME="workstate">
+				<CFOUTPUT QUERY="getstates">
+					<OPTION VALUE="#stateabbr#" <CFIF #stateabbr# IS "#dealerinfo.stateabbr#">SELECTED</CFIF>>#description#
+				</CFOUTPUT>
+			</SELECT>
+			<INPUT TYPE="text" NAME="workzip" SIZE=10 <!--- VALUE="<CFOUTPUT QUERY="dealerinfo">#zip#</CFOUTPUT>" ---> MAXLENGTH=10>
+		</FONT>
+	</TD>
+</TR>
+<TR>
+	<TD COLSPAN=2>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			<BR>Required fields are <b>bolded</b>.
+		</FONT>		
+	</td>
+</tr>
+<TR>
+	<TD COLSPAN=2>
+	<BR>
+		<FONT SIZE=2 FACE="arial,helvetica"><I>
+			Note: Alimony, child support, or separate maintenance income need not be revealed if you do not wish
+			to have it considered as a basis for repaying this obligation.
+			<P>
+			By submitting this application, you are giving <CFOUTPUT>#dealerinfo.dealershipname#</cfoutput> the permission to check your credit
+			history.  This application must be filled out in its entirety in order to be processed.
+		</I></FONT>
+	</TD>
+</TR>
+
+
+<TR>
+	<TD COLSPAN=2 ALIGN=CENTER>
+	<CFOUTPUT>
+	<!--STEP 1-------------------------------------------------------------------------->
+		<INPUT TYPE="hidden" NAME="applicationtype" VALUE="#form.applicationtype#">
+		<INPUT TYPE="hidden" NAME="credittype" VALUE="#form.credittype#">
+		<INPUT TYPE="hidden" NAME="jointcreditrelationship" VALUE="#form.jointcreditrelationship#">
+	<!--END STEP 1---------------------------------------------------------------------->
+	<!--STEP 2-------------------------------------------------------------------------->
+		<INPUT TYPE="hidden" NAME="l_name" VALUE="#form.l_name#">
+		<INPUT TYPE="hidden" NAME="f_name" VALUE="#form.f_name#">
+		<INPUT TYPE="hidden" NAME="m_name" VALUE="#form.m_name#">
+		<INPUT TYPE="hidden" NAME="business_name" VALUE="#form.business_name#">
+		<INPUT TYPE="hidden" NAME="ssn" VALUE="#form.ssn#">
+		<INPUT TYPE="hidden" NAME="dob" VALUE="#form.dob#">
+		<INPUT TYPE="hidden" NAME="homephone" VALUE="#variables.homephone#">
+		<INPUT TYPE="hidden" NAME="customerfax" VALUE="#variables.customerfax#">
+		<INPUT TYPE="hidden" NAME="email" VALUE="#form.email#">
+		<INPUT TYPE="hidden" NAME="address" VALUE="#form.address#">
+		<INPUT TYPE="hidden" NAME="apt" VALUE="#form.apt#">
+		<INPUT TYPE="hidden" NAME="pobox" VALUE="#form.pobox#">
+		<INPUT TYPE="hidden" NAME="city" VALUE="#form.city#">
+		<INPUT TYPE="hidden" NAME="state" VALUE="#form.state#">
+		<INPUT TYPE="hidden" NAME="zip" VALUE="#form.zip#">
+		<INPUT TYPE="hidden" NAME="residence_years" VALUE="#form.residence_years#">
+		<INPUT TYPE="hidden" NAME="residence_months" VALUE="#form.residence_months#">
+		<INPUT TYPE="hidden" NAME="propertyowner" VALUE="#form.propertyowner#">
+		<INPUT TYPE="hidden" NAME="monthly_payment" VALUE="#form.monthly_payment#">
+		<INPUT TYPE="hidden" NAME="property_situation" VALUE="#form.property_situation#">
+	<!--END STEP 2---------------------------------------------------------------------->
+	</CFOUTPUT>
+	<INPUT TYPE="hidden" NAME="whensubmitted" VALUE="<CFOUTPUT>#Now()#</CFOUTPUT>">
+		<BR>
+	<CFOUTPUT>
+		<A HREF="JavaScript:history.back();"
+			OnMouseOver="self.status='Back';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_back_nav.gif" BORDER=0></A>			
+		<A HREF="JavaScript:document.financeform.reset();"
+			OnMouseOver="self.status='Blank Out Form';return true"
+			OnMouseOut="self.status='';return true"><IMG
+			SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_reset_nav.gif" BORDER=0></A>		
+		<INPUT TYPE="image" SRC="#application.RELATIVE_PATH#/images/#arttempid.arttempid#/frm_submit_nav.gif" BORDER=0>
+	</CFOUTPUT>
+	</TD>
+</TR>
+</FORM>
+</TABLE>
+<!-------------------------------------------------------------------------------------------------------------------------------------------------/THREE--------------------------->
+<CFELSEIF sub IS 4>
+<!-------------------------------------------------------------------------------------------------------------------------------------------------FOUR----------------------------->
+<!-------------------------------------------------------FOUR PROC--------------------------------->
+<CFSET workphone = '#Form.workphone1##Form.workphone2##Form.workphone3#'>
+<CFQUERY NAME="insert" DATASOURCE="#gDSN#">
+	INSERT INTO requestinfogeneral (	
+				requestinfotypeid,
+				dealercode,
+				fname,
+				lname,
+				emailaddress,
+				addressline1,
+				addressline2,
+				city,
+				stateabbr,
+				zip,
+				evephone,
+				dayphone,
+				customerfax,
+				useragent,
+				whensubmitted)
+	VALUES (	<CFIF #form.applicationtype# IS "personal">2<CFELSE>3</CFIF>,
+				'#RTrim(dealerinfo.dealercode)#',
+				'#form.f_name#',
+				'#form.l_name#',
+				'#form.email#',
+				'#form.address#',
+				'#form.apt# #form.pobox#',
+				'#form.city#',
+				'#form.state#',
+				'#form.zip#',
+				'#form.homephone#',
+				'#workphone#',
+				'#form.customerfax#',
+				'#CGI.http_user_agent#',
+				#form.whensubmitted#);
+</CFQUERY>
+<CFQUERY NAME="getid" DATASOURCE="#gDSN#">
+	SELECT	Max(RequestInfoID) AS newest
+	FROM	RequestInfoGeneral
+	WHERE	dealercode='#RTrim(dealerinfo.dealercode)#'
+		AND whensubmitted=#form.whensubmitted#
+		AND	emailaddress='#form.email#'
+		AND	requestinfotypeid=<CFIF #form.applicationtype# IS "personal">2<CFELSE>3</CFIF>;
+</CFQUERY>
+<CFQUERY NAME="insert2" DATASOURCE="#gDSN#">
+	INSERT INTO requestinfofinancing (	
+				requestinfogeneralid,
+				applicationtype,
+				credittype,
+				jointcreditrelationship,
+				ssn,
+				dateofbirth,
+				residencelength,
+				propertyowner,
+				monthlypayment,
+				propertysituation,
+				businessname,
+				workcity,
+				workaddress,
+				employmentlength,
+				grossincome,
+				occupation,
+				employer
+			)
+	VALUES	(	#getid.newest#,
+				'#form.applicationtype#',
+				'#form.credittype#',
+				'#form.jointcreditrelationship#',
+				'#form.ssn#',
+				#CreateODBCDate(DateFormat(form.dob,"mm/dd/yyyy"))#,
+				'#form.residence_months# months #form.residence_years# years',
+				'#form.propertyowner#',
+				'#form.monthly_payment#',
+				'#form.property_situation#',
+				'#form.business_name#',
+				'#form.workcity#',
+				'#form.workaddress#',
+				'#form.employment_months# months #form.employment_years# years',
+				'#form.grossincome#',
+				'#form.occupation#',
+				'#form.employer#'
+				);
+								
+</CFQUERY>
+
+<!--- linda, 8/31/99: if there's a separate email for financing, use that.  otherwise, send to main email address. --->
+<cfoutput>
+<cfif #trim(dealerinfo.FinanceEmail)# IS NOT "">
+	<cfset toemail = #dealerinfo.FinanceEmail#>
+<cfelse>
+	<cfset toemail = #dealerinfo.email#>
+</cfif>
+<!---This adds the second finance request for dealers --->
+<cfif #trim(dealerinfo.FinanceEmail2)# IS NOT "">
+	<cfset toemail2 = #dealerinfo.FinanceEmail2#>
+<cfelse>
+	<cfset toemail2 = #dealerinfo.email#>
+</cfif>
+</cfoutput>
+<!--- Linda, 6/5/00: worlddealer.net emails aren't working
+, financing_request@worlddealer.net --->
+<CFMAIL TO="#toemail#"
+		CC="#toemail2#, jweitz@worlddealer.net"
+		FROM="#email#"
+		SUBJECT="#dealerinfo.dealershipname# Financing Request">
+		
+URGENT FINANCING REQUEST FROM WORLDDEALER!		
+
+#TimeFormat(now(),'h:mm tt')# #DateFormat(now(),'mmmm d, yyyy')#
+
+Application Type: #applicationtype#
+Credit Type: #credittype#
+Joint Credit Relationship: #jointcreditrelationship#
+
+Name: #f_name# #m_name# #l_name#
+Business Name: #business_name#
+Address: #address#
+Apt: #apt#
+PO Box (if any): #pobox#
+City, State Zip: #city#, #state# #zip#
+E-mail: #email#
+Home Phone: #Left(homephone, 3)#-#Mid(homephone, 4, 3)#-#Mid(homephone, 7, 4)#
+Fax: #Left(customerfax, 3)#-#Mid(customerfax, 4, 3)#-#Mid(customerfax, 7, 4)#
+
+<CFIF #form.applicationtype# IS "personal">SSN<CFELSE>TaxID</CFIF>: #ssn#
+DOB: #DateFormat(dob, "mm/dd/yyyy")#
+
+Length of Residence: #residence_years# years #residence_months# months
+Rent or Own: #property_situation#
+Property Owner: #propertyowner#
+Monthly Payment: #monthly_payment#
+
+<CFIF #form.applicationtype# IS "personal">Employer: #employer#<CFELSE>Business Name: #business_name#
+Type of Business: #employer#</CFIF>
+Address: #workaddress#
+City, State, Zip: #workcity#, #workstate# #workzip#
+Work Phone: #Left(workphone, 3)#-#Mid(workphone, 4, 3)#-#Mid(workphone, 7, 4)#
+Occupation: #occupation#
+Gross Income: $#grossincome#
+Length of Employment: #employment_years# years #employment_months# months
+</CFMAIL>
+
+<!---Bryan: 11/02/99 Faxing Function Activated--->
+<cfoutput>
+<!--- linda, 11/4/99: if there's a separate fax for financing, use that.  otherwise, send to main fax number. --->
+<cfif #len(trim(dealerinfo.FinanceFax))# eq 10>
+	<cfset toFax = #dealerinfo.FinanceFax#>
+<cfelse>
+	<cfset toFax = #dealerinfo.FaxPhone#>
+</cfif>
+
+<CFSET #variables.dialthisnumber# = "#toFax#" & "@" & "fax.areaindex.com">
+</cfoutput>
+
+<cfif #len(trim(toFax))# eq 10>
+	<!--- Linda, 6/5/00: worlddealer.net emails aren't working
+	FROM="financing_request@worlddealer.net" 
+	6/6/00: to test from Olympus, insert this SERVER line into the CFMAIL.
+	SERVER="arizona.sigma6.com"
+	--->
+	<CFMAIL TO="#variables.dialthisnumber#"
+			FROM="info@worlddealer.net"
+			SUBJECT="#dealerinfo.dealershipname# Financing Request">
+			
+	URGENT FINANCING REQUEST FROM WORLDDEALER!		
+	
+	#DateFormat(now(),'mmmm d, yyyy')# #TimeFormat(now(),'h:mm tt')#
+	
+	#dealerinfo.dealershipname# Financing Request
+	
+	Name: #f_name# #m_name# #l_name#
+	Address: #address# #apt#
+	PO Box (if any): #pobox#
+	City, State Zip: #city#, #state# #zip#
+	Home Phone: #homephone#
+	Fax: #customerfax#
+
+	<CFIF #form.applicationtype# IS "personal">SSN<CFELSE>TaxID</CFIF>: #ssn#
+	DOB: #DateFormat(dob, "mm/dd/yyyy")#
+	
+	Length of Residence: #residence_years# years #residence_months# months
+	Rent or Own: #property_situation#
+	Property Owner: #propertyowner#
+	Monthly Payment: #monthly_payment#
+	
+	<CFIF #form.applicationtype# IS "personal">Employer: #employer#<CFELSE>Business Name: #business_name#
+	Type of Business: #employer#</CFIF>
+	Address: #workaddress#
+	City, State, Zip: #workcity#, #workstate# #workzip#
+	Work Phone: #workphone#
+	Occupation: #occupation#
+	Gross Income: #grossincome#
+	Length of Employment: #employment_years# years #employment_months# months
+	
+	Credit Type: #credittype#
+	Joint Credit Relationship: #jointcreditrelationship#
+	Application Type: #applicationtype#
+	</CFMAIL> 
+</cfif>
+
+
+<!-----------------------------------------------------------------/FOUR PROC---------------------------------->
+<!-----------------------------------------------------------------FOUR CONTENT-------------------------------->
+<div align="center">
+	<TABLE BORDER=0>
+	<TR>
+		<TD ALIGN=CENTER>
+		<FONT SIZE=3 FACE="arial,helvetica">
+			<B>Thank you for your submission!</B>
+		</FONT>
+		<BR>
+		<FONT SIZE=2 FACE="arial,helvetica">
+			You will be contacted by an authorized <CFOUTPUT>#dealerinfo.dealershipname#</CFOUTPUT>
+			representative regarding your inquiry.
+			<BR><BR>
+			<B><A HREF="main.cfm?section=fi"
+					TITLE="Financing Inquiry Form"
+					OnMouseOver="self.status='Financing Inquiry Form';return true"
+					OnMouseOut="self.status='';return true">Click here</A></B> to return to the Financing form.
+		</FONT>
+		</TD>
+	</TR>
+	</TABLE>
+</div>
+<!---------------------------------/FOUR CONTENT------------------------------------------------------------>
+<!--------------------------------------------------------------------------------------------------------------------------------------------/FOUR--------------------------------->
+
+</CFIF>
